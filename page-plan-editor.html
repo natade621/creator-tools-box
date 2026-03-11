@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <title>台割作成ツール｜クリエイターのお道具箱</title>
+    <meta name="description" content="パンフレットや冊子の台割（ページ構成）を直感的に作成・管理できる無料ブラウザツールです。Undo/Redo対応。JSON/CSV書き出し、PDF保存にも対応。">
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #fcfcfc;    
+            --accent-color: #ffde00; 
+            --black: #333;          
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main) !important;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+.main-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+}
+        .tool-card {
+            background: transparent; 
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+
+        /* 印刷用スタイル */
+        @media print {
+            .no-print, .site-header, .tool-header, footer, .tool-guide, .controls-area, .btn-group, .modal-overlay, .table-actions {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+            .main-container {
+                margin: 0 !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            .card-container {
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+            }
+            table {
+                width: 100% !important;
+                border: 1px solid #000 !important;
+                font-size: 10pt !important;
+            }
+            th, td {
+                border: 1px solid #000 !important;
+                padding: 6pt !important;
+            }
+            textarea {
+                border: none !important;
+                overflow: visible !important;
+                height: auto !important;
+                background: transparent !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+        }
+        .print-only {
+            display: none;
+        }
+
+        .card-container {
+            background: #fff;
+            border: var(--border);
+            border-radius: var(--radius);
+        }
+        .btn-outline {
+            border: var(--border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 800;
+            transition: 0.2s;
+            background: #fff;
+        }
+        .btn-outline:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+        .custom-select-ui {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.2em;
+            padding-right: 2rem;
+        }
+        .signature-boundary {
+            border-bottom: 2px solid #333 !important;
+        }
+        .book-page {
+            aspect-ratio: 1 / 1.414;
+            background: white;
+            border: 2px solid #333;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            position: relative;
+        }
+        .book-page-num {
+            position: absolute;
+            bottom: 5px;
+            font-weight: 900;
+            font-size: 0.7rem;
+        }
+
+        .dragging { opacity: 0.5; background: #f0f0f0; }
+        .drag-over-row { border-top: 4px solid var(--accent-color) !important; }
+        .drag-handle { cursor: grab; color: #ccc; }
+
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin-top: 5rem;
+            border-radius: 4px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tool-guide {
+    margin-top: 6rem;
+    padding: 3.5rem;
+    background: var(--white);
+    border: var(--border);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+}
+
+.tool-guide h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tool-guide h2::before {
+    content: "💡";
+    font-size: 1.4rem;
+}
+
+.tool-guide p {
+    margin-bottom: 2rem;
+    color: #444;
+    line-height: 1.9;
+}
+
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+
+        .brand-yellow { background-color: var(--accent-color); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+        
+        .auto-expand {
+            overflow: hidden;
+            resize: none;
+            min-height: 2.5rem;
+        }
+
+        /* モーダル基本スタイル */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: rgba(51, 51, 51, 0.8);
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: white;
+            border-radius: 40px;
+            border: 4px solid #333;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 2.5rem;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header no-print">
+        <div class="header-inner">
+            <a href="/" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <article class="tool-card">
+            <header class="tool-header no-print">
+                <h1>台割作成ツール</h1>
+                <p class="tool-lead">
+                    パンフレットや冊子の台割（ページ構成）を直感的に作成・管理できるツール。<br>
+                    ページ内容や進行状況、担当者を整理しながら台割を作成できます。
+                </p>
+            </header>
+
+            <div class="print-only mb-8 border-b-4 border-black pb-4">
+                <h1 class="text-3xl font-black mb-2">台割計画書</h1>
+                <div class="flex justify-between text-sm font-bold">
+                    <div>作成日: <span id="printDate"></span></div>
+                    <div>総ページ数: <span id="printPageCount"></span> / 折丁: <span id="printSignature"></span></div>
+                </div>
+            </div>
+
+            <div class="tool-ui-wrapper">
+                <div class="tool-ui">
+                    
+                    <div class="controls-area flex flex-col gap-6 no-print">
+                        <div class="flex flex-col items-center gap-6 border-slate-100 pt-6">
+                            <div class="flex bg-slate-100 p-1.5 rounded-2xl flex-wrap justify-center">
+                                <button onclick="switchView('table')" id="tab-table" class="px-8 py-3 rounded-xl text-xs font-black transition-all bg-white shadow-sm border border-slate-200">
+                                    表形式
+                                </button>
+                                <button onclick="switchView('spread')" id="tab-spread" class="px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700">
+                                    見開き形式
+                                </button>
+                                <button onclick="switchView('flip')" id="tab-flip" class="px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700">
+                                    完成プレビュー
+                                </button>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-center gap-6 bg-slate-50 px-8 py-4 rounded-[2rem] border-2 border-slate-900">
+                                <div class="flex flex-col items-start">
+                                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">折丁</span>
+                                    <select id="signatureSelect" onchange="updateSignature(this.value)" class="custom-select-ui bg-transparent font-black text-lg border-none focus:ring-0 cursor-pointer">
+                                        <option value="4">4P</option>
+                                        <option value="8" selected>8P</option>
+                                        <option value="16">16P</option>
+                                    </select>
+                                </div>
+                                <div class="h-10 w-0.5 bg-slate-200"></div>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">合計ページ</span>
+                                    <div class="flex items-center gap-5">
+                                        <button onclick="changePageCountBySignature(-1)" class="w-8 h-8 rounded-full border-2 border-slate-900 flex items-center justify-center font-black hover:bg-white active:bg-slate-200 transition-all">－</button>
+                                        <span id="pageCountDisplay" class="font-black text-2xl w-10 text-center">16</span>
+                                        <button onclick="changePageCountBySignature(1)" class="w-8 h-8 rounded-full border-2 border-slate-900 flex items-center justify-center font-black hover:bg-white active:bg-slate-200 transition-all">＋</button>
+                                    </div>
+                                </div>
+                                <div class="h-10 w-0.5 bg-slate-200"></div>
+                                <div class="flex gap-2">
+                                    <button onclick="openAddColModal()" class="btn-outline flex items-center gap-2 text-xs uppercase tracking-tighter">
+                                        <i class="fa-solid fa-plus"></i> 項目追加
+                                    </button>
+                                    <button onclick="openSettingsModal()" class="btn-outline flex items-center gap-2 text-xs uppercase tracking-tighter">
+                                        <i class="fa-solid fa-gear"></i> 設定
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tableView" class="mt-10 mb-20">
+                        <div class="table-actions flex justify-end gap-2 mb-4 no-print">
+                            <button onclick="openDataManagementModal()" class="btn-outline text-xs flex items-center gap-2 brand-yellow shadow-sm py-2 px-4">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> データ管理・書き出し
+                            </button>
+                            <button onclick="confirmReset()" class="btn-outline text-xs flex items-center gap-2 text-red-500 border-red-500 hover:bg-red-500 hover:text-white py-2 px-4">
+                                <i class="fa-solid fa-trash-can"></i> リセット
+                            </button>
+                        </div>
+                        
+                        <div class="card-container overflow-hidden">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse" id="flatplanTable">
+                                    <thead class="bg-slate-50 border-b-2 border-slate-900">
+                                        <tr id="tableHeader"></tr>
+                                    </thead>
+                                    <tbody id="tableBody" class="divide-y divide-slate-100"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="spreadView" class="hidden pb-20 px-4 md:px-0 no-print">
+                        <div id="spreadGrid" class="grid grid-cols-1 md:grid-cols-2 gap-12"></div>
+                    </div>
+
+                    <div id="flipView" class="hidden flex flex-col items-center justify-center py-10 min-h-[500px] card-container mb-20 bg-slate-50 no-print">
+                        <div class="flex items-center gap-6 sm:gap-12 mb-8 w-full justify-center">
+                            <button onclick="flipPrev()" class="w-12 h-12 rounded-full border-2 border-slate-900 flex items-center justify-center hover:bg-white transition-all disabled:opacity-20" id="flipPrevBtn">
+                                <i class="fa-solid fa-chevron-left text-xl"></i>
+                            </button>
+                            <div id="bookViewer" class="flex items-center justify-center gap-0 bg-white p-4 border-2 border-slate-900 shadow-xl min-w-[300px] sm:min-w-[500px]"></div>
+                            <button onclick="flipNext()" class="w-12 h-12 rounded-full border-2 border-slate-900 flex items-center justify-center hover:bg-white transition-all disabled:opacity-20" id="flipNextBtn">
+                                <i class="fa-solid fa-chevron-right text-xl"></i>
+                            </button>
+                        </div>
+                        <div class="text-xs font-black tracking-widest text-slate-900 brand-yellow border-2 border-slate-900 px-8 py-3 rounded-full shadow-md" id="flipPageIndicator"></div>
+                    </div>
+
+                    <div id="dataManagementModal" class="modal-overlay hidden">
+                        <div class="modal-content">
+                            <h3 class="text-2xl font-black mb-4 text-center uppercase tracking-tight">データ管理・書き出し</h3>
+                            <p class="text-[11px] text-slate-400 font-bold mb-8 text-center leading-relaxed">
+                                保存形式を選択してください。<br>再編集するにはJSON形式を推奨します。
+                            </p>
+                            
+                            <div class="grid grid-cols-1 gap-3">
+                                <button onclick="exportJSON(); closeDataManagementModal();" class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all group">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
+                                        <i class="fa-solid fa-file-code text-slate-500 group-hover:text-white"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="block font-black text-sm text-slate-800">保存データを書き出す (JSON)</span>
+                                        <span class="block text-[9px] text-slate-400 font-bold">再編集・バックアップ用ファイル</span>
+                                    </div>
+                                </button>
+                                <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all group cursor-pointer">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
+                                        <i class="fa-solid fa-file-import text-slate-500 group-hover:text-white"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="block font-black text-sm text-slate-800">保存データを読み込む</span>
+                                        <span class="block text-[9px] text-slate-400 font-bold">JSONファイルから内容を復元します</span>
+                                    </div>
+                                    <input type="file" class="hidden" accept=".json" onchange="importJSON(event); closeDataManagementModal();">
+                                </label>
+                                <button onclick="exportCSV(); closeDataManagementModal();" class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all group">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
+                                        <i class="fa-solid fa-file-csv text-slate-500 group-hover:text-white"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="block font-black text-sm text-slate-800">CSVを書き出す</span>
+                                        <span class="block text-[9px] text-slate-400 font-bold">Excelやスプレッドシート用ファイル</span>
+                                    </div>
+                                </button>
+                                <button onclick="printPDF(); closeDataManagementModal();" class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all group">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
+                                        <i class="fa-solid fa-file-pdf text-slate-500 group-hover:text-white"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="block font-black text-sm text-slate-800">PDFで保存する</span>
+                                        <span class="block text-[9px] text-slate-400 font-bold">印刷・共有・確認用レイアウト</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <button onclick="closeDataManagementModal()" class="w-full mt-6 py-3 text-slate-400 font-black text-xs uppercase tracking-widest hover:text-slate-900 transition-colors">キャンセル</button>
+                        </div>
+                    </div>
+
+                    <div id="addColModal" class="modal-overlay hidden">
+                        <div class="modal-content">
+                            <h3 class="text-2xl font-black mb-8 text-center uppercase tracking-tight">項目の追加</h3>
+                            <div class="space-y-4">
+                                <button onclick="addColumn('text'); closeAddColModal();" class="w-full text-left p-5 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all flex justify-between items-center group">
+                                    <div><span class="block font-black text-lg text-slate-800">テキスト入力</span></div>
+                                    <i class="fa-solid fa-chevron-right text-slate-200 group-hover:text-slate-900"></i>
+                                </button>
+                                <button onclick="addColumn('staff'); closeAddColModal();" class="w-full text-left p-5 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all flex justify-between items-center group">
+                                    <div><span class="block font-black text-lg text-slate-800">担当者選択</span></div>
+                                    <i class="fa-solid fa-chevron-right text-slate-200 group-hover:text-slate-900"></i>
+                                </button>
+                                <button onclick="addColumn('status'); closeAddColModal();" class="w-full text-left p-5 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all flex justify-between items-center group">
+                                    <div><span class="block font-black text-lg text-slate-800">進行状況選択</span></div>
+                                    <i class="fa-solid fa-chevron-right text-slate-200 group-hover:text-slate-900"></i>
+                                </button>
+                                <button onclick="closeAddColModal()" class="w-full mt-6 py-2 text-slate-300 font-black text-xs uppercase tracking-widest hover:text-slate-900">キャンセル</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="settingsModal" class="modal-overlay hidden">
+                        <div class="modal-content max-h-[90vh] flex flex-col">
+                            <h3 class="text-2xl font-black mb-6 text-center uppercase tracking-tight">ツール設定</h3>
+                            <div class="overflow-y-auto pr-2 custom-scrollbar flex-1">
+                                <div class="mb-10">
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">進行状況の選択肢</label>
+                                    <div id="statusSettingsList" class="space-y-2 mb-3"></div>
+                                    <button onclick="addStatusOption()" class="w-full py-2 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 font-bold text-xs hover:border-slate-900 hover:text-slate-900 transition-all">+ 選択肢を追加</button>
+                                </div>
+                                <div class="mb-10">
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">メンバー（担当者リスト）</label>
+                                    <div id="staffListContainer" class="space-y-2 mb-3"></div>
+                                    <div class="flex gap-2">
+                                        <input type="text" id="newStaffName" placeholder="氏名を入力..." class="flex-1 px-4 py-2 border-2 border-slate-200 rounded-xl font-bold focus:border-slate-900 outline-none text-sm bg-slate-50">
+                                        <button onclick="addStaffMember()" class="px-4 py-2 bg-slate-900 text-white rounded-xl font-bold hover:bg-black transition-all text-xs">追加</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-6 border-t border-slate-100 mt-auto">
+                                <button onclick="closeSettingsModal()" class="w-full py-4 brand-yellow border-2 border-slate-900 rounded-2xl font-black text-sm uppercase tracking-widest hover:brightness-95 transition-all">保存して閉じる</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // --- Config ---
+                        const VERSION = "1.0";
+                        const STORAGE_KEY = "creator-tools-box-page-plan-editor";
+
+                        // --- State ---
+                        let state = {
+                            tool: "page-plan-editor",
+                            version: VERSION,
+                            pageCount: 16,
+                            signature: 8,
+                            staffMembers: ["担当者未設定", "デザイナーA", "編集者B"],
+                            statusOptions: ["未着手", "制作中", "校正中", "完了"],
+                            columns: [
+                                { id: 'title', type: 'text', label: 'ページ名' },
+                                { id: 'staff', type: 'staff', label: '担当者' },
+                                { id: 'status', type: 'status', label: '進行状況' }
+                            ],
+                            pages: [], 
+                            currentFlip: 0,
+                            draggedRowIdx: null,
+                            draggedColIdx: null
+                        };
+
+                        // --- History (Undo/Redo) ---
+                        let past = [];
+                        let future = [];
+                        const MAX_HISTORY = 50;
+
+                        function pushHistory() {
+                            past.push(JSON.parse(JSON.stringify(state)));
+                            if (past.length > MAX_HISTORY) past.shift();
+                            future = [];
+                        }
+
+                        function undo() {
+                            if (past.length === 0) return;
+                            future.push(JSON.parse(JSON.stringify(state)));
+                            state = past.pop();
+                            updateUI();
+                            autoSave();
+                        }
+
+                        function redo() {
+                            if (future.length === 0) return;
+                            past.push(JSON.parse(JSON.stringify(state)));
+                            state = future.pop();
+                            updateUI();
+                            autoSave();
+                        }
+
+                        // --- Keyboard Shortcuts ---
+                        window.addEventListener('keydown', (e) => {
+                            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+                            const cmd = isMac ? e.metaKey : e.ctrlKey;
+                            if (cmd && e.key.toLowerCase() === 'z') {
+                                if (e.shiftKey) redo();
+                                else undo();
+                                e.preventDefault();
+                            } else if (cmd && e.key.toLowerCase() === 'y') {
+                                redo();
+                                e.preventDefault();
+                            }
+                        });
+
+                        // --- Init ---
+                        function init() {
+                            const saved = localStorage.getItem(STORAGE_KEY);
+                            if (saved) {
+                                try {
+                                    const loaded = JSON.parse(saved);
+                                    state = { ...state, ...loaded };
+                                    syncPages();
+                                } catch (e) {
+                                    console.error("Autosave load error", e);
+                                    resetToDefault();
+                                }
+                            } else {
+                                resetToDefault();
+                            }
+                            updateUI();
+                        }
+
+                        function resetToDefault() {
+                            state.pages = Array.from({ length: state.pageCount }, (_, i) => ({
+                                page: i + 1,
+                                values: {}
+                            }));
+                            autoSave();
+                        }
+
+                        function syncPages() {
+                            if (state.pages.length < state.pageCount) {
+                                for (let i = state.pages.length; i < state.pageCount; i++) {
+                                    state.pages.push({ page: i + 1, values: {} });
+                                }
+                            } else if (state.pages.length > state.pageCount) {
+                                state.pages = state.pages.slice(0, state.pageCount);
+                            }
+                        }
+
+                        // --- Actions ---
+                        function updateUI() {
+                            document.getElementById('pageCountDisplay').textContent = state.pageCount;
+                            document.getElementById('signatureSelect').value = state.signature;
+                            renderTable();
+                            if (!document.getElementById('spreadView').classList.contains('hidden')) renderSpread();
+                            if (!document.getElementById('flipView').classList.contains('hidden')) renderFlip();
+                        }
+
+                        function changePageCountBySignature(multiplier) {
+                            pushHistory();
+                            const delta = state.signature * multiplier;
+                            const newCount = Math.max(state.signature, Math.min(128, state.pageCount + delta));
+                            if (newCount === state.pageCount) return;
+                            state.pageCount = newCount;
+                            syncPages();
+                            autoSave();
+                            updateUI();
+                        }
+
+                        function updateSignature(val) {
+                            pushHistory();
+                            state.signature = parseInt(val);
+                            const remainder = state.pageCount % state.signature;
+                            if (remainder !== 0) {
+                                state.pageCount = Math.ceil(state.pageCount / state.signature) * state.signature;
+                                syncPages();
+                            }
+                            autoSave();
+                            updateUI();
+                        }
+
+                        function renderTable() {
+                            const header = document.getElementById('tableHeader');
+                            header.innerHTML = `
+                                <th class="p-4 w-10 no-print"></th>
+                                <th class="p-4 font-black text-xs uppercase tracking-wider w-12 text-center bg-slate-50">P</th>
+                            `;
+                            
+                            state.columns.forEach((col, idx) => {
+                                const th = document.createElement('th');
+                                const widthClass = (col.type === 'staff' || col.type === 'status') ? 'w-[155px] min-w-[155px]' : '';
+                                th.className = `p-4 font-black text-xs uppercase tracking-wider cursor-move hover:bg-slate-100 transition-colors bg-slate-50 border-x border-slate-200 relative group/th ${widthClass}`;
+                                th.draggable = true;
+                                th.dataset.colIdx = idx;
+                                th.addEventListener('dragstart', handleColDragStart);
+                                th.addEventListener('dragover', handleColDragOver);
+                                th.addEventListener('drop', handleColDrop);
+
+                                th.innerHTML = `
+                                    <div class="flex items-center gap-2">
+                                        <input type="text" value="${col.label}" 
+                                            onfocus="this.dataset.old=this.value"
+                                            onchange="if(this.value!==this.dataset.old){pushHistory(); updateColumnLabel(${idx}, this.value);}"
+                                            class="bg-transparent border-none p-0 focus:ring-0 w-full font-black text-[11px] uppercase tracking-wider no-print">
+                                        <span class="print-only">${col.label}</span>
+                                        <button onclick="pushHistory(); removeColumn(${idx});" class="opacity-0 group-hover/th:opacity-100 text-slate-300 hover:text-red-500 transition-opacity no-print">
+                                            <i class="fa-solid fa-circle-xmark"></i>
+                                        </button>
+                                    </div>
+                                `;
+                                header.appendChild(th);
+                            });
+                            header.innerHTML += `<th class="p-4 w-10 bg-slate-50 no-print"></th>`;
+
+                            const body = document.getElementById('tableBody');
+                            body.innerHTML = '';
+
+                            state.pages.forEach((pageData, idx) => {
+                                const row = document.createElement('tr');
+                                row.className = "group transition-all";
+                                row.draggable = true;
+                                row.dataset.rowIdx = idx;
+                                const isSigEnd = (idx + 1) % state.signature === 0 && idx !== state.pages.length - 1;
+                                if (isSigEnd) row.classList.add('signature-boundary');
+                                row.addEventListener('dragstart', handleRowDragStart);
+                                row.addEventListener('dragover', handleRowDragOver);
+                                row.addEventListener('dragleave', handleRowDragLeave);
+                                row.addEventListener('drop', handleRowDrop);
+
+                                let html = `
+                                    <td class="p-4 text-center no-print"><i class="fa-solid fa-grip-vertical drag-handle"></i></td>
+                                    <td class="p-4 text-center font-black text-slate-400 text-sm align-top pt-5">${idx + 1}</td>
+                                `;
+                                
+                                state.columns.forEach(col => {
+                                    const val = pageData.values[col.id] || '';
+                                    html += `<td class="p-2 border-x border-slate-100 align-top">`;
+                                    if (col.type === 'text') {
+                                        html += `<textarea rows="1" 
+                                            onfocus="this.dataset.old=this.value"
+                                            oninput="autoResize(this); updatePageValueDirect(${idx}, '${col.id}', this.value)" 
+                                            onchange="if(this.value!==this.dataset.old){pushHistory(); autoSave();}"
+                                            onkeydown="handleKeyNav(event, ${idx}, '${col.id}')"
+                                            data-idx="${idx}" data-key="${col.id}"
+                                            class="auto-expand w-full px-3 py-2 border-2 border-transparent focus:border-slate-900 focus:bg-white bg-slate-50/50 rounded-lg font-bold text-sm transition-all" placeholder="...">${val}</textarea>`;
+                                    } else if (col.type === 'status' || col.type === 'staff') {
+                                        const options = col.type === 'status' ? state.statusOptions : state.staffMembers;
+                                        html += `<select 
+                                            onfocus="this.dataset.old=this.value"
+                                            onchange="pushHistory(); updatePageValue(${idx}, '${col.id}', this.value)" 
+                                            onkeydown="handleKeyNav(event, ${idx}, '${col.id}')"
+                                            data-idx="${idx}" data-key="${col.id}"
+                                            class="w-full px-1 py-2 bg-slate-50/50 border-2 border-transparent focus:border-slate-900 rounded-lg font-black text-xs cursor-pointer no-print">
+                                            ${col.type === 'status' ? '<option value="">-</option>' : ''}
+                                            ${options.map(s => `<option value="${s}" ${val === s ? 'selected' : ''}>${s}</option>`).join('')}
+                                        </select>
+                                        <div class="print-only text-xs font-bold">${val || '-'}</div>`;
+                                    }
+                                    html += `</td>`;
+                                });
+                                html += `<td class="p-4 no-print"></td>`;
+                                row.innerHTML = html;
+                                body.appendChild(row);
+                            });
+
+                            setTimeout(() => {
+                                document.querySelectorAll('.auto-expand').forEach(autoResize);
+                            }, 0);
+                        }
+
+                        // --- Storage & Data ---
+                        function autoSave() {
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                        }
+                        function exportJSON() {
+                            const exportData = { ...state, savedAt: new Date().toISOString() };
+                            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            const date = new Date();
+                            const fileName = `flatplan-${date.getFullYear()}${String(date.getMonth()+1).padStart(2,'0')}${String(date.getDate()).padStart(2,'0')}.json`;
+                            a.href = url; a.download = fileName; a.click(); URL.revokeObjectURL(url);
+                        }
+                        function importJSON(event) {
+                            const file = event.target.files[0]; if (!file) return;
+                            if (!confirm("現在の内容は上書きされます。読み込みますか？")) return;
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                try {
+                                    const loaded = JSON.parse(e.target.result); pushHistory();
+                                    state = { ...state, ...loaded }; syncPages(); autoSave(); updateUI();
+                                } catch (err) { alert("読み込みに失敗しました。"); }
+                            };
+                            reader.readAsText(file);
+                        }
+                        function exportCSV() {
+                            let csvContent = "\uFEFF";
+                            const headers = ["ページ番号", ...state.columns.map(c => c.label)];
+                            csvContent += headers.join(",") + "\n";
+                            state.pages.forEach(p => {
+                                const row = [p.page];
+                                state.columns.forEach(col => {
+                                    let val = p.values[col.id] || ""; val = val.replace(/"/g, '""');
+                                    if (val.includes(",") || val.includes("\n") || val.includes('"')) val = `"${val}"`;
+                                    row.push(val);
+                                });
+                                csvContent += row.join(",") + "\n";
+                            });
+                            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.href = url; a.download = `flatplan-${new Date().getTime()}.csv`; a.click();
+                        }
+                        function printPDF() {
+                            document.getElementById('printDate').textContent = new Date().toLocaleString();
+                            document.getElementById('printPageCount').textContent = state.pageCount + "P";
+                            document.getElementById('printSignature').textContent = state.signature + "P";
+                            window.print();
+                        }
+                        function confirmReset() {
+                            if (confirm("現在の内容をすべて削除します。よろしいですか？")) {
+                                pushHistory(); localStorage.removeItem(STORAGE_KEY); location.reload();
+                            }
+                        }
+
+                        // --- Helpers ---
+                        function autoResize(el) { el.style.height = 'auto'; el.style.height = (el.scrollHeight) + 'px'; }
+                        function handleKeyNav(e, idx, keyId) {
+                            if (e.isComposing) return; if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                const nextRow = document.querySelector(`[data-idx="${idx + 1}"][data-key="${keyId}"]`);
+                                if (nextRow) { nextRow.focus(); if(nextRow.tagName === 'TEXTAREA') { const val = nextRow.value; nextRow.setSelectionRange(val.length, val.length); } }
+                            }
+                        }
+                        function updatePageValueDirect(idx, colId, val) { state.pages[idx].values[colId] = val; }
+                        function updatePageValue(idx, colId, val) { state.pages[idx].values[colId] = val; autoSave(); }
+                        function updateColumnLabel(idx, val) { state.columns[idx].label = val; autoSave(); }
+                        function addColumn(type) {
+                            pushHistory(); const label = type === 'status' ? '進行状況' : (type === 'staff' ? '担当者' : '備考');
+                            state.columns.push({ id: type + '_' + Date.now(), type, label }); autoSave(); renderTable();
+                        }
+                        function removeColumn(idx) { state.columns.splice(idx, 1); autoSave(); renderTable(); }
+                        function switchView(view) {
+                            ['table', 'spread', 'flip'].forEach(v => {
+                                document.getElementById(v + 'View').classList.add('hidden');
+                                document.getElementById('tab-' + v).className = "px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700";
+                            });
+                            document.getElementById(view + 'View').classList.remove('hidden');
+                            document.getElementById('tab-' + view).className = "px-8 py-3 rounded-xl text-xs font-black transition-all bg-white shadow-sm border border-slate-200 text-slate-900";
+                            if (view === 'table') renderTable(); if (view === 'spread') renderSpread(); if (view === 'flip') renderFlip();
+                        }
+
+                        // --- Graphics ---
+                        function createPageEl(pageData, pos = '') {
+                            const borderClass = pos === 'left' ? 'border-r-0 rounded-l-lg' : (pos === 'right' ? 'border-l-[1px] rounded-r-lg' : 'rounded-lg');
+                            const title = pageData.values.title || pageData.values[state.columns[0]?.id] || '';
+                            const formattedTitle = title.replace(/\n/g, '<br>');
+                            return `<div class="book-page ${borderClass} w-32 sm:w-44"><div class="text-[10px] font-black uppercase text-slate-300 mb-1">P.${pageData.page}</div><div class="text-[11px] font-bold leading-tight text-slate-700 h-12 overflow-hidden text-ellipsis">${formattedTitle || '<span class="text-slate-100">-</span>'}</div><div class="book-page-num ${pos === 'left' ? 'left-2' : 'right-2'} text-slate-900">${pageData.page}</div></div>`;
+                        }
+                        function renderSpread() {
+                            const grid = document.getElementById('spreadGrid'); grid.innerHTML = '';
+                            
+                            // 表紙（1ページ目）のコンテナ：mt-24で位置を下げ、mb-24で次の中面との間隔を確保
+                            const p1Div = document.createElement('div'); 
+                            p1Div.className = "flex justify-center col-span-1 md:col-span-2 mt-24 mb-24"; 
+                            p1Div.innerHTML = createPageEl(state.pages[0]); 
+                            grid.appendChild(p1Div);
+
+                            // 中面
+                            for (let i = 1; i < state.pages.length - 1; i += 2) {
+                                const spreadDiv = document.createElement('div'); 
+                                spreadDiv.className = "flex justify-center gap-0 col-span-1 md:col-span-2"; 
+                                spreadDiv.innerHTML = createPageEl(state.pages[i], 'left') + createPageEl(state.pages[i+1], 'right'); 
+                                grid.appendChild(spreadDiv);
+                            }
+
+                            // 背表紙（最終ページ）
+                            if (state.pages.length > 1) { 
+                                const lastDiv = document.createElement('div'); 
+                                lastDiv.className = "flex justify-center col-span-1 md:col-span-2 mt-24 mb-16"; 
+                                lastDiv.innerHTML = createPageEl(state.pages[state.pages.length - 1]); 
+                                grid.appendChild(lastDiv); 
+                            }
+                        }
+                        function renderFlip() {
+                            const viewer = document.getElementById('bookViewer'); const spreads = [[null, state.pages[0]]];
+                            for(let i=1; i < state.pages.length -1; i+=2) spreads.push([state.pages[i], state.pages[i+1]]);
+                            spreads.push([state.pages[state.pages.length-1], null]);
+                            if (state.currentFlip >= spreads.length) state.currentFlip = spreads.length - 1;
+                            const current = spreads[state.currentFlip]; viewer.innerHTML = '';
+                            viewer.innerHTML += current[0] ? createPageEl(current[0], 'left') : `<div class="w-32 sm:w-44 aspect-[1/1.414]"></div>`;
+                            viewer.innerHTML += current[1] ? createPageEl(current[1], 'right') : `<div class="w-32 sm:w-44 aspect-[1/1.414]"></div>`;
+                            document.getElementById('flipPageIndicator').textContent = `${state.currentFlip + 1} / ${spreads.length} 見開き`;
+                            document.getElementById('flipPrevBtn').disabled = state.currentFlip === 0; document.getElementById('flipNextBtn').disabled = state.currentFlip === spreads.length - 1;
+                        }
+                        function flipPrev() { if(state.currentFlip > 0) { state.currentFlip--; renderFlip(); } }
+                        function flipNext() { if(state.currentFlip < state.pages.length) { state.currentFlip++; renderFlip(); } }
+
+                        // --- Modals ---
+                        function openDataManagementModal() { document.getElementById('dataManagementModal').classList.remove('hidden'); }
+                        function closeDataManagementModal() { document.getElementById('dataManagementModal').classList.add('hidden'); }
+                        function openAddColModal() { document.getElementById('addColModal').classList.remove('hidden'); }
+                        function closeAddColModal() { document.getElementById('addColModal').classList.add('hidden'); }
+                        function openSettingsModal() { renderStatusSettings(); renderStaffList(); document.getElementById('settingsModal').classList.remove('hidden'); }
+                        function closeSettingsModal() { document.getElementById('settingsModal').classList.add('hidden'); updateUI(); }
+
+                        function renderStatusSettings() {
+                            const container = document.getElementById('statusSettingsList');
+                            container.innerHTML = state.statusOptions.map((s, i) => `<div class="flex items-center gap-2 p-2 bg-slate-50 rounded-xl border-2 border-slate-100 group/item"><input type="text" value="${s}" onchange="pushHistory(); state.statusOptions[${i}]=this.value; autoSave();" class="flex-1 px-3 py-1 bg-transparent border-none rounded-lg font-bold text-sm focus:bg-white outline-none"><button onclick="pushHistory(); state.statusOptions.splice(${i},1); autoSave(); renderStatusSettings();" class="text-slate-300 hover:text-red-500 pr-2 transition-colors"><i class="fa-solid fa-circle-xmark"></i></button></div>`).join('');
+                        }
+                        function addStatusOption() { pushHistory(); state.statusOptions.push("新規ステータス"); autoSave(); renderStatusSettings(); }
+                        function renderStaffList() {
+                            const container = document.getElementById('staffListContainer');
+                            container.innerHTML = state.staffMembers.map((s, i) => `<div class="flex items-center justify-between p-2 bg-slate-50 rounded-xl border-2 border-slate-100 group/item"><input type="text" value="${s}" onchange="pushHistory(); state.staffMembers[${i}]=this.value; autoSave();" class="flex-1 px-3 py-1 bg-transparent border-none rounded-lg font-bold text-sm focus:bg-white outline-none">${i > 0 ? `<button onclick="pushHistory(); state.staffMembers.splice(${i},1); autoSave(); renderStaffList();" class="text-slate-300 hover:text-red-500 pr-2 transition-colors"><i class="fa-solid fa-circle-xmark"></i></button>` : '<span class="w-8"></span>'}</div>`).join('');
+                        }
+                        function addStaffMember() { const name = document.getElementById('newStaffName').value.trim(); if (name) { pushHistory(); state.staffMembers.push(name); document.getElementById('newStaffName').value = ''; autoSave(); renderStaffList(); } }
+
+                        // --- DnD ---
+                        function handleRowDragStart(e) { state.draggedRowIdx = parseInt(this.dataset.rowIdx); this.classList.add('dragging'); }
+                        function handleRowDragOver(e) { e.preventDefault(); this.classList.add('drag-over-row'); }
+                        function handleRowDragLeave(e) { this.classList.remove('drag-over-row'); }
+                        function handleRowDrop(e) {
+                            this.classList.remove('drag-over-row'); const targetIdx = parseInt(this.dataset.rowIdx); if (state.draggedRowIdx === targetIdx) return;
+                            pushHistory(); const item = state.pages.splice(state.draggedRowIdx, 1)[0]; state.pages.splice(targetIdx, 0, item);
+                            state.pages.forEach((p, i) => p.page = i + 1); autoSave(); renderTable();
+                        }
+                        function handleColDragStart(e) { state.draggedColIdx = parseInt(this.dataset.colIdx); }
+                        function handleColDragOver(e) { e.preventDefault(); }
+                        function handleColDrop(e) {
+                            const targetIdx = parseInt(this.dataset.colIdx); if (state.draggedColIdx === targetIdx) return;
+                            pushHistory(); const col = state.columns.splice(state.draggedColIdx, 1)[0]; state.columns.splice(targetIdx, 0, col); autoSave(); renderTable();
+                        }
+                        init();
+                    </script>
+                </div>
+            </div>
+            <div class="disclaimer no-print">
+                <strong>免責事項</strong><br>
+                本ツールは制作の参考情報として提供しています。印刷物の入稿前には必ず、利用される印刷会社の最新ガイドラインや規定をご確認ください。
+            </div>
+        </article>
+
+        <section class="tool-guide no-print">
+            <h2>このツールでできること</h2>
+            <p>
+                台割作成ツールは、パンフレットや冊子の台割（ページ構成）を直感的に作成・管理できる無料ブラウザツールです。ページごとの内容、進行状況、担当者などを整理しながら、台割を視覚的に管理できます。<br><br>
+                冊子制作の構成検討、パンフレットのページ設計、制作進行の共有など、制作現場でのページ構成整理に役立ちます。<br>
+           </p>
+
+<h2>使い方</h2>
+<p>
+<strong>1.ページ構成を設定</strong><br>
+上部の「折丁」設定を選択し、それに合わせてページ数を増減させます。<br><br>
+
+<strong>2.内容を入力</strong><br>
+「表形式」で各ページの内容を入力します。入力した内容はブラウザに自動保存されます。<br><br>
+
+<strong>3.元に戻す・やり直す</strong><br>
+Ctrl+Zで操作を元に戻し、Ctrl+Yでやり直すことができます。<br><br>
+
+<strong>4.データを書き出す</strong><br>
+表の右上のボタンから、JSON形式での書き出し、CSV出力、PDF保存が可能です。<br><br>
+
+<strong>5.並べ替える</strong><br>
+左端のグリップアイコンをドラッグしてページを差し替えたり、見出しをドラッグして列の順番を調整できます。
+ </p>
+
+            <h2>こんな人におすすめ</h2>
+            <p>
+・冊子やパンフレットを制作するグラフィックデザイナー<br>
+・ZINEや同人誌などの冊子を自作するクリエイター<br>
+・ページ構成や面付けを整理したい編集者・ライター<br>
+・学校の制作物や研究冊子を作る学生<br>
+・印刷前にページ順や見開きを確認したい印刷・DTP担当者<br>
+            </p>
+</p>
+        </section>
+        </main>
+
+    <footer class="no-print">
+        <div class="footer-content">
+            <div class="footer-tools">
+                <h3>ツールを探す</h3>
+                <div class="footer-tools-grid">
+                    <a href="/tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+                    <a href="/tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+                    <a href="/tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+                    <a href="/tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
+                    <a href="/tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+                    <a href="/tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+                    <a href="/tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+                    <a href="/tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+                    <a href="/tools/illustrator-shortcut-quiz" class="footer-link-item">Illustratorショートカットクイズ</a>
+                 
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>サイトメニュー</h3>
+                <a href="/about.html" class="footer-link-item">About</a>
+                <a href="/privacy.html" class="footer-link-item">Privacy Policy</a>
+                <a href="/disclaimer.html" class="footer-link-item">Disclaimer</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8C0gvBfEMc1g8lcH7g_oJvbfbC6fSsWFcQrWRP14rfsYtUw/viewform?usp=dialog" class="footer-link-item">Contact</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
