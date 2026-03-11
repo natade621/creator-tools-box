@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <!-- 
+    AI NOTE:
+    このファイルはツールページ共通テンプレートです。
+    編集してよい場所は次の3つのみです。
+    1. TOOL META (タイトルと概要)
+    2. TOOL UI (ツールの本体・ロジック)
+    3. TOOL GUIDE (解説文章)
+    それ以外のレイアウト、CSS、構造は変更しないでください。
+    -->
+
+    <!-- ===== TOOL META START ===== -->
+    <title>カラーパレット生成ツール｜クリエイターのお道具箱</title>
+    <meta name="description" content="デザインに使える美しい配色を自動生成できるカラーパレット作成ツール。トーンやテーマを選ぶだけで、プロ品質の配色を簡単に作成できます。">
+    <!-- ===== TOOL META END ===== -->
+    
+    <!-- LINE Seed JP を読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+    
+    <style>
+        :root {
+            --bg-color: #fcfcfc;    
+            --accent-color: #ffde00; 
+            --black: #333;          
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー：追従しない設定 */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* コンテナ */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ツールエリア（背景・枠線なし） */
+        .tool-card {
+            background: transparent; 
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        /* ツールメタ情報 */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ツールUIエリア */
+        .tool-ui-wrapper {
+            margin-bottom: 3rem;
+            min-height: 200px;
+        }
+
+        /* ツール内共通パーツのスタイル */
+        .tool-ui input, .tool-ui textarea, .tool-ui select {
+            width: 100%;
+            padding: 1rem;
+            border: var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1.2rem;
+            background: var(--white);
+        }
+        .tool-ui .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            color: var(--black);
+            font-size: 1.1rem;
+        }
+        .tool-ui .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .tool-result {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* 注意書き - 横幅を制限して中央配置 */
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin-top: 5rem;
+            border-radius: 4px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ガイドセクション */
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3.5rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        .tool-guide h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tool-guide h2::before {
+            content: "💡";
+            font-size: 1.4rem;
+        }
+        .tool-guide p {
+            margin-bottom: 2rem;
+            color: #444;
+            line-height: 1.9;
+        }
+        .tool-guide ul {
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+        .tool-guide li {
+            margin-bottom: 0.8rem;
+            color: #444;
+        }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .disclaimer { max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+/* 設定エリア */
+.palette-settings {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+.setting-item { flex: 1; min-width: 140px; }
+.setting-item label { display: block; font-weight: 800; font-size: 0.85rem; margin-bottom: 5px; }
+
+/* 操作ボタン */
+.main-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 2.5rem;
+}
+
+/* PNG保存ボタン（ホバー前はフラット、ホバーで浮き上がる設定） */
+.btn-png-save {
+    background: #fff;
+    border: var(--border);
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1rem;
+    box-shadow: none; /* 初期状態はフラット */
+    color: #333;
+}
+
+.btn-png-save:hover {
+    transform: translate(-3px, -3px); /* 浮き上がる動き */
+    box-shadow: var(--shadow); /* テンプレート共通の影を適用 */
+    background: #fff;
+}
+
+.btn-png-save:active {
+    transform: translate(1px, 1px);
+    box-shadow: 0px 0px 0px 0px #333;
+}
+
+/* 統合型パレットコンテナ */
+.palette-main-container {
+    display: flex;
+    height: 420px;
+    border: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 3.5rem;
+    background: #fff;
+    box-shadow: var(--shadow);
+}
+
+.color-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 2.5rem;
+    position: relative;
+    cursor: pointer;
+}
+
+/* カラー情報のラベル（背景・ぼかし無し） */
+.color-label-wrap {
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.hex-text {
+    display: block;
+    font-family: monospace;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-shadow: none; /* ぼかしを削除 */
+}
+
+/* ロックボタン */
+.lock-btn {
+    background: #333;
+    color: #fff;
+    border: 2px solid #000;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 3px 3px 0px #000;
+    letter-spacing: 1px;
+    pointer-events: auto;
+}
+
+.lock-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px #000;
+}
+
+.lock-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px #000;
+}
+
+/* コピートースト */
+.copy-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 800;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+.copy-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -60%);
+}
+
+/* シミュレーションエリア */
+.preview-info { text-align: center; margin-bottom: 1.5rem; }
+.preview-info h3 { margin: 10px 0 0; }
+.badge { background: #ffde00; border: 2px solid #333; padding: 2px 10px; font-size: 0.7rem; font-weight: 900; border-radius: 4px; }
+
+.ui-mockup { border: 2px solid #eee; border-radius: 15px; overflow: hidden; background: #fff; }
+.mock-nav { padding: 1.2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; font-weight: 800; }
+.mock-logo { PaletteTool. }
+.mock-links span { margin-left: 15px; font-size: 0.8rem; }
+.mock-hero { padding: 4rem 2rem; text-align: center; }
+.mock-title { font-size: 2.4rem; margin: 0 0 10px; }
+.mock-desc { font-size: 1rem; margin-bottom: 2rem; }
+.mock-btn { border: none; padding: 12px 35px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+.mock-footer-area { padding: 3rem; background: #f9f9f9; display: flex; justify-content: center; }
+.mock-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); width: 100%; max-width: 340px; }
+.mock-card-img { height: 140px; }
+.mock-card-body { padding: 1.5rem; }
+.mock-card-title { font-weight: 800; margin-bottom: 8px; }
+.mock-card-text { font-size: 0.85rem; color: #666; line-height: 1.5; }
+
+/* スマホ対応 */
+@media (max-width: 700px) {
+    .palette-main-container { flex-direction: column; height: auto; }
+    .color-item { height: 90px; flex-direction: row; justify-content: space-between; padding: 0 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
+    .color-label-wrap { flex-direction: row; justify-content: flex-end; gap: 20px; padding: 0; }
+}
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <article class="tool-card">
+            <!-- ===== TOOL META START ===== -->
+            <header class="tool-header">
+                <h1>カラーパレット生成ツール</h1>
+                <p class="tool-lead">
+                    デザインに使える美しい配色を自動生成できるカラーパレット作成ツール。<br>
+                    トーンやテーマを選ぶだけで、プロ品質の配色を簡単に作成できます。
+                </p>
+            </header>
+            <!-- ===== TOOL META END ===== -->
+
+<!-- ===== TOOL UI START ===== -->
+
+<div class="tool-ui-wrapper">
+    <div class="tool-ui">
+        <!-- 1. 設定セクション -->
+        <div class="palette-settings">
+            <div class="setting-item">
+                <label>色数</label>
+                <select id="color-count">
+                    <option value="2">2色</option>
+                    <option value="3">3色</option>
+                    <option value="4">4色</option>
+                    <option value="5" selected>5色</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>トーン</label>
+                <select id="color-tone">
+                    <option value="all">おまかせ</option>
+                    <option value="pastel">パステル</option>
+                    <option value="vivid">ビビッド</option>
+                    <option value="dark">ダーク</option>
+                    <option value="neutral">ニュートラル</option>
+                    <option value="mute">ミュート</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>テーマ</label>
+                <select id="color-theme">
+                    <option value="none">指定なし</option>
+                    <option value="minimal">ミニマル</option>
+                    <option value="nordic">北欧</option>
+                    <option value="wafu">和風</option>
+                    <option value="natural">ナチュラル</option>
+                    <option value="pop90s">90年代ポップ</option>
+                    <option value="retro">レトロ</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 2. 操作ボタン -->
+        <div class="main-actions">
+            <button id="generate-btn" class="btn">Generate</button>
+            <button id="download-png" class="btn-png-save">PNG保存</button>
+        </div>
+
+        <!-- 3. カラーパレット（統合型） -->
+        <div id="palette-display" class="palette-main-container">
+            <!-- JSで動的に生成 -->
+        </div>
+
+        <!-- 4. Web UI シミュレーション（常時表示） -->
+        <div class="tool-result">
+            <div class="preview-info">
+                <span class="badge">PREVIEW</span>
+                <h3>Web UI シミュレーション</h3>
+            </div>
+            
+            <div class="ui-mockup">
+                <header class="mock-nav" id="mock-nav">
+                    <div class="mock-logo">PaletteTool.</div>
+                    <div class="mock-links"><span>Home</span><span>Works</span></div>
+                </header>
+                <div class="mock-hero" id="mock-hero">
+                    <h2 class="mock-title">Beautiful Design</h2>
+                    <p class="mock-desc">生成された配色でWebサイトを構築した際のイメージです。</p>
+                    <button class="mock-btn" id="mock-cta">Get Started</button>
+                </div>
+                <div class="mock-footer-area">
+                    <div class="mock-card" id="mock-card">
+                        <div class="mock-card-img" id="mock-card-img"></div>
+                        <div class="mock-card-body">
+                            <div class="mock-card-title">Color Balance</div>
+                            <div class="mock-card-text">サブカラーとアクセントの調和を確認できます。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- コピー通知用トースト -->
+<div id="copy-toast" class="copy-toast">Copied to Clipboard!</div>
+
+<!-- 非表示キャンバス -->
+<canvas id="export-canvas" style="display:none;"></canvas>
+<!-- ===== TOOL UI END ===== -->
+            <div class="disclaimer">
+                <strong>免責事項</strong><br>
+                本ツールはデザイン制作の補助を目的として提供しています。<br>
+                最終的な配色の判断やブランドカラーの決定については、用途や制作環境に応じてご確認のうえご利用ください。
+            </div>
+        </article>
+
+        <!-- ===== TOOL GUIDE START ===== -->
+        <section class="tool-guide">
+            <h2>このツールでできること</h2>
+            <p>
+                カラーパレット生成ツールは、デザイナーやクリエイターが直感的な操作でバランスの良い配色を作成できる無料ブラウザツールです。<br>
+                単なるランダム生成ではなく、色相・彩度・明度を計算した高度な配色アルゴリズムによって、デザインとして成立するカラーパレットを自動生成します。<br>
+                パステル・ビビッド・ダークなどのトーン指定や、北欧・和風・ミニマルといったテーマ設定を選択することで、デザインコンセプトに合ったカラー配色を素早く作ることができます。<br>
+                さらに、生成したカラーはHEXコードをワンクリックでコピーできるほか、Web UIのリアルタイムプレビューで実際のサイトデザインに適用したイメージも確認可能です。<br>
+                作成したカラーパレットはPNG画像として書き出すこともでき、デザイン資料やSNS共有にも活用できます。<br>
+                Webデザイン、UIデザイン、グラフィック制作、ブランドカラー検討など、さまざまなデザインシーンで役立つ配色ツールです。
+            </p>
+
+            <h2>使い方</h2>
+            <ul>
+                <strong>配色の方向性を選ぶ</strong><br>トーン（パステル・ビビッド・ダーク・ニュートラル・ミュート）やテーマ（ミニマル・北欧・和風・ナチュラル・90年代ポップ・レトロ）を選択します。<br><br>
+                <strong>カラーパレットを生成</strong><br>「生成」ボタンを押すと、選択した条件に基づいてバランスの良いカラーパレットが自動生成されます。<br><br>
+                <strong>カラーを固定する（LOCK）</strong><br>気に入った色は「LOCK」することで、次回生成時にもその色を保持したまま他の色だけを更新できます。<br><br>
+                <strong>HEXコードをコピー</strong><br>カラーカラムをクリックするとHEXコードがクリップボードにコピーされ、デザインツールなどですぐに使用できます。<br><br>
+                <strong>Web UIプレビューを確認</strong><br>生成した配色が、ヘッダー・ボタン・カードなどのUIに適用された状態をリアルタイムで確認できます。<br><br>
+                <strong>PNG画像としてダウンロード</strong><br>作成したカラーパレットは1200×630pxのPNG画像として書き出すことができ、資料やSNS投稿にも活用できます。<br><br>
+            </ul>
+
+            <h2>こんな人におすすめ</h2>
+            <ul>
+                <li>WebデザインやUIデザインの配色を素早く決めたいデザイナー</li>
+                <li>ブランドカラーやデザイン配色のアイデアを探しているクリエイター</li>
+                <li>配色バランスに悩むノンデザイナー</li>
+                <li>SNS投稿や資料用にカラーパレットを作りたい人</li>
+                <li>デザイン制作の初期段階でカラーコンセプトを検討したいチーム</li>
+            </ul>
+        </section>
+        <!-- ===== TOOL GUIDE END ===== -->
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+                <h3>ツールを探す</h3>
+                <div id="footer-tools-list" class="footer-tools-grid">
+                                    <a href="/tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+                    <a href="tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+                    <a href="tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+                    <a href="tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
+                    <a href="tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+                    <a href="tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+                    <a href="tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+                    <a href="tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+                    <a href="tools/illustrator-shortcut-quiz" class="footer-link-item">Illustratorショートカットクイズ</a>
+                 
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>サイトメニュー</h3>
+                <a href="/about.html" class="footer-link-item">About</a>
+                <a href="/privacy.html" class="footer-link-item">Privacy Policy</a>
+                <a href="/disclaimer.html" class="footer-link-item">Disclaimer</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8C0gvBfEMc1g8lcH7g_oJvbfbC6fSsWFcQrWRP14rfsYtUw/viewform?usp=dialog" class="footer-link-item">Contact</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+// --- グローバル変数 ---
+let colors = []; // {hex: string, locked: boolean}
+
+// --- 初期化 ---
+window.addEventListener('DOMContentLoaded', () => {
+    initTool();
+    document.getElementById('generate-btn').addEventListener('click', generate);
+    document.getElementById('download-png').addEventListener('click', exportPNG);
+    document.getElementById('color-count').addEventListener('change', initTool);
+});
+
+function initTool() {
+    const count = parseInt(document.getElementById('color-count').value);
+    colors = Array.from({ length: count }, () => ({ hex: '#FFFFFF', locked: false }));
+    generate();
+}
+
+// --- 配色生成ロジック ---
+function generate() {
+    const tone = document.getElementById('color-tone').value;
+    const theme = document.getElementById('color-theme').value;
+
+    colors = colors.map(c => {
+        if (c.locked) return c;
+
+        let h, s, l;
+
+        // テーマ別色相設定
+        if (theme === 'minimal') {
+            h = Math.random() * 360;
+            s = Math.random() * 5;
+        } else if (theme === 'nordic') {
+            const hs = [200, 210, 220, 30, 10];
+            h = hs[Math.floor(Math.random() * hs.length)] + (Math.random() * 10 - 5);
+        } else if (theme === 'wafu') {
+            const hs = [10, 30, 50, 150, 220]; 
+            h = hs[Math.floor(Math.random() * hs.length)];
+        } else if (theme === 'natural') {
+            h = 40 + Math.random() * 80;
+        } else if (theme === 'pop90s') {
+            const hs = [330, 190, 60, 280, 150];
+            h = hs[Math.floor(Math.random() * hs.length)];
+        } else if (theme === 'retro') {
+            const hs = [25, 45, 175, 205]; 
+            h = hs[Math.floor(Math.random() * hs.length)] + (Math.random() * 10 - 5);
+        } else {
+            h = Math.random() * 360;
+        }
+
+        // トーン別彩度・明度設定
+        switch (tone) {
+            case 'pastel': s = 40 + Math.random()*20; l = 80 + Math.random()*10; break;
+            case 'vivid': s = 85 + Math.random()*15; l = 45 + Math.random()*10; break;
+            case 'dark': s = 30 + Math.random()*30; l = 10 + Math.random()*15; break;
+            case 'neutral': s = 5 + Math.random()*20; l = 40 + Math.random()*40; break;
+            case 'mute': s = 20 + Math.random()*20; l = 50 + Math.random()*15; break;
+            default: s = 40 + Math.random()*40; l = 40 + Math.random()*40;
+        }
+
+        return { hex: hslToHex(h, s, l), locked: false };
+    });
+
+    render();
+}
+
+function hslToHex(h, s, l) {
+    l /= 100;
+    const a = s * Math.min(l, 1 - l) / 100;
+    const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+    };
+    return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+}
+
+// --- 描画処理 ---
+function render() {
+    const container = document.getElementById('palette-display');
+    container.innerHTML = '';
+
+    colors.forEach((c, i) => {
+        const div = document.createElement('div');
+        div.className = `color-item`;
+        div.style.backgroundColor = c.hex;
+        div.onclick = () => copyToClipboard(c.hex);
+        
+        const textColor = getContrast(c.hex);
+
+        div.innerHTML = `
+            <div class="color-label-wrap">
+                <span class="hex-text" style="color: ${textColor}">${c.hex}</span>
+                <button class="lock-btn" onclick="event.stopPropagation(); toggleLock(${i})">
+                    ${c.locked ? 'UNLOCK' : 'LOCK'}
+                </button>
+            </div>
+        `;
+        
+        container.appendChild(div);
+    });
+
+    updateSimulation();
+}
+
+function toggleLock(index) {
+    colors[index].locked = !colors[index].locked;
+    render();
+}
+
+function copyToClipboard(text) {
+    const input = document.createElement('textarea');
+    input.value = text;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+
+    // トースト通知を表示
+    const toast = document.getElementById('copy-toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+}
+
+// --- シミュレーション・書き出し ---
+function updateSimulation() {
+    const hexs = colors.map(c => c.hex);
+    const count = hexs.length;
+
+    const cMain = hexs[0];
+    const cSub = hexs[1] || hexs[0];
+    const cAccent = hexs[count - 1];
+
+    const nav = document.getElementById('mock-nav');
+    nav.style.backgroundColor = cMain;
+    nav.style.color = getContrast(cMain);
+
+    const hero = document.getElementById('mock-hero');
+    hero.style.backgroundColor = cSub;
+    hero.style.color = getContrast(cSub);
+
+    const cta = document.getElementById('mock-cta');
+    cta.style.backgroundColor = cAccent;
+    cta.style.color = getContrast(cAccent);
+
+    document.getElementById('mock-card-img').style.backgroundColor = hexs[Math.min(2, count-1)];
+}
+
+function getContrast(hex) {
+    const r = parseInt(hex.substring(1, 3), 16);
+    const g = parseInt(hex.substring(3, 5), 16);
+    const b = parseInt(hex.substring(5, 7), 16);
+    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return (yiq >= 128) ? '#333333' : '#ffffff';
+}
+
+function exportPNG() {
+    const canvas = document.getElementById('export-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 1200; canvas.height = 630;
+    const w = canvas.width / colors.length;
+    colors.forEach((c, i) => {
+        ctx.fillStyle = c.hex;
+        ctx.fillRect(i * w, 0, w, canvas.height);
+        ctx.fillStyle = getContrast(c.hex);
+        ctx.font = 'bold 40px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(c.hex, i * w + w/2, canvas.height - 60);
+    });
+    const a = document.createElement('a');
+    a.download = `palette-${Date.now()}.png`;
+    a.href = canvas.toDataURL();
+    a.click();
+}
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
