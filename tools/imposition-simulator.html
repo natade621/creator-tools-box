@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <!-- 
+    AI NOTE:
+    このファイルはツールページ共通テンプレートです。
+    編集してよい場所は次の3つのみです。
+    1. TOOL META (タイトルと概要)
+    2. TOOL UI (ツールの本体・ロジック)
+    3. TOOL GUIDE (解説文章)
+    それ以外のレイアウト、CSS、構造は変更しないでください。
+    -->
+
+    <!-- ===== TOOL META START ===== -->
+    <title>中綴じ冊子 面付けシミュレーター｜クリエイターのお道具箱</title>
+    <meta name="description" content="中綴じ冊子のページ配置（面付け）を自動でシミュレーションできるツール。総ページ数と綴じ方向を指定するだけで、印刷用の面付け順を一目で確認できます。">
+    <!-- ===== TOOL META END ===== -->
+    
+    <!-- LINE Seed JP を読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+    
+    <style>
+        :root {
+            --bg-color: #fcfcfc;    
+            --accent-color: #ffde00; 
+            --black: #333;          
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー：追従しない設定 */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* コンテナ */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ツールエリア（背景・枠線なし） */
+        .tool-card {
+            background: transparent; 
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        /* ツールメタ情報 */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ツールUIエリア */
+        .tool-ui-wrapper {
+            margin-bottom: 3rem;
+            min-height: 200px;
+        }
+
+        /* ツール内共通パーツのスタイル */
+        .tool-ui input, .tool-ui textarea, .tool-ui select {
+            width: 100%;
+            padding: 1rem;
+            border: var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1.2rem;
+            background: var(--white);
+        }
+        .tool-ui .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            color: var(--black);
+            font-size: 1.1rem;
+        }
+        .tool-ui .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .tool-result {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* 注意書き - 横幅を制限して中央配置 */
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin-top: 5rem;
+            border-radius: 4px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ガイドセクション */
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3.5rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        .tool-guide h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tool-guide h2::before {
+            content: "💡";
+            font-size: 1.4rem;
+        }
+        .tool-guide p {
+            margin-bottom: 2rem;
+            color: #444;
+            line-height: 1.9;
+        }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .disclaimer { max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }/* ツール専用レイアウト */
+.tool-inputs-row {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.input-group {
+    flex: 1;
+    min-width: 240px;
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.radio-label input {
+    width: auto !important;
+    margin: 0 !important;
+}
+
+/* 結果表示エリア */
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.btn-small {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 800;
+    transition: opacity 0.2s;
+}
+
+.btn-small:hover {
+    opacity: 0.8;
+}
+
+.imposition-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 1.5rem;
+    background: #fff;
+}
+
+.sheet-block {
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 2.5rem;
+}
+
+.sheet-block:last-child {
+    border-bottom: none;
+}
+
+.sheet-title {
+    font-weight: 800;
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.sheet-title span {
+    background: #eee;
+    color: #333;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    border: 1px solid #ddd;
+}
+
+.spread-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+}
+
+.spread-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.spread-label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 0.6rem;
+    font-weight: 800;
+}
+
+.spread-visual {
+    display: flex;
+    border: 2px solid #333;
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1.414 / 1; 
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.05);
+    background: #fff;
+}
+
+.page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-right: 1px solid #eee;
+}
+
+.page:last-child {
+    border-right: none;
+}
+
+.page-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #333;
+}
+
+.page-tag {
+    position: absolute;
+    bottom: 8px;
+    font-size: 0.7rem;
+    background: #555; /* 濃いグレーで統一 */
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .tool-inputs-row {
+        gap: 1rem;
+    }
+    .spread-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .spread-visual {
+        max-width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <article class="tool-card">
+            <!-- ===== TOOL META START ===== -->
+            <header class="tool-header">
+                <h1>面付けシミュレーター</h1>
+                <p class="tool-lead">
+                    中綴じ冊子のページ配置（面付け）を自動でシミュレーションできるツール。<br>
+                    総ページ数と綴じ方向を指定するだけで、印刷用の面付け順を一目で確認できます。
+                </p>
+            </header>
+            <!-- ===== TOOL META END ===== -->
+
+<!-- ===== TOOL UI START ===== -->
+<div class="tool-ui-wrapper">
+    <div class="tool-ui">
+        <div class="tool-inputs-row">
+            <div class="input-group">
+                <label for="total-pages">総ページ数（8単位）</label>
+                <select id="total-pages">
+                    <option value="8">8ページ</option>
+                    <option value="16" selected>16ページ</option>
+                    <option value="24">24ページ</option>
+                    <option value="32">32ページ</option>
+                    <option value="40">40ページ</option>
+                    <option value="48">48ページ</option>
+                    <option value="56">56ページ</option>
+                    <option value="64">64ページ</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>綴じ方向</label>
+                <div class="radio-group" id="binding-group">
+                    <label class="radio-label">
+                        <input type="radio" name="binding-direction" value="left" checked> 
+                        <span>左綴じ (横書き)</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="binding-direction" value="right"> 
+                        <span>右綴じ (縦書き)</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="simulation-result" class="tool-result">
+        <div class="result-header">
+            <h3>面付け結果一覧</h3>
+            <button id="btn-download" class="btn-small">画像として保存</button>
+        </div>
+        
+        <div id="imposition-canvas" class="imposition-container">
+            <!-- JSでリアルタイムに生成されます -->
+        </div>
+    </div>
+</div>
+
+<!-- ===== TOOL UI END ===== -->
+            <div class="disclaimer">
+                <strong>免責事項</strong><br>
+                本ツールは制作の参考情報として提供しています。印刷物の入稿前には必ず、利用される印刷会社の最新ガイドラインや規定をご確認ください。
+            </div>
+        </article>
+
+        <!-- ===== TOOL GUIDE START ===== -->
+        <section class="tool-guide">
+            <h2>このツールでできること</h2>
+            <p>
+                中綴じ冊子 面付けシミュレーターは、冊子印刷に必要なページの面付け（印刷用のページ配置）を自動で確認できる無料ブラウザツールです。8ページ単位の総ページ数と綴じ方向を指定するだけで、中綴じ冊子の印刷用ページ順を視覚的にシミュレーションできます。表面・裏面の見開きが整理された状態で表示されるため、どのページがどの見開きに配置されるのかを一目で把握できます。パンフレット制作、同人誌、ZINE制作、冊子デザインなど、印刷前のページ構成確認や入稿準備に役立ちます。また、面付け一覧は画像として書き出すことができるため、制作チームでの共有や印刷指示資料としても利用できます。
+            </p>
+
+            <h2>使い方</h2>
+            <p>
+                <strong>1.ページ数を設定</strong><br>
+                中綴じ冊子の総ページ数を入力します。ページ数は8ページ単位で設定できます。<br><br>
+                <strong>2.綴じ方向を選択</strong><br>
+                左綴じ・右綴じなど、冊子の綴じ方向を選択します。<br><br>
+                <strong>3.面付けを確認</strong><br>
+                印刷時のページ配置が自動生成されます。各シートには、表面の見開き（左）と裏面の見開き（右）が並んで表示されます。<br><br>
+                <strong>4.表紙位置の確認</strong><br>
+                表1〜表4（表紙・裏表紙）がどこに配置されるかも、画面上で直感的に確認できます。<br><br>
+                <strong>5.画像として書き出し</strong><br>
+                面付け一覧を画像として書き出すことで、制作資料や共有用のデータとして保存できます。
+            </p>
+
+            <h2>こんな人におすすめ</h2>
+            <p>
+                ・冊子やパンフレットを制作するデザイナー<br>
+                ・同人誌・ZINEを制作するクリエイター<br>
+                ・冊子レイアウトを確認したい編集者・ディレクター<br>
+                ・印刷入稿前に面付けを確認したい制作担当者
+            </p>
+        </section>
+        <!-- ===== TOOL GUIDE END ===== -->
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+               <h3>ツールを探す</h3>
+                <div id="footer-tools-list" class="footer-tools-grid">
+                    <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+<a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+<a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
+<a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+<a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+<a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+                 
+                </div>
+            </div>
+         <div class="footer-links">
+    <h3>サイトメニュー</h3>
+    <a href="../about.html" class="footer-link-item">About</a>
+    <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+    <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc0qvBFEMc1g8lcbH7g_oJvbfpC6fSsWFc0rWRP14rfsYtUw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="footer-link-item">Contact</a>
+</div>
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+(function() {
+    const inputPages = document.getElementById('total-pages');
+    const inputBindingGroup = document.getElementById('binding-group');
+    const btnDownload = document.getElementById('btn-download');
+    const canvas = document.getElementById('imposition-canvas');
+
+    // html2canvasの動的読み込み
+    if (!document.querySelector('script[src*="html2canvas"]')) {
+        const script = document.createElement('script');
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+        document.head.appendChild(script);
+    }
+
+    const update = () => {
+        const totalPages = parseInt(inputPages.value);
+        const binding = document.querySelector('input[name="binding-direction"]:checked').value;
+        generateImposition(totalPages, binding);
+    };
+
+    inputPages.addEventListener('change', update);
+    inputBindingGroup.addEventListener('change', update);
+
+    btnDownload.addEventListener('click', () => {
+        if (typeof html2canvas === 'undefined') return;
+        
+        const target = document.getElementById('imposition-canvas');
+        html2canvas(target, {
+            backgroundColor: "#ffffff",
+            scale: 2
+        }).then(canvasImage => {
+            const link = document.createElement('a');
+            link.download = `imposition-${inputPages.value}p-${new Date().getTime()}.png`;
+            link.href = canvasImage.toDataURL();
+            link.click();
+        });
+    });
+
+    function generateImposition(N, binding) {
+        canvas.innerHTML = '';
+        const sheetCount = N / 4;
+
+        for (let i = 1; i <= sheetCount; i++) {
+            const sheetBlock = document.createElement('div');
+            sheetBlock.className = 'sheet-block';
+            
+            // ページ番号計算
+            const outerLeft = N - (2 * i - 2);
+            const outerRight = (2 * i - 1);
+            const innerLeft = (2 * i);
+            const innerRight = N - (2 * i - 1);
+
+            const sheetHTML = `
+                <div class="sheet-title"><span>第 ${i} 枚目</span> ${i === 1 ? '（一番外側）' : i === sheetCount ? '（一番内側）' : ''}</div>
+                <div class="spread-wrapper">
+                    <div class="spread-card">
+                        <div class="spread-label">表側（外側）</div>
+                        <div class="spread-visual">
+                            ${renderPage(binding === 'left' ? outerLeft : outerRight, N)}
+                            ${renderPage(binding === 'left' ? outerRight : outerLeft, N)}
+                        </div>
+                    </div>
+                    <div class="spread-card">
+                        <div class="spread-label">裏側（内側）</div>
+                        <div class="spread-visual">
+                            ${renderPage(binding === 'left' ? innerLeft : innerRight, N)}
+                            ${renderPage(binding === 'left' ? innerRight : innerLeft, N)}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            sheetBlock.innerHTML = sheetHTML;
+            canvas.appendChild(sheetBlock);
+        }
+    }
+
+    function renderPage(num, max) {
+        let tag = '';
+        if (num === 1) tag = '<span class="page-tag">表1（表紙）</span>';
+        else if (num === 2) tag = '<span class="page-tag">表2</span>';
+        else if (num === max - 1) tag = '<span class="page-tag">表3</span>';
+        else if (num === max) tag = '<span class="page-tag">表4（背表紙）</span>';
+
+        return `
+            <div class="page">
+                <span class="page-num">${num}</span>
+                ${tag}
+            </div>
+        `;
+    }
+
+    // 初期実行
+    setTimeout(update, 100);
+})();
+    </script>
+</body>
+</html>
