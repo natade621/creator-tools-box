@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <!-- 
+    AI NOTE:
+    このファイルはツールページ共通テンプレートです。
+    編集してよい場所は次の3つのみです。
+    1. TOOL META (タイトルと概要)
+    2. TOOL UI (ツールの本体・ロジック)
+    3. TOOL GUIDE (解説文章)
+    それ以外のレイアウト、CSS、構造は変更しないでください。
+    -->
+
+    <!-- ===== TOOL META START ===== -->
+    <title>SNS画像サイズ変換ツール｜クリエイターのお道具箱</title>
+    <meta name="description" content="X（旧Twitter）、Instagram、YouTubeなど主要SNSの推奨サイズに対応。投稿時のトリミング崩れを防ぎ、最適なサイズで画像を書き出せる便利なツールです。">
+    <!-- ===== TOOL META END ===== -->
+    
+    <!-- LINE Seed JP を読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+    
+    <style>
+        :root {
+            --bg-color: #fcfcfc;    
+            --accent-color: #ffde00; 
+            --black: #333;          
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー：追従しない設定 */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* コンテナ */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ツールエリア（背景・枠線なし） */
+        .tool-card {
+            background: transparent; 
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        /* ツールメタ情報 */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ツールUIエリア */
+        .tool-ui-wrapper {
+            margin-bottom: 3rem;
+            min-height: 200px;
+        }
+
+        /* ツール内共通パーツのスタイル */
+        .tool-ui input, .tool-ui textarea, .tool-ui select {
+            width: 100%;
+            padding: 1rem;
+            border: var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1.2rem;
+            background: var(--white);
+        }
+        .tool-ui .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            color: var(--black);
+            font-size: 1.1rem;
+        }
+        .tool-ui .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .tool-result {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* 注意書き - 横幅を制限して中央配置 */
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin-top: 5rem;
+            border-radius: 4px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ガイドセクション */
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3.5rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        .tool-guide h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tool-guide h2::before {
+            content: "💡";
+            font-size: 1.4rem;
+        }
+        .tool-guide p {
+            margin-bottom: 2rem;
+            color: #444;
+            line-height: 1.9;
+        }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .disclaimer { max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+/* SNS Image Maker Custom Styles */
+.tool-controls-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.x-settings-box {
+    background: #f0f0f0;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+}
+
+.control-group label {
+    display: block;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    padding: 2rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    background: #f9f9f9;
+    transition: 0.2s;
+}
+
+.upload-area:hover {
+    border-color: var(--accent-color);
+    background: #fff;
+}
+
+.range-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+}
+
+.range-wrapper input { width: 65% !important; margin: 0 !important; }
+
+.color-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.85rem;
+}
+
+.color-inputs {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.color-inputs input[type="text"] {
+    flex: 1;
+    padding: 8px !important;
+    font-family: monospace;
+    text-transform: uppercase;
+}
+
+.color-inputs input[type="color"] {
+    width: 44px !important;
+    height: 44px;
+    padding: 0 !important;
+    cursor: pointer;
+    border: var(--border) !important;
+    border-radius: 8px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-sub {
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #777;
+    padding: 10px;
+}
+
+/* Preview Styles */
+.preview-panel {
+    background: #eee;
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.canvas-container {
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    background: white;
+    max-width: 100%;
+    cursor: move;
+}
+
+#main-canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.size-info {
+    margin-top: 1.5rem;
+    font-weight: 800;
+    background: var(--black);
+    color: var(--white);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.preview-note {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+@media (max-width: 768px) {
+    .tool-controls-grid { grid-template-columns: 1fr; }
+    .preview-panel { min-height: 350px; padding: 1rem; }
+}
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+              <a href="../index.html" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <article class="tool-card">
+            <!-- ===== TOOL META START ===== -->
+            <header class="tool-header">
+                <h1>SNS画像サイズ変換ツール</h1>
+                <p class="tool-lead">
+                    X（旧Twitter）、Instagram、YouTubeなど主要SNSの投稿サイズに合わせて画像を簡単に調整できるツール。投稿時に画像が切れてしまう問題を防ぎ、最適なサイズで画像を書き出すことができます。
+                </p>
+            </header>
+            <!-- ===== TOOL META END ===== -->
+
+<!-- ===== TOOL UI START ===== -->
+<div class="tool-ui-wrapper"><div class="tool-ui"><div class="tool-controls-grid"><!-- 左側：設定エリア --><div class="control-panel"><div class="control-group"><label>1. 画像を選択</label><div class="upload-area" id="drop-zone"><p>画像をドラッグ＆ドロップまたはクリックして選択</p><input type="file" id="image-input" accept="image/png, image/jpeg" style="display:none"></div></div>            <div class="control-group">
+                <label>2. SNS・形式を選択</label>
+                <select id="sns-type">
+                    <optgroup label="X (旧Twitter)">
+                        <option value="x-post">投稿画像 (枚数別設定あり)</option>
+                        <option value="x-header">ヘッダー (1500×500)</option>
+                        <option value="x-profile">プロフィール (400×400)</option>
+                    </optgroup>
+                    <optgroup label="Instagram">
+                        <option value="ig-square">投稿 (正方形 1:1)</option>
+                        <option value="ig-portrait">投稿 (縦長 4:5)</option>
+                        <option value="ig-landscape">投稿 (横長 1.91:1)</option>
+                        <option value="ig-reel">リール / ストーリー (9:16)</option>
+                    </optgroup>
+                    <optgroup label="YouTube">
+                        <option value="yt-thumb">サムネイル (16:9)</option>
+                        <option value="yt-banner">チャンネルアート</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <!-- X投稿時のみ表示される枚数・順番設定 -->
+            <div id="x-detail-settings" class="x-settings-box" style="display:none;">
+                <div class="control-group">
+                    <label>投稿する合計枚数</label>
+                    <select id="x-total-count">
+                        <option value="1">1枚のみ</option>
+                        <option value="2">2枚投稿</option>
+                        <option value="3">3枚投稿</option>
+                        <option value="4">4枚投稿</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>この画像は何枚目？</label>
+                    <select id="x-image-index">
+                        <option value="1">1枚目</option>
+                        <option value="2">2枚目</option>
+                        <option value="3">3枚目</option>
+                        <option value="4">4枚目</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>編集・調整</label>
+                <div class="range-wrapper">
+                    <span>拡大率</span>
+                    <input type="range" id="zoom-slider" min="10" max="200" value="100">
+                </div>
+                <div class="color-wrapper">
+                    <span>背景色</span>
+                    <div class="color-inputs">
+                        <input type="text" id="bg-color-text" value="#ffffff" placeholder="#FFFFFF">
+                        <input type="color" id="bg-color-picker" value="#ffffff">
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn" id="download-btn">画像を保存する</button>
+                <button class="btn-sub" id="reset-btn">位置・サイズをリセット</button>
+            </div>
+        </div>
+
+        <!-- 右側：プレビューエリア -->
+        <div class="preview-panel">
+            <div class="canvas-container" id="canvas-container">
+                <canvas id="main-canvas"></canvas>
+            </div>
+            <div id="size-display" class="size-info">サイズ: 1200 × 675</div>
+            <p class="preview-note">画像をドラッグして位置を調整できます</p>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- ===== TOOL UI END ===== -->
+            <div class="disclaimer">
+                <strong>免責事項</strong><br>
+                本ツールはSNS投稿用画像の作成をサポートする目的で提供されています。SNSの表示仕様や推奨サイズは予告なく変更される場合があるため、実際の投稿結果と完全に一致しない場合があります。最新の各SNSの仕様も併せてご確認ください。
+            </div>
+        </article>
+
+        <!-- ===== TOOL GUIDE START ===== -->
+        <section class="tool-guide">
+            <h2>このツールでできること</h2>
+            <p>
+                SNS画像サイズ変換ツールは、SNS投稿用の画像サイズを簡単に調整できる無料ブラウザツールです。X（旧Twitter）、Instagram、YouTubeなど主要SNSの推奨サイズに対応し、投稿時のトリミング崩れや表示崩れを防ぎます。<br>
+                特にX（旧Twitter）の複数枚投稿時に発生する特殊な表示比率にも対応しており、投稿枚数と画像の順番を選択するだけで、最適なサイズのキャンバスに自動調整されます。<br>
+                画像の拡大・縮小や位置調整も直感的に操作でき、SNS投稿用の画像をスムーズに作成できます。SNS運用担当者、デザイナー、マーケター、クリエイターの作業効率を高める実用的なツールです。
+            </p>
+
+            <h2>使い方</h2>
+            <p>
+                <strong>1. SNSと投稿サイズを選択</strong><br>X（旧Twitter）、Instagram、YouTubeなど、使用するSNSと投稿形式を選択します。<br><br>
+                <strong>2. 画像をアップロード</strong><br>調整したい画像を読み込みます。<br><br>
+                <strong>3. 画像の位置とサイズを調整</strong><br>ドラッグ操作で位置を調整し、ズームで表示サイズを調整します。<br><br>
+                <strong>4. 背景を設定</strong><br>必要に応じて背景カラーを設定できます。カラーコード入力またはカラーピッカーで指定可能です。<br><br>
+                <strong>5. 画像を書き出し</strong><br>「画像を保存する」ボタンを押すと、SNS投稿用サイズのPNG画像をダウンロードできます。
+            </p>
+
+            <h2>こんな人におすすめ</h2>
+            <p>
+                ・SNS運用担当者<br>
+                ・デザイナー<br>
+                ・マーケター<br>
+                ・InstagramやXで投稿画像を作るクリエイター<br>
+                ・SNS投稿時の画像トリミング崩れを防ぎたい人
+            </p>
+        </section>
+        <!-- ===== TOOL GUIDE END ===== -->
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+                 <h3>ツールを探す</h3>
+                <div id="footer-tools-list" class="footer-tools-grid">
+                    <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+<a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+<a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
+<a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+<a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+<a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+                 
+                </div>
+            </div>
+         <div class="footer-links">
+    <h3>サイトメニュー</h3>
+    <a href="../about.html" class="footer-link-item">About</a>
+    <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+    <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+ <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8C0gvBfEMc1g8lcH7g_oJvbfbC6fSsWFcQrWRP14rfsYtUw/viewform?usp=dialog" class="footer-link-item">Contact</a>
+</div>
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+(function() {
+    const canvas = document.getElementById('main-canvas');
+    const ctx = canvas.getContext('2d');
+    const uploadArea = document.getElementById('drop-zone');
+    const imageInput = document.getElementById('image-input');
+    const snsTypeSelect = document.getElementById('sns-type');
+    const xDetailBox = document.getElementById('x-detail-settings');
+    const xTotalCount = document.getElementById('x-total-count');
+    const xImageIndex = document.getElementById('x-image-index');
+    const zoomSlider = document.getElementById('zoom-slider');
+    const bgColorPicker = document.getElementById('bg-color-picker');
+    const bgColorText = document.getElementById('bg-color-text');
+    const downloadBtn = document.getElementById('download-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const sizeDisplay = document.getElementById('size-display');
+
+    let img = null;
+    let state = {
+        x: 0,
+        y: 0,
+        scale: 1,
+        isDragging: false,
+        lastMouseX: 0,
+        lastMouseY: 0
+    };
+
+    const SIZES = {
+        'x-header': { w: 1500, h: 500 },
+        'x-profile': { w: 400, h: 400 },
+        'ig-square': { w: 1080, h: 1080 },
+        'ig-portrait': { w: 1080, h: 1350 },
+        'ig-landscape': { w: 1080, h: 566 },
+        'ig-reel': { w: 1080, h: 1920 },
+        'yt-thumb': { w: 1280, h: 720 },
+        'yt-banner': { w: 2560, h: 1440 }
+    };
+
+    function init() {
+        // 初期UIの整合性を取る
+        updateIndexOptions();
+        updateCanvasSize();
+        
+        // アップロード関連
+        uploadArea.addEventListener('click', () => imageInput.click());
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.style.borderColor = 'var(--accent-color)'; });
+        uploadArea.addEventListener('dragleave', () => { uploadArea.style.borderColor = '#ccc'; });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ccc';
+            handleFiles(e.dataTransfer.files);
+        });
+        imageInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+            // 同じファイルを再度選択できるようにリセット
+            e.target.value = '';
+        });
+
+        // 操作イベント
+        snsTypeSelect.addEventListener('change', updateCanvasSize);
+        xTotalCount.addEventListener('change', () => {
+            updateIndexOptions();
+            updateCanvasSize();
+        });
+        xImageIndex.addEventListener('change', updateCanvasSize);
+
+        // 中央基準のズーム処理
+        zoomSlider.addEventListener('input', (e) => {
+            const newScale = e.target.value / 100;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            // キャンバス中央に対応する画像内の相対座標を逆算
+            const imgCenterX = (centerX - state.x) / state.scale;
+            const imgCenterY = (centerY - state.y) / state.scale;
+
+            // 新しいスケールを適用しつつ、中心位置がずれないようにx, yを再計算
+            state.x = centerX - imgCenterX * newScale;
+            state.y = centerY - imgCenterY * newScale;
+            state.scale = newScale;
+
+            render();
+        });
+
+        // 背景色（テキスト入力とピッカーの同期）
+        bgColorPicker.addEventListener('input', (e) => {
+            bgColorText.value = e.target.value.toUpperCase();
+            render();
+        });
+        bgColorText.addEventListener('input', (e) => {
+            let val = e.target.value.trim();
+            if (val && !val.startsWith('#')) val = '#' + val;
+            // 6桁または3桁のヘックスコードにマッチ
+            if (/^#([0-9A-F]{3}){1,2}$/i.test(val)) {
+                bgColorPicker.value = val;
+                render();
+            }
+        });
+        
+        // ドラッグ操作 (Mouse)
+        canvas.addEventListener('mousedown', startDrag);
+        window.addEventListener('mousemove', drag);
+        window.addEventListener('mouseup', endDrag);
+        
+        // ドラッグ操作 (Touch)
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) startDrag(e.touches[0]);
+        }, { passive: true });
+        window.addEventListener('touchmove', (e) => {
+            if (state.isDragging) {
+                if (e.cancelable) e.preventDefault(); // ドラッグ中のスクロールを防止
+                drag(e.touches[0]);
+            }
+        }, { passive: false });
+        window.addEventListener('touchend', endDrag);
+
+        downloadBtn.addEventListener('click', downloadImage);
+        resetBtn.addEventListener('click', resetState);
+    }
+
+    function handleFiles(files) {
+        if (!files || !files[0]) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            img = new Image();
+            img.onload = () => {
+                resetState();
+                render();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(files[0]);
+    }
+
+    // Xの枚数選択肢を更新
+    function updateIndexOptions() {
+        const total = parseInt(xTotalCount.value);
+        const currentIndex = parseInt(xImageIndex.value);
+        xImageIndex.innerHTML = '';
+        for (let i = 1; i <= total; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = `${i}枚目`;
+            xImageIndex.appendChild(opt);
+        }
+        // 以前の選択が範囲内なら維持、範囲外なら1枚目にリセット
+        if (currentIndex <= total) {
+            xImageIndex.value = currentIndex;
+        } else {
+            xImageIndex.value = 1;
+        }
+    }
+
+    function updateCanvasSize() {
+        const type = snsTypeSelect.value;
+        let w, h;
+
+        if (type === 'x-post') {
+            xDetailBox.style.display = 'block';
+            const total = parseInt(xTotalCount.value);
+            const index = parseInt(xImageIndex.value);
+
+            if (total === 1) {
+                w = 1200; h = 675;
+            } else if (total === 2) {
+                w = 900; h = 1200;
+            } else if (total === 3) {
+                if (index === 1) { w = 900; h = 1200; }
+                else { w = 1200; h = 675; }
+            } else if (total === 4) {
+                w = 1200; h = 675;
+            }
+        } else {
+            xDetailBox.style.display = 'none';
+            if (SIZES[type]) {
+                w = SIZES[type].w;
+                h = SIZES[type].h;
+            }
+        }
+
+        if (w && h) {
+            canvas.width = w;
+            canvas.height = h;
+            sizeDisplay.textContent = `サイズ: ${w} × ${h}`;
+            render();
+        }
+    }
+
+    function render() {
+        // 背景の描画
+        ctx.fillStyle = bgColorPicker.value;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (img) {
+            const drawW = img.width * state.scale;
+            const drawH = img.height * state.scale;
+            ctx.drawImage(img, state.x, state.y, drawW, drawH);
+        } else {
+            ctx.fillStyle = "#888";
+            ctx.font = "bold 20px sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("画像をアップロードしてください", canvas.width / 2, canvas.height / 2);
+        }
+    }
+
+    function startDrag(e) {
+        state.isDragging = true;
+        state.lastMouseX = e.clientX;
+        state.lastMouseY = e.clientY;
+    }
+
+    function drag(e) {
+        if (!state.isDragging) return;
+        const deltaX = e.clientX - state.lastMouseX;
+        const deltaY = e.clientY - state.lastMouseY;
+        
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        state.x += deltaX * scaleX;
+        state.y += deltaY * scaleY;
+        state.lastMouseX = e.clientX;
+        state.lastMouseY = e.clientY;
+        render();
+    }
+
+    function endDrag() {
+        state.isDragging = false;
+    }
+
+    function resetState() {
+        if (img) {
+            const scaleW = canvas.width / img.width;
+            const scaleH = canvas.height / img.height;
+            // 隙間なく収まる最小倍率（カバー）
+            state.scale = Math.max(scaleW, scaleH);
+            state.x = (canvas.width - img.width * state.scale) / 2;
+            state.y = (canvas.height - img.height * state.scale) / 2;
+            zoomSlider.value = state.scale * 100;
+        }
+        render();
+    }
+
+    function downloadImage() {
+        if (!img) return;
+        try {
+            const link = document.createElement('a');
+            link.download = `sns-image-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        } catch (err) {
+            console.error("保存に失敗しました:", err);
+        }
+    }
+
+    init();
+})();
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
