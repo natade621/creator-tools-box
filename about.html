@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <!-- 
+    AI NOTE:
+    このファイルはツールページ共通テンプレートです。
+    編集してよい場所は次の3つのみです。
+    1. TOOL META (タイトルと概要)
+    2. TOOL UI (ツールの本体・ロジック)
+    3. TOOL GUIDE (解説文章)
+    それ以外のレイアウト、CSS、構造は変更しないでください。
+    -->
+
+    <!-- ===== TOOL META START ===== -->
+  <title>ABOUT｜クリエイターのお道具箱</title>
+<meta name="description" content="デザイン制作の現場で発生する「ちょっとした手間」を解消するためのツールサイトです。">
+    <!-- ===== TOOL META END ===== -->
+    
+    <!-- LINE Seed JP を読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+    
+    <style>
+        :root {
+            --bg-color: #fcfcfc;    
+            --accent-color: #ffde00; 
+            --black: #333;          
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー：追従しない設定 */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* コンテナ */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ツールエリア（背景・枠線なし） */
+        .tool-card {
+            background: transparent; 
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        /* ツールメタ情報 */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ツールUIエリア */
+        .tool-ui-wrapper {
+            margin-bottom: 3rem;
+            min-height: 200px;
+        }
+
+        /* ツール内共通パーツのスタイル */
+        .tool-ui input, .tool-ui textarea, .tool-ui select {
+            width: 100%;
+            padding: 1rem;
+            border: var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1.2rem;
+            background: var(--white);
+        }
+        .tool-ui .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            color: var(--black);
+            font-size: 1.1rem;
+        }
+        .tool-ui .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .tool-result {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* 注意書き - 横幅を制限して中央配置 */
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin-top: 5rem;
+            border-radius: 4px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ガイドセクション */
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3.5rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        .tool-guide h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tool-guide h2::before {
+            content: "💡";
+            font-size: 1.4rem;
+        }
+        .tool-guide p {
+            margin-bottom: 2rem;
+            color: #444;
+            line-height: 1.9;
+        }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .disclaimer { max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+/* ABOUTページ専用スタイル */
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-section {
+    margin-bottom: 5rem;
+}
+
+.about-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    border-left: 6px solid var(--accent-color);
+    padding-left: 1rem;
+    line-height: 1.2;
+}
+
+.about-text-card {
+    line-height: 2;
+    color: #444;
+}
+
+.about-text-card p {
+    margin-bottom: 1.5rem;
+}
+
+.about-text-card.accent {
+    background: #fff;
+    border: var(--border);
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-size: 1.1rem;
+}
+
+.about-intro {
+    margin-bottom: 1.5rem;
+}
+
+/* ツールリストのグリッド */
+.tool-list-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+}
+
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+}
+
+.tool-grid li {
+    background: var(--bg-color);
+    border: 1px solid #ddd;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.tool-grid li::before {
+    content: "✓";
+    margin-right: 0.5rem;
+    color: var(--black);
+    font-weight: bold;
+}
+
+/* ターゲットタグ */
+.target-box {
+    margin-top: 3rem;
+}
+
+.target-box h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    justify-content: center;
+}
+
+.tag {
+    background: var(--black);
+    color: var(--white);
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* シェアエリア */
+.share-area {
+    text-align: center;
+    margin-top: 6rem;
+    padding-top: 3rem;
+    border-top: 2px dashed #ccc;
+}
+
+.share-area p {
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.copy-status {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #27ae60;
+    font-weight: 800;
+    display: none;
+}
+
+.pc-only { display: block; }
+
+@media (max-width: 768px) {
+    .about-title { font-size: 1.4rem; }
+    .tool-grid { grid-template-columns: 1fr 1fr; }
+    .pc-only { display: none; }
+    .about-text-card.accent { padding: 1.5rem; }
+}
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <article class="tool-card">
+            <!-- ===== TOOL META START ===== -->
+
+            <header class="tool-header">
+                <h1>ABOUT</h1>
+<p class="tool-lead">
+    クリエイターのお道具箱は、制作現場の「あったらいいな」を形にした、<br class="pc-only">
+    デザインや制作を少しだけスムーズにするツール集です。
+</p>
+                </p>
+            </header>
+            <!-- ===== TOOL META END ===== -->
+
+<!-- ===== TOOL UI START ===== -->
+<div class="tool-ui-wrapper about-container"><div class="tool-ui"><!-- 導入文 --><section class="about-section"><h2 class="about-title">クリエイターのお道具箱について</h2><div class="about-text-card">
+<p>
+
+デザイン制作では、</p>
+
+・比率を計算したい<br>
+・余白やグリッドを確認したい<br>
+・SNS画像サイズを調べたい<br>
+・RGB / CMYKカラーを変換したい<br>
+・文字数をすぐ知りたい<br>
+
+
+<p>など、ちょっとした計算や確認作業が頻繁に発生します。</p>
+ほんの数分の作業ですが、そのたびに検索して別サイトを開くと、制作の流れが止まってしまうこともあります。<br>
+
+<p>そこで、制作中でもサッと使えるツールをまとめた場所があったらいいなと思い、このサイトを作りました。</p>
+</div></section>   
+ <!-- ツールについて -->
+    <section class="about-section">
+        <h2 class="about-title">ツールについて</h2>
+        <p class="about-intro"><p>このサイトに掲載しているツールは、制作の中で「こういうツールがあったら便利なのに」と感じたものをもとに、独自に制作して公開しているツールです。</p>
+
+<p>当初は自分が使うために作り始めたものですが
+同じように制作をしている人の役にも立つかもしれないと思い、サイトとして公開しました。</p>
+
+<p>また、このサイトの運営は、広告収益などによって支えられているため、<strong>すべてのツールは
+ブラウザ上で無料で利用できます。</strong></p>
+<p>
+もし役に立ちそうだと思ったら、SNSなどでシェアしてもらえると嬉しいです。</p>
+        
+        <div class="tool-result tool-list-card">
+            <h3>現在公開している主なツール</h3>
+            <ul class="tool-grid">
+                <li>台割作成ツール</li>
+                <li>面付けシミュレーター</li>
+                <li>カラーパレット生成</li>
+                <li>文字数カウンター</li>
+                <li>黄金比・白銀比計算</li>
+                <li>SNS画像サイズメーカー</li>
+                <li>RGB / CMYK変換</li>
+                <li>余白計算・グリッド</li>
+                <li>イラレショートカットキークイズ</li>
+                <li>フォントスケール計算</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 目的とターゲット -->
+    <section class="about-section">
+        <h2 class="about-title">このサイトの目的</h2>
+        <div class="about-text-card accent">
+            <p>
+                クリエイターの<strong>「ちょっとした手間」を減らすこと。</strong> </p>
+ <p>その「ちょっとした手間」を減らすことで、
+クリエイターがより制作や表現に集中できる環境を
+作れたらいいなと思っています
+            </p> </p>
+        </div>
+
+        <div class="target-box">
+            <h3>こんな人におすすめ</h3>
+            <div class="tag-container">
+                <span class="tag">グラフィックデザイナー</span>
+                <span class="tag">Webデザイナー</span>
+                <span class="tag">イラストレーター</span>
+                <span class="tag">動画クリエイター</span>
+                <span class="tag">SNS運用担当者</span>
+                <span class="tag">デザインを学ぶ学生</span>
+ <span class="tag">職種にかかわらず自主制作をしてみたい人</span>
+ <span class="tag">クリエイティブ制作に関わる全ての人</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- シェア機能（おまけ） -->
+    <div class="share-area">
+        <p>このサイトをシェアする</p>
+        <button class="btn" id="copy-url-btn">サイトURLをコピー</button>
+        <div id="copy-msg" class="copy-status">URLをコピーしました！</div>
+    </div>
+</div>
+</div>
+
+<!-- ===== TOOL UI END ===== -->
+         
+
+        <!-- ===== TOOL GUIDE START ===== -->
+        <section class="tool-guide">
+           <h2>今後について</h2>
+<p>
+    クリエイターのお道具箱では、今後も制作効率を高めるツール、デザイン学習ツール、クリエイター向けの便利機能などを継続的に追加していく予定です。
+</p>
+
+<h2>運営者</h2>
+<p>
+    本サイトは、デザイン制作に関わるクリエイターによって運営されています。実際の制作現場で感じた課題をもとに、実務で役立つツールの制作・公開を行っています。</p>
+<p>「こんなのあったらいいな」というツールがあれば、
+ぜひお問合せから教えてもらえると嬉しいです。
+</p>
+        </section>
+        <!-- ===== TOOL GUIDE END ===== -->
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+                <h3>ツールを探す</h3>
+ <div id="footer-tools-list" class="footer-tools-grid">
+                   <a href="tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+<a href="tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+<a href="tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
+<a href="tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+<a href="tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+<a href="tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+                 
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>サイトメニュー</h3>
+                <a href="/about.html" class="footer-link-item">About</a>
+                <a href="/privacy.html" class="footer-link-item">Privacy Policy</a>
+                <a href="/disclaimer.html" class="footer-link-item">Disclaimer</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8C0gvBfEMc1g8lcH7g_oJvbfbC6fSsWFcQrWRP14rfsYtUw/viewform?usp=dialog" class="footer-link-item">Contact</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const copyBtn = document.getElementById('copy-url-btn');
+    const copyMsg = document.getElementById('copy-msg');
+
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            const url = window.location.origin;
+            
+            // クリップボードへコピー
+            const tempInput = document.createElement('input');
+            tempInput.value = url;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            // メッセージ表示
+            copyMsg.style.display = 'block';
+            copyBtn.textContent = 'コピー完了！';
+            
+            setTimeout(() => {
+                copyMsg.style.display = 'none';
+                copyBtn.textContent = 'サイトURLをコピー';
+            }, 3000);
+        });
+    }
+});
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
