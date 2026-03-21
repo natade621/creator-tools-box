@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- トップ -->
+  <url>
+    <loc>https://creator-tools-box.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ツール一覧 -->
+  <url>
+    <loc>https://creator-tools-box.com/tools/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ツール -->
+  <url>
+    <loc>https://creator-tools-box.com/tools/page-plan-editor.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/imposition-simulator.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/color-palette-generator.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/character-count.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/golden-ratio-calculator.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/sns-image-size-maker.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/rgb-cmyk-converter.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/layout-margin-calculator.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/illustrator-shortcut-quiz.html</loc>
+  </url>
+
+  <!-- 固定ページ -->
+  <url>
+    <loc>https://creator-tools-box.com/about.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/privacy.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/disclaimer.html</loc>
+  </url>
+
+</urlset>
