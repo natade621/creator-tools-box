@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <!-- 
+    AI NOTE:
+    このファイルはツールページ共通テンプレートです。
+    編集してよい場所は次の3つのみです。
+    1. TOOL META (タイトルと概要)
+    2. TOOL UI (ツールの本体・ロジック)
+    3. TOOL GUIDE (解説文章)
+    それ以外のレイアウト、CSS、構造は変更しないでください。
+    -->
+
+    <!-- ===== TOOL META START ===== -->
+    <title>用紙・SNS・Webサイズ早見表ツール｜クリエイターのお道具箱</title>
+    <meta name="description" content="A判・B判の用紙サイズや、Instagram・X・YouTubeなどでよく使う代表サイズをまとめて確認できる早見表ツール。DPI指定でのpx計算や単位変換にも対応。">
+    <!-- ===== TOOL META END ===== -->
+    
+    <!-- LINE Seed JP を読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+    
+    <style>
+        :root {
+            --bg-color: #fcfcfc;    
+            --accent-color: #ffde00; 
+            --black: #333;          
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー：追従しない設定 */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* コンテナ */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ツールエリア（背景・枠線なし） */
+        .tool-card {
+            background: transparent; 
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        /* ツールメタ情報 */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ツールUIエリア */
+        .tool-ui-wrapper {
+            margin-bottom: 3rem;
+            min-height: 200px;
+        }
+
+        /* ツール内共通パーツのスタイル */
+        .tool-ui input, .tool-ui textarea, .tool-ui select {
+            width: 100%;
+            padding: 1rem;
+            border: var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1.2rem;
+            background: var(--white);
+        }
+        .tool-ui .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            color: var(--black);
+            font-size: 1.1rem;
+        }
+        .tool-ui .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .tool-result {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* 注意書き - 横幅を制限して中央配置 */
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin-top: 5rem;
+            border-radius: 4px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ガイドセクション */
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3.5rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        .tool-guide h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tool-guide h2::before {
+            content: "💡";
+            font-size: 1.4rem;
+        }
+        .tool-guide p {
+            margin-bottom: 2rem;
+            color: #444;
+            line-height: 1.9;
+        }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .disclaimer { max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bg-light: #f8fafc;
+  --border-color: #e2e8f0;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --accent-gold: #f59e0b;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.tool-ui-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  line-height: 1.6;
+  color: var(--text-main);
+  box-sizing: border-box;
+}
+
+.tool-ui-wrapper *, .tool-ui-wrapper *::before, .tool-ui-wrapper *::after {
+  box-sizing: border-box;
+}
+
+.tool-ui {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ヘッダーセクション */
+.tool-header-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* 1. 検索行（最上部） */
+.search-row {
+  width: 100%;
+}
+
+.search-input-group input {
+  width: 100%;
+  height: 52px; /* 高さを統一 */
+  padding: 0 1.25rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1.05rem;
+  transition: all 0.2s;
+  background: #fff;
+  font-family: inherit;
+  display: block;
+}
+
+.search-input-group input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* 2. 設定行 */
+.config-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--bg-light);
+  border-radius: 12px;
+}
+
+.config-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 280px;
+}
+
+.config-label {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: 0.025em;
+}
+
+/* 単位切り替え */
+.unit-toggle {
+  display: flex;
+  background: #e2e8f0;
+  padding: 4px;
+  border-radius: 10px;
+  height: 52px; /* 高さを統一 */
+}
+
+.unit-option {
+  flex: 1;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 7px;
+  transition: all 0.2s;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.unit-option.active {
+  background: #fff;
+  color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 解像度セレクト - 垂直中央揃えを完璧に */
+.custom-select {
+  height: 52px; /* 高さを統一 */
+  width: 100%;
+  padding: 0 2.5rem 0 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.8rem; /* 少し小さくして可読性アップ */
+  font-weight: 600;
+  color: var(--text-main);
+  background: #fff;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.1rem;
+  /* 垂直方向の調整 */
+  display: flex;
+  align-items: center;
+  line-height: normal; 
+}
+
+.custom-select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* カテゴリタブ */
+.category-tabs-container {
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.category-tabs {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: none;
+}
+
+.category-tabs::-webkit-scrollbar { display: none; }
+
+.tab-item {
+  background: none;
+  border: none;
+  padding: 0.75rem 0.25rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  transition: color 0.2s;
+  font-family: inherit;
+}
+
+.tab-item.active {
+  color: var(--primary-color);
+}
+
+.tab-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.badge {
+  background: #ef4444;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+
+/* カードグリッド */
+.tool-result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.size-card {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.size-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.btn-fav {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #cbd5e1;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.btn-fav.active { color: var(--accent-gold); }
+
+.card-middle {
+  margin-bottom: 1.5rem;
+}
+
+.display-value {
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  display: block;
+}
+
+.meta-info {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.75rem;
+  background: var(--bg-light);
+  padding: 3px 10px;
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.card-bottom {
+  margin-top: auto;
+}
+
+.btn-copy-action {
+  width: 100%;
+  padding: 0.85rem;
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-copy-action:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.btn-copy-action.success {
+  background: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+/* カスタムフォーム */
+.custom-form-panel {
+  background: var(--bg-light);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-top: 2rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  align-items: flex-end;
+}
+
+.form-field { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-field label { font-size: 0.85rem; font-weight: 800; }
+.form-field input { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 10px; }
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* トースト */
+.toast-message {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #1e293b;
+  color: white;
+  padding: 0.85rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  box-shadow: 0 15px 25px -5px rgba(0,0,0,0.3);
+  z-index: 9999;
+}
+
+.toast-message.show { transform: translateX(-50%) translateY(0); }
+
+.hidden { display: none !important; }
+
+/* モバイル対応 */
+@media (max-width: 640px) {
+  .tool-ui { padding: 1rem; }
+  .config-row { padding: 1rem; gap: 1.25rem; }
+  .config-group { width: 100%; min-width: 100%; }
+  .unit-toggle { width: 100%; justify-content: space-between; }
+  .unit-option { flex: 1; justify-content: center; }
+  .custom-select { width: 100%; min-width: auto; }
+}
+
+  .related-tools {
+    margin-top: 24px;
+  }
+
+  .related-tool-item + .related-tool-item {
+    margin-top: 32px;
+  }
+
+  .related-tool-link,
+  .related-tool-link:visited {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    color: #111;
+  }
+
+  .related-tool-link:hover {
+    opacity: 0.75;
+  }
+
+  .related-tool-item p {
+    margin: 10px 0 0;
+    line-height: 1.8;
+  }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <article class="tool-card">
+            <!-- ===== TOOL META START ===== -->
+            <header class="tool-header">
+                <h1>サイズ早見表ツール</h1>
+                <p class="tool-lead">
+                    「サイズをググる時間をゼロにする」ための早見表。紙・SNS・Webでよく使う代表サイズをまとめて確認でき、解像度(DPI)に合わせたピクセル計算もすばやく行えます。
+                </p>
+            </header>
+            <!-- ===== TOOL META END ===== -->
+
+<!-- ===== TOOL UI START ===== -->
+<div class="tool-ui-wrapper">
+  <div class="tool-ui">
+    
+    <header class="tool-header-section">
+      <!-- 1. キーワード検索（最上部・シンプル） -->
+      <div class="search-row">
+        <div class="search-input-group">
+          <input type="text" id="sizeSearch" placeholder="キーワードで検索（A4, Instagram, 封筒...）" aria-label="検索">
+        </div>
+      </div>
+
+      <!-- 2. 設定エリア（ラベルが上、選択欄が下の縦並び） -->
+      <div class="config-row">
+        <div class="config-group">
+          <span class="config-label">表示単位</span>
+          <div class="unit-toggle" id="unitToggle">
+            <button class="unit-option active" data-unit="px">px</button>
+            <button class="unit-option" data-unit="mm">mm</button>
+            <button class="unit-option" data-unit="cm">cm</button>
+            <button class="unit-option" data-unit="inch">inch</button>
+          </div>
+        </div>
+        
+        <div class="config-group" id="dpiContainer">
+          <span class="config-label">解像度 (DPI)</span>
+          <select id="dpiSelector" class="custom-select">
+            <option value="72">72 dpi (Web / 画面用)</option>
+            <option value="150">150 dpi (家庭用 / 軽印刷)</option>
+            <option value="300" selected>300 dpi (商業印刷 / 高品質)</option>
+            <option value="350">350 dpi (カラー印刷標準)</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- カテゴリタブ -->
+    <nav class="category-tabs-container">
+      <div class="category-tabs" id="categoryTabs">
+        <button class="tab-item active" data-tab="paper">📄 用紙</button>
+        <button class="tab-item" data-tab="sns">📱 SNS</button>
+        <button class="tab-item" data-tab="web">💻 Web/デバイス</button>
+        <button class="tab-item" data-tab="ad">📢 広告</button>
+        <button class="tab-item" data-tab="fav">⭐ お気に入り <span id="favBadge" class="badge">0</span></button>
+        <button class="tab-item" data-tab="custom">➕ カスタム</button>
+      </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main class="tool-result-grid" id="sizeDisplayArea">
+      <!-- カードがここに生成されます -->
+    </main>
+
+    <!-- カスタムフォーム -->
+    <section id="customSizeForm" class="custom-form-panel hidden">
+      <h3>新しいサイズを登録</h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>名前</label>
+          <input type="text" id="customName" placeholder="例：独自バナーサイズ">
+        </div>
+        <div class="form-field">
+          <label>幅 (mm)</label>
+          <input type="number" id="customW" placeholder="0">
+        </div>
+        <div class="form-field">
+          <label>高さ (mm)</label>
+          <input type="number" id="customH" placeholder="0">
+        </div>
+        <div class="form-field action">
+          <button id="saveCustom" class="btn-primary">登録する</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 通知 -->
+    <div id="toast" class="toast-message">コピーしました！</div>
+  </div>
+</div>
+
+<!-- ===== TOOL UI END ===== -->
+            <div class="disclaimer">
+                <strong>免責事項</strong><br>
+                本ツールは制作の参考情報として提供しています。印刷物の入稿前には必ず、利用される印刷会社の最新ガイドラインや規定をご確認ください。
+            </div>
+        </article>
+
+        <!-- ===== TOOL GUIDE START ===== -->
+        <section class="tool-guide">
+            <h2>このツールでできること</h2>
+            <p>
+                制作作業の中で「A4のピクセル数は？」「インスタストーリーのサイズは？」と検索する時間をなくします。用紙、SNS、Webデバイス、広告バナーなど、クリエイティブ制作でよく使う代表サイズをまとめて確認できるブラウザツールです。<br><br>
+                DPI（解像度）設定と連動したリアルタイムな単位変換（px/mm/cm/inch）機能を備えており、印刷物からデジタルコンテンツまで幅広く対応します。お気に入り機能やカスタムサイズ登録により、自分専用のサイズ帳として活用いただけます。
+            </p>
+
+            <h2>使い方</h2>
+            <p>
+                <strong>1. サイズを探す・絞り込む</strong><br>上部の検索窓に「A4」「インスタ」などのキーワードを入力するか、カテゴリタブを切り替えて目的のサイズを探します。<br><br>
+                <strong>2. 表示設定の調整</strong><br>表示したい単位（px/mm/cm/inch）を選択します。px表示の場合は、用途に合わせてDPI（72/300/350など）を切り替えると、自動でピクセル数が計算されます。<br><br>
+                <strong>3. 数値のコピー</strong><br>カード内の「コピー」ボタンをクリックすると、サイズ情報をクリップボードに保存できます。そのままデザインソフトの設定に入力可能です。<br><br>
+                <strong>4. お気に入り・カスタム登録</strong><br>よく使うサイズは「★」ボタンでお気に入りに保存。リストにない独自のサイズは「カスタム」タブから新規登録して保存できます。
+            </p>
+
+            <h2>こんな人におすすめ</h2>
+            <p>
+                ・印刷物のデータ作成を行うグラフィックデザイナー<br>
+                ・SNS運用担当者やコンテンツクリエイター<br>
+                ・Webデザイナー、UIデザイナー<br>
+                ・入稿サイズを頻繁に確認するディレクター・編集者
+            </p>
+<h2>あわせて使いたいツール</h2>
+
+<div class="related-tools">
+  <div class="related-tool-item">
+    <a href="px-mm-converter.html" class="related-tool-link">ピクセルmm変換ツール →</a>
+    <p>印刷サイズとピクセル数の関係を、用途に合わせてすばやく確認できます。</p>
+  </div>
+
+  <div class="related-tool-item">
+    <a href="sns-image-size-maker.html" class="related-tool-link">SNS画像サイズメーカー →</a>
+    <p>SNSごとの推奨サイズをもとに、そのまま画像制作に進めます。</p>
+  </div>
+        
+            <h2>あわせて読みたい記事</h2>
+            <div class="related-tools">
+                <div class="related-tool-item">
+                    <a href="../articles/what-is-dpi.html" class="related-tool-link">dpiとサイズの関係を読む →</a>
+                    <p>寸法だけでなく、印刷で必要なピクセル数まで判断したいときの基礎知識を整理できます。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="../articles/print-prepress-checklist.html" class="related-tool-link">入稿前チェックリストを見る →</a>
+                    <p>用紙サイズ確認とあわせて、塗り足しやカラーモードなどの入稿前チェックもまとめて確認できます。</p>
+                </div>
+            </div>
+</section>
+        <!-- ===== TOOL GUIDE END ===== -->
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+                <h3>ツールを探す</h3>
+                <div id="footer-tools-list" class="footer-tools-grid">
+                    <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
+<a href="px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
+<a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+<a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+<a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
+<a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+<a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
+<a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+<a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
+<a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+<a href="cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>サイトメニュー</h3>
+                <a href="../about.html" class="footer-link-item">About</a>
+                                <a href="../articles/index.html" class="footer-link-item">Blog</a>
+<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+                <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+                <a href="../contact.html" class="footer-link-item">Contact</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+(function() {
+  const defaultData = [
+    { id: 'a4', category: 'paper', name: 'A4', w: 210, h: 297, unit: 'mm', note: 'チラシ・資料', ratio: '1:1.41' },
+    { id: 'a3', category: 'paper', name: 'A3', w: 297, h: 420, unit: 'mm', note: 'ポスター・見開き', ratio: '1:1.41' },
+    { id: 'a5', category: 'paper', name: 'A5', w: 148, h: 210, unit: 'mm', note: '小冊子', ratio: '1:1.41' },
+    { id: 'card', category: 'paper', name: '名刺', w: 91, h: 55, unit: 'mm', note: '日本標準', ratio: '1.65:1' },
+    { id: 'postcard', category: 'paper', name: 'はがき', w: 100, h: 148, unit: 'mm', note: '官製はがき', ratio: '1:1.48' },
+    { id: 'insta-sq', category: 'sns', name: 'Instagram 投稿（正方形）', w: 1080, h: 1080, unit: 'px', note: '1:1 の代表例', ratio: '1:1' },
+    { id: 'insta-portrait', category: 'sns', name: 'Instagram 投稿（縦長）', w: 1080, h: 1350, unit: 'px', note: '4:5 の代表例', ratio: '4:5' },
+    { id: 'insta-photo', category: 'sns', name: 'Instagram 写真（3:4）', w: 1080, h: 1440, unit: 'px', note: '3:4 の代表例', ratio: '3:4' },
+    { id: 'insta-story', category: 'sns', name: 'Instagram ストーリー', w: 1080, h: 1920, unit: 'px', note: '9:16', ratio: '9:16' },
+    { id: 'x-post', category: 'sns', name: 'X 画像投稿', w: 1200, h: 675, unit: 'px', note: '16:9 の代表例', ratio: '16:9' },
+    { id: 'yt-thumb', category: 'sns', name: 'YouTube サムネイル', w: 1280, h: 720, unit: 'px', note: '16:9', ratio: '16:9' },
+    { id: 'fhd', category: 'web', name: 'PC フルHD', w: 1920, h: 1080, unit: 'px', note: 'モニタ標準', ratio: '16:9' },
+    { id: 'iphone-std', category: 'web', name: 'iPhone 15/14', w: 390, h: 844, unit: 'px', note: '標準スマホ幅', ratio: '19.5:9' },
+    { id: 'ad-300', category: 'ad', name: 'レクタングル', w: 300, h: 250, unit: 'px', note: 'Google広告', ratio: '6:5' }
+  ];
+
+  let currentTab = 'paper';
+  let currentUnit = 'px';
+  let currentDpi = 300;
+  let favorites = JSON.parse(localStorage.getItem('sizeTool_favs') || '[]');
+  let customs = JSON.parse(localStorage.getItem('sizeTool_customs') || '[]');
+
+  const displayArea = document.getElementById('sizeDisplayArea');
+  const favBadge = document.getElementById('favBadge');
+  const unitOptions = document.querySelectorAll('.unit-option');
+  const dpiContainer = document.getElementById('dpiContainer');
+  const toast = document.getElementById('toast');
+  const customForm = document.getElementById('customSizeForm');
+
+  function convert(val, fromUnit, toUnit, dpi) {
+    let mm;
+    if (fromUnit === 'mm') mm = val;
+    else if (fromUnit === 'px') mm = (val * 25.4) / dpi;
+    else if (fromUnit === 'cm') mm = val * 10;
+    else if (fromUnit === 'inch') mm = val * 25.4;
+
+    if (toUnit === 'mm') return parseFloat(mm.toFixed(1));
+    if (toUnit === 'cm') return parseFloat((mm / 10).toFixed(2));
+    if (toUnit === 'inch') return parseFloat((mm / 25.4).toFixed(2));
+    if (toUnit === 'px') return Math.round((mm * dpi) / 25.4);
+    return val;
+  }
+
+  function render() {
+    displayArea.innerHTML = '';
+    const query = document.getElementById('sizeSearch').value.toLowerCase();
+    const allData = [...defaultData, ...customs];
+    
+    let filtered = [];
+    if (currentTab === 'fav') {
+      filtered = allData.filter(d => favorites.includes(d.id));
+    } else if (currentTab === 'custom') {
+      filtered = customs;
+      customForm.classList.remove('hidden');
+    } else {
+      filtered = allData.filter(d => d.category === currentTab);
+      customForm.classList.add('hidden');
+    }
+
+    if (query) {
+      filtered = filtered.filter(d => d.name.toLowerCase().includes(query) || d.note.toLowerCase().includes(query));
+    }
+
+    if (filtered.length === 0) {
+      displayArea.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 4rem 1rem; color: #94a3b8; font-weight: 800;">該当するサイズがありません</div>`;
+    } else {
+      filtered.forEach(item => {
+        const w = convert(item.w, item.unit, currentUnit, currentDpi);
+        const h = convert(item.h, item.unit, currentUnit, currentDpi);
+        const isFav = favorites.includes(item.id);
+        const card = document.createElement('div');
+        card.className = 'size-card';
+        card.innerHTML = `
+          <div class="card-top">
+            <h3 class="card-title">${item.name}</h3>
+            <button class="btn-fav ${isFav ? 'active' : ''}" data-id="${item.id}">★</button>
+          </div>
+          <div class="card-middle">
+            <span class="display-value">${w} <small>×</small> ${h} <small>${currentUnit}</small></span>
+            <div class="meta-info">
+              <span class="tag">比率 ${item.ratio}</span>
+              <span class="tag">${item.note}</span>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <button class="btn-copy-action" data-text="${w} × ${h} ${currentUnit}">📋 コピー</button>
+          </div>
+        `;
+        displayArea.appendChild(card);
+      });
+    }
+    favBadge.textContent = favorites.length;
+    favBadge.style.display = favorites.length > 0 ? 'inline-block' : 'none';
+  }
+
+  document.getElementById('categoryTabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-item');
+    if (!btn) return;
+    document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = btn.dataset.tab;
+    render();
+  });
+
+  document.getElementById('unitToggle').addEventListener('click', (e) => {
+    const btn = e.target.closest('.unit-option');
+    if (!btn) return;
+    unitOptions.forEach(o => o.classList.remove('active'));
+    btn.classList.add('active');
+    currentUnit = btn.dataset.unit;
+    dpiContainer.style.visibility = currentUnit === 'px' ? 'visible' : 'hidden';
+    render();
+  });
+
+  displayArea.addEventListener('click', (e) => {
+    const copyBtn = e.target.closest('.btn-copy-action');
+    if (copyBtn) {
+      navigator.clipboard.writeText(copyBtn.dataset.text).then(() => {
+        const oldText = copyBtn.innerText;
+        copyBtn.innerText = '✅ コピー完了';
+        copyBtn.classList.add('success');
+        showToast();
+        setTimeout(() => {
+          copyBtn.innerText = oldText;
+          copyBtn.classList.remove('success');
+        }, 1500);
+      });
+    }
+    const favBtn = e.target.closest('.btn-fav');
+    if (favBtn) {
+      const id = favBtn.dataset.id;
+      favorites = favorites.includes(id) ? favorites.filter(f => f !== id) : [...favorites, id];
+      localStorage.setItem('sizeTool_favs', JSON.stringify(favorites));
+      render();
+    }
+  });
+
+  document.getElementById('sizeSearch').addEventListener('input', render);
+  document.getElementById('dpiSelector').addEventListener('change', (e) => {
+    currentDpi = parseInt(e.target.value);
+    render();
+  });
+
+  document.getElementById('saveCustom').addEventListener('click', () => {
+    const name = document.getElementById('customName').value;
+    const w = parseFloat(document.getElementById('customW').value);
+    const h = parseFloat(document.getElementById('customH').value);
+    if (!name || isNaN(w) || isNaN(h)) return;
+    customs.push({ id: 'custom-' + Date.now(), category: 'custom', name, w, h, unit: 'mm', note: 'カスタム', ratio: '自由' });
+    localStorage.setItem('sizeTool_customs', JSON.stringify(customs));
+    document.querySelectorAll('#customSizeForm input').forEach(i => i.value = '');
+    render();
+  });
+
+  function showToast() {
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  render();
+})();
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

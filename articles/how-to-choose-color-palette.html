@@ -1,23 +1,21 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    <meta name="color-scheme" content="only light">
-
-    <title>「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール｜クリエイターのお道具箱</title>
-    <meta name="description" content="配色で迷うデザイナー・初心者向けに、補色・類似色・トーンなど実務でよく使う配色ルールをわかりやすく解説。センスじゃなく仕組みで決める方法を現場目線でまとめました。">
-    <link rel="canonical" href="https://creator-tools-box.com/articles/how-to-choose-color-palette.html">
-    <meta property="og:title" content="「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール">
-    <meta property="og:description" content="配色で迷うデザイナー・初心者向けに、補色・類似色・トーンなど実務でよく使う配色ルールをわかりやすく解説。センスじゃなく仕組みで決める方法を現場目線でまとめました。">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://creator-tools-box.com/articles/how-to-choose-color-palette.html">
-    <meta property="og:site_name" content="クリエイターのお道具箱">
-
-    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<meta content="only light" name="color-scheme"/>
+<title>「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール｜クリエイターのお道具箱</title>
+<meta content="配色で迷うデザイナー・初心者向けに、補色・類似色・トーンなど実務でよく使う配色ルールをわかりやすく解説。センスじゃなく仕組みで決める方法を現場目線でまとめました。" name="description"/>
+<link href="https://creator-tools-box.com/articles/how-to-choose-color-palette.html" rel="canonical"/>
+<meta content="「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール" property="og:title"/>
+<meta content="配色で迷うデザイナー・初心者向けに、補色・類似色・トーンなど実務でよく使う配色ルールをわかりやすく解説。センスじゃなく仕組みで決める方法を現場目線でまとめました。" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://creator-tools-box.com/articles/how-to-choose-color-palette.html" property="og:url"/>
+<meta content="クリエイターのお道具箱" property="og:site_name"/>
+<link href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css" rel="stylesheet"/>
+<style>
         :root {
             --bg-color: #fcfcfc;
             --accent-color: #ffde00;
@@ -165,7 +163,8 @@
         .footer-content { max-width: 1000px; margin: 0 auto 4rem; display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
         .footer-tools h3, .footer-links h3 { font-size: 1rem; font-weight: 800; margin-bottom: 2rem; }
         .footer-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem; transition: all 0.2s; padding: 0.2rem 0; }
+        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem;
+            line-height: 1.5; transition: all 0.2s; padding: 0.2rem 0; }
         .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
         .footer-bottom { text-align: center; padding-top: 3rem; border-top: 1px solid #eee; max-width: 1000px; margin: 0 auto; }
         .copyright { font-size: 0.85rem; color: #aaa; letter-spacing: 0.05em; }
@@ -194,333 +193,310 @@
         @media (max-width: 480px) {
             .footer-tools-grid { grid-template-columns: 1fr; }
         }
-    </style>
+    
+        .sp-sidebar { display: none; }
+
+        @media (max-width: 768px) {
+            .sp-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                margin-top: 2rem;
+                padding-top: 2rem;
+                border-top: 1px solid #eee;
+            }
+            .sp-sidebar .sidebar-card {
+                padding-bottom: 1.5rem;
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid #eee;
+            }
+            .sp-sidebar .sidebar-card:last-child {
+                padding-bottom: 0;
+                margin-bottom: 0;
+                border-bottom: none;
+            }
+        }
+
+</style>
 </head>
 <body>
-
 <header class="site-header">
-    <div class="header-inner">
-        <a href="../index.html" class="site-logo">
-            <span class="logo-main">クリエイターのお道具箱</span>
-            <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
-        </a>
-    </div>
+<div class="header-inner">
+<a class="site-logo" href="../index.html">
+<span class="logo-main">クリエイターのお道具箱</span>
+<span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+</a>
+</div>
 </header>
-
-<nav class="breadcrumb" aria-label="パンくずリスト">
-    <a href="../index.html">ホーム</a>
-    <span>›</span>
-    <a href="../articles/">記事一覧</a>
-    <span>›</span>
+<nav aria-label="パンくずリスト" class="breadcrumb">
+<a href="../index.html">ホーム</a>
+<span>›</span>
+<a href="../articles/">記事一覧</a>
+<span>›</span>
     配色の考え方とよく使うルール
 </nav>
-
 <div class="main-container">
-
-    <article class="article-body">
-
-        <header class="article-header">
-            <p class="article-category">デザイン基礎</p>
-            <h1 class="article-title">「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール</h1>
-            <div class="article-meta">
-                <span>2026年4月1日</span>
-            </div>
-        </header>
-
-        <nav class="toc-box" aria-label="目次">
-            <h2>目次</h2>
-            <ol class="toc-list">
-                <li><a href="#section1">配色で迷うのは、センスの問題じゃない</a></li>
-                <li><a href="#section2">まず「メインカラー」を1色決めることから始める</a></li>
-                <li><a href="#section3">よく使う配色ルール3つ</a></li>
-                <li><a href="#section4">トーンを揃えると、一気にまとまる</a></li>
-                <li><a href="#section5">まとめ</a></li>
-            </ol>
-        </nav>
-
-        <div class="article-content">
-
-            <p>「配色って、どこから手をつければいいんだろう」と思ったことはないですか。デザインの中で、配色だけは特別センスが要る気がして、なんとなく後回しにしてしまう。あるいは、なんとなく好きな色を並べてみたけど、なぜかしっくりこない——そういう経験、デザイナーならほぼ全員あると思います。</p>
-
-            <p>でも正直なところ、配色の悩みのほとんどは<span class="marker">センスではなく「手順と知識」の問題</span>です。仕組みを知れば、自分でも再現できるようになります。この記事では、実務でよく使う配色の考え方と具体的なルールを、現場目線でまとめました。</p>
-
-            <h2 id="section1">配色で迷うのは、センスの問題じゃない</h2>
-
-            <p>配色が難しく感じる理由の多くは「選択肢が多すぎる」ことにあります。色は理論上、無限にある。だからどこから選べばいいのか分からなくて、手が止まる。</p>
-
-            <p>プロのデザイナーがやっていることは、実は「何色でも自由に選んでいる」ではなく、<strong>ルールで選択肢を絞り込んでいる</strong>んです。補色を使う、類似色でまとめる、トーンを統一する——こういった「型」を知っているから、迷いにくい。</p>
-
-            <div class="accent-box">
-                <p>配色は「センスで選ぶもの」じゃなく、「ルールで絞り込むもの」。型を知ることが、迷いをなくす一番の近道。</p>
-            </div>
-
-            <p>では実際に、どういう手順で配色を組み立てていけばいいのか、順を追って見ていきましょう。</p>
-
-            <h2 id="section2">まず「メインカラー」を1色決めることから始める</h2>
-
-            <p>いきなり複数色を考えようとすると、まず間違いなく迷います。最初にやることは、<span class="marker">メインカラーを1色だけ決める</span>こと、それだけです。</p>
-
-            <p>メインカラーとは、そのデザインで一番目立つ色・ブランドのイメージを担う色のこと。ロゴの色、ヘッダーの色、ボタンの色——要するに「これがこのデザインの顔」と言える色です。</p>
-
-            <p>メインカラーを決めるときの基準は、だいたい次のどれかです。</p>
-
-            <ul class="check-list">
-                <li><strong>ブランドや商品のイメージから選ぶ</strong>自然・有機的なものなら緑、信頼・安心を伝えたいなら青、エネルギッシュさなら赤やオレンジ、といった色の印象を起点にする。</li>
-                <li><strong>競合と差別化する色を選ぶ</strong>同じ業界で青が多ければあえて別の色にする、という戦略的な視点。</li>
-                <li><strong>クライアントの既存ブランドカラーに合わせる</strong>ロゴや名刺にすでに使われている色を基準にする。実務ではこれが一番多い。</li>
-            </ul>
-
-            <div class="callout">
-                <p class="callout-label">現場のコツ</p>
-                <p>「なんとなく好き」でメインカラーを選ぶのは悪くないのですが、後で「なんでこの色にしたんですか？」とクライアントに聞かれたとき答えられると強い。色を選んだ理由を一言でも言語化しておくと、提案が説得力を持ちます。</p>
-            </div>
-
-            <p>メインカラーが1色決まったら、次は残りの色をどう組み合わせるかです。ここで出てくるのが「配色ルール」です。</p>
-
-            <h2 id="section3">よく使う配色ルール3つ</h2>
-
-            <p>配色理論はたくさんありますが、実務でよく使うのは主に3パターンです。これを覚えておくだけで、大半の配色に対応できます。</p>
-
-            <h3>① 補色配色——対比で目を引く</h3>
-
-            <p><strong>補色</strong>とは、色相環で正反対に位置する色のこと。赤と緑、青とオレンジ、黄と紫がその代表例です。補色を組み合わせると、お互いを引き立て合って<span class="marker">メリハリのある、目に飛び込んでくる配色</span>になります。</p>
-
-            <div class="color-rule-card">
-                <h3>補色の例：青 × オレンジ</h3>
-                <p>スポーツブランドや注意喚起のデザインによく使われる組み合わせ。視認性が高く、エネルギッシュな印象を与える。</p>
-                <div class="swatches">
-                    <div>
-                        <div class="swatch" style="background:#1A5FBF;"></div>
-                        <div class="swatch-label">#1A5FBF</div>
-                    </div>
-                    <div>
-                        <div class="swatch" style="background:#FF8C2A;"></div>
-                        <div class="swatch-label">#FF8C2A</div>
-                    </div>
-                    <div>
-                        <div class="swatch" style="background:#F5F5F5;"></div>
-                        <div class="swatch-label">ベース</div>
-                    </div>
-                </div>
-            </div>
-
-            <p>ただし、補色は使い方を間違えるとうるさくなります。基本的には<strong>メインカラーとサブカラーの面積比を7：3か8：2くらいに</strong>しておくと、バランスが取れます。両方を均等に使うとケンカしやすい。</p>
-
-            <h3>② 類似色配色——まとまりと柔らかさ</h3>
-
-            <p><strong>類似色</strong>とは、色相環で隣り合った色のこと。青と青紫、黄色と黄緑、赤とオレンジなど。同系色とも言います。これを使うと、<span class="marker">統一感があって落ち着いた印象</span>のデザインになります。</p>
-
-            <div class="color-rule-card">
-                <h3>類似色の例：青紫 × 青 × 水色</h3>
-                <p>ナチュラルで落ち着いた印象。美容・ヘルスケア・コーポレートサイトなどに向いている。</p>
-                <div class="swatches">
-                    <div>
-                        <div class="swatch" style="background:#5A4FCF;"></div>
-                        <div class="swatch-label">#5A4FCF</div>
-                    </div>
-                    <div>
-                        <div class="swatch" style="background:#3A88D0;"></div>
-                        <div class="swatch-label">#3A88D0</div>
-                    </div>
-                    <div>
-                        <div class="swatch" style="background:#7DD4F0;"></div>
-                        <div class="swatch-label">#7DD4F0</div>
-                    </div>
-                    <div>
-                        <div class="swatch" style="background:#F0F8FF;"></div>
-                        <div class="swatch-label">ベース</div>
-                    </div>
-                </div>
-            </div>
-
-            <p>類似色の弱点はメリハリが出にくいこと。アクセントとして少量だけ補色やモノトーンを使うと引き締まります。</p>
-
-            <h3>③ 無彩色配色——シンプルに見せるときの最終兵器</h3>
-
-            <p>白・グレー・黒の無彩色でまとめ、アクセントとしてメインカラーを1色だけ使う方法です。派手さはないですが、<span class="marker">どんなジャンルにも使える汎用性の高さ</span>が魅力。特にモノクロ基調にして1点だけ差し色を入れるスタイルは、高級感やスタイリッシュさを出したいときに効きます。</p>
-
-            <div class="color-rule-card">
-                <h3>無彩色 + 差し色の例</h3>
-                <p>白と黒をベースに、アクセントカラーだけ入れる。ミニマルでどんな業種にも対応しやすい。</p>
-                <div class="swatches">
-                    <div>
-                        <div class="swatch" style="background:#1A1A1A;"></div>
-                        <div class="swatch-label">#1A1A1A</div>
-                    </div>
-                    <div>
-                        <div class="swatch" style="background:#888888;"></div>
-                        <div class="swatch-label">#888888</div>
-                    </div>
-                    <div>
-                        <div class="swatch" style="background:#F5F5F5;"></div>
-                        <div class="swatch-label">#F5F5F5</div>
-                    </div>
-                    <div>
-                        <div class="swatch" style="background:#E8452A;"></div>
-                        <div class="swatch-label">差し色</div>
-                    </div>
-                </div>
-            </div>
-
-            <table class="compare-table">
-                <thead>
-                    <tr>
-                        <th>配色ルール</th>
-                        <th>向いているシーン</th>
-                        <th>注意点</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>補色配色</strong></td>
-                        <td>目立たせたい・エネルギッシュにしたい</td>
-                        <td>面積差をつけないとうるさくなる</td>
-                    </tr>
-                    <tr>
-                        <td><strong>類似色配色</strong></td>
-                        <td>統一感・やわらかさを出したい</td>
-                        <td>メリハリが薄くなりがち</td>
-                    </tr>
-                    <tr>
-                        <td><strong>無彩色＋差し色</strong></td>
-                        <td>スタイリッシュ・高級感</td>
-                        <td>差し色の選び方で印象が大きく変わる</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2 id="section4">トーンを揃えると、一気にまとまる</h2>
-
-            <p>「色の組み合わせは悪くないのに、なぜかバラバラに見える」というのはよくある悩みです。その原因の多くは、<span class="marker">色の「トーン」がバラバラになっていること</span>です。</p>
-
-            <p>トーンとは、色の明度（明るさ）と彩度（鮮やかさ）を合わせた概念のこと。たとえば「パステルトーン」は明度が高く彩度が低い淡い色のグループ、「ビビッドトーン」は彩度が高くはっきりした色のグループです。</p>
-
-            <p>色相（何色か）が違っていても、<strong>トーンを揃えれば自然と統一感が出ます</strong>。逆に、使う色が2色しかなくてもトーンがバラバラだと、なんかちぐはぐな印象になる。</p>
-
-            <div class="callout">
-                <p class="callout-label">現場のコツ</p>
-                <p>「なんかまとまらないな」と感じたら、まず使っている色を並べてみて「彩度と明度のバランスが揃っているか」を確認してみてください。鮮やかな色と淡い色が混在していると、それだけでバラバラに見えます。トーンを統一するだけで、見違えるほどまとまることがあります。</p>
-            </div>
-
-            <p>また、<strong>使う色数は少ないほどまとまりやすい</strong>というのも覚えておくといいです。「メインカラー・サブカラー・ベースカラー（白や薄いグレー）」の3色以内に抑えるのが基本。そこにアクセントカラーを加えても4色まで。それ以上使い始めると、よほど慣れていないとまとめるのが難しくなります。</p>
-
-            <p>ちなみに、こういった配色の組み立て——「この色のトーン違いを出す」「類似色を自動で並べる」「補色を瞬時に見つける」といったことを、自動でやってくれるツールが存在します。手を動かしながら感覚をつかむのにも便利だし、「自分では思いつかない組み合わせ」が出てきたりするので、行き詰まったときに気楽に使ってみるのはおすすめです。</p>
-
-            <div class="tool-cta">
-                <p class="tool-cta-label">このサイトの無料ツール</p>
-                <h3>カラーパレット生成ツール</h3>
-                <p>ベースカラーを1色選ぶだけで、補色・類似色・トーン違いのパレットを自動生成。<br>インストール不要、ブラウザだけで完結します。</p>
-                <a href="../tools/color-palette-generator.html" class="btn">カラーパレット生成ツールを使う →</a>
-            </div>
-
-            <h2 id="section5">まとめ</h2>
-            <div class="summary-block">
-                <p class="summary-lead">配色はセンスじゃなく「型」で決まる。ルールを知れば、誰でも再現できる。</p>
-                <ol class="summary-list">
-                    <li><div><strong>メインカラーを1色決めることから始める</strong><p>いきなり複数色を考えようとするから迷う。まず1色、理由を持って決める。</p></div></li>
-                    <li><div><strong>補色・類似色・無彩色＋差し色の3パターンを使い分ける</strong><p>目的とシーンに合わせてルールを選ぶだけで、配色の方向性が決まる。</p></div></li>
-                    <li><div><strong>トーンを揃えると、まとまりが出る</strong><p>色の種類より「明度・彩度が統一されているか」を確認することが大事。</p></div></li>
-                </ol>
-            </div>
-            <p>配色に正解はないけれど、「なぜこの色を選んだか」を説明できる配色は、クライアントへの提案でも自信を持って話せます。まずは型を覚えて、そこから自分なりにアレンジしていくのが近道です。</p>
-
-            <div class="author-box">
-                <div class="author-avatar" aria-hidden="true">jun</div>
-                <div>
-                    <p class="author-name">jun</p>
-                    <p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
-                </div>
-            </div>
-
-            <div class="sp-related">
-    <p class="sp-related-label">関連記事</p>
-    <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
-    <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
-    <a href="what-is-dpi.html">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</a>
+<article class="article-body">
+<header class="article-header">
+<p class="article-category">デザイン基礎</p>
+<h1 class="article-title">「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール</h1>
+<div class="article-meta">
+<span>2026年4月1日</span>
 </div>
-
-        </div>
-    </article>
-
-    <aside class="sidebar">
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">このページのツール</p>
-            <a href="../tools/color-palette-generator.html" class="sidebar-tool-card">
-                <span class="sidebar-tool-icon">🎨</span>
-                <span class="sidebar-tool-body">
-                    <span class="sidebar-tool-name">カラーパレット生成ツール</span>
-                    <span class="sidebar-tool-note">無料 · ブラウザで完結</span>
-                </span>
-                <span class="sidebar-tool-arrow">→</span>
-            </a>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">人気記事</p>
-            <ol class="sidebar-ranking">
-    <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
-    <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
-    <li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
-    <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
-    <li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</header>
+<nav aria-label="目次" class="toc-box">
+<h2>目次</h2>
+<ol class="toc-list">
+<li><a href="#section1">配色で迷うのは、センスの問題じゃない</a></li>
+<li><a href="#section2">まず「メインカラー」を1色決めることから始める</a></li>
+<li><a href="#section3">よく使う配色ルール3つ</a></li>
+<li><a href="#section4">トーンを揃えると、一気にまとまる</a></li>
+<li><a href="#section5">まとめ</a></li>
 </ol>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">カテゴリ</p>
-            <ul class="sidebar-categories">
-                <li><a href="#">印刷・冊子制作 <span>12</span></a></li>
-                <li><a href="#">デザイン基礎 <span>8</span></a></li>
-                <li><a href="#">Illustrator <span>6</span></a></li>
-                <li><a href="#">SNS・Web <span>5</span></a></li>
-                <li><a href="#">ツールの使い方 <span>4</span></a></li>
-            </ul>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">関連記事</p>
-            <div class="sidebar-related">
-    <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
-    <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
-    <a href="what-is-dpi.html">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</a>
+</nav>
+<div class="article-content">
+<p>「配色って、どこから手をつければいいんだろう」と思ったことはないですか。デザインの中で、配色だけは特別センスが要る気がして、なんとなく後回しにしてしまう。あるいは、なんとなく好きな色を並べてみたけど、なぜかしっくりこない——そういう経験、デザイナーならほぼ全員あると思います。</p>
+<p>でも正直なところ、配色の悩みのほとんどは<span class="marker">センスではなく「手順と知識」の問題</span>です。仕組みを知れば、自分でも再現できるようになります。この記事では、実務でよく使う配色の考え方と具体的なルールを、現場目線でまとめました。</p>
+<h2 id="section1">配色で迷うのは、センスの問題じゃない</h2>
+<p>配色が難しく感じる理由の多くは「選択肢が多すぎる」ことにあります。色は理論上、無限にある。だからどこから選べばいいのか分からなくて、手が止まる。</p>
+<p>プロのデザイナーがやっていることは、実は「何色でも自由に選んでいる」ではなく、<strong>ルールで選択肢を絞り込んでいる</strong>んです。補色を使う、類似色でまとめる、トーンを統一する——こういった「型」を知っているから、迷いにくい。</p>
+<div class="accent-box">
+<p>配色は「センスで選ぶもの」じゃなく、「ルールで絞り込むもの」。型を知ることが、迷いをなくす一番の近道。</p>
 </div>
-        </div>
-
-    </aside>
-
+<p>では実際に、どういう手順で配色を組み立てていけばいいのか、順を追って見ていきましょう。</p>
+<h2 id="section2">まず「メインカラー」を1色決めることから始める</h2>
+<p>いきなり複数色を考えようとすると、まず間違いなく迷います。最初にやることは、<span class="marker">メインカラーを1色だけ決める</span>こと、それだけです。</p>
+<p>メインカラーとは、そのデザインで一番目立つ色・ブランドのイメージを担う色のこと。ロゴの色、ヘッダーの色、ボタンの色——要するに「これがこのデザインの顔」と言える色です。</p>
+<p>メインカラーを決めるときの基準は、だいたい次のどれかです。</p>
+<ul class="check-list">
+<li><strong>ブランドや商品のイメージから選ぶ</strong>自然・有機的なものなら緑、信頼・安心を伝えたいなら青、エネルギッシュさなら赤やオレンジ、といった色の印象を起点にする。</li>
+<li><strong>競合と差別化する色を選ぶ</strong>同じ業界で青が多ければあえて別の色にする、という戦略的な視点。</li>
+<li><strong>クライアントの既存ブランドカラーに合わせる</strong>ロゴや名刺にすでに使われている色を基準にする。実務ではこれが一番多い。</li>
+</ul>
+<div class="callout">
+<p class="callout-label">現場のコツ</p>
+<p>「なんとなく好き」でメインカラーを選ぶのは悪くないのですが、後で「なんでこの色にしたんですか？」とクライアントに聞かれたとき答えられると強い。色を選んだ理由を一言でも言語化しておくと、提案が説得力を持ちます。</p>
 </div>
+<p>メインカラーが1色決まったら、次は残りの色をどう組み合わせるかです。ここで出てくるのが「配色ルール」です。</p>
+<h2 id="section3">よく使う配色ルール3つ</h2>
+<p>配色理論はたくさんありますが、実務でよく使うのは主に3パターンです。これを覚えておくだけで、大半の配色に対応できます。</p>
+<h3>① 補色配色——対比で目を引く</h3>
+<p><strong>補色</strong>とは、色相環で正反対に位置する色のこと。赤と緑、青とオレンジ、黄と紫がその代表例です。補色を組み合わせると、お互いを引き立て合って<span class="marker">メリハリのある、目に飛び込んでくる配色</span>になります。</p>
+<div class="color-rule-card">
+<h3>補色の例：青 × オレンジ</h3>
+<p>スポーツブランドや注意喚起のデザインによく使われる組み合わせ。視認性が高く、エネルギッシュな印象を与える。</p>
+<div class="swatches">
+<div>
+<div class="swatch" style="background:#1A5FBF;"></div>
+<div class="swatch-label">#1A5FBF</div>
+</div>
+<div>
+<div class="swatch" style="background:#FF8C2A;"></div>
+<div class="swatch-label">#FF8C2A</div>
+</div>
+<div>
+<div class="swatch" style="background:#F5F5F5;"></div>
+<div class="swatch-label">ベース</div>
+</div>
+</div>
+</div>
+<p>ただし、補色は使い方を間違えるとうるさくなります。基本的には<strong>メインカラーとサブカラーの面積比を7：3か8：2くらいに</strong>しておくと、バランスが取れます。両方を均等に使うとケンカしやすい。</p>
+<h3>② 類似色配色——まとまりと柔らかさ</h3>
+<p><strong>類似色</strong>とは、色相環で隣り合った色のこと。青と青紫、黄色と黄緑、赤とオレンジなど。同系色とも言います。これを使うと、<span class="marker">統一感があって落ち着いた印象</span>のデザインになります。</p>
+<div class="color-rule-card">
+<h3>類似色の例：青紫 × 青 × 水色</h3>
+<p>ナチュラルで落ち着いた印象。美容・ヘルスケア・コーポレートサイトなどに向いている。</p>
+<div class="swatches">
+<div>
+<div class="swatch" style="background:#5A4FCF;"></div>
+<div class="swatch-label">#5A4FCF</div>
+</div>
+<div>
+<div class="swatch" style="background:#3A88D0;"></div>
+<div class="swatch-label">#3A88D0</div>
+</div>
+<div>
+<div class="swatch" style="background:#7DD4F0;"></div>
+<div class="swatch-label">#7DD4F0</div>
+</div>
+<div>
+<div class="swatch" style="background:#F0F8FF;"></div>
+<div class="swatch-label">ベース</div>
+</div>
+</div>
+</div>
+<p>類似色の弱点はメリハリが出にくいこと。アクセントとして少量だけ補色やモノトーンを使うと引き締まります。</p>
+<h3>③ 無彩色配色——シンプルに見せるときの最終兵器</h3>
+<p>白・グレー・黒の無彩色でまとめ、アクセントとしてメインカラーを1色だけ使う方法です。派手さはないですが、<span class="marker">どんなジャンルにも使える汎用性の高さ</span>が魅力。特にモノクロ基調にして1点だけ差し色を入れるスタイルは、高級感やスタイリッシュさを出したいときに効きます。</p>
+<div class="color-rule-card">
+<h3>無彩色 + 差し色の例</h3>
+<p>白と黒をベースに、アクセントカラーだけ入れる。ミニマルでどんな業種にも対応しやすい。</p>
+<div class="swatches">
+<div>
+<div class="swatch" style="background:#1A1A1A;"></div>
+<div class="swatch-label">#1A1A1A</div>
+</div>
+<div>
+<div class="swatch" style="background:#888888;"></div>
+<div class="swatch-label">#888888</div>
+</div>
+<div>
+<div class="swatch" style="background:#F5F5F5;"></div>
+<div class="swatch-label">#F5F5F5</div>
+</div>
+<div>
+<div class="swatch" style="background:#E8452A;"></div>
+<div class="swatch-label">差し色</div>
+</div>
+</div>
+</div>
+<table class="compare-table">
+<thead>
+<tr>
+<th>配色ルール</th>
+<th>向いているシーン</th>
+<th>注意点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>補色配色</strong></td>
+<td>目立たせたい・エネルギッシュにしたい</td>
+<td>面積差をつけないとうるさくなる</td>
+</tr>
+<tr>
+<td><strong>類似色配色</strong></td>
+<td>統一感・やわらかさを出したい</td>
+<td>メリハリが薄くなりがち</td>
+</tr>
+<tr>
+<td><strong>無彩色＋差し色</strong></td>
+<td>スタイリッシュ・高級感</td>
+<td>差し色の選び方で印象が大きく変わる</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section4">トーンを揃えると、一気にまとまる</h2>
+<p>「色の組み合わせは悪くないのに、なぜかバラバラに見える」というのはよくある悩みです。その原因の多くは、<span class="marker">色の「トーン」がバラバラになっていること</span>です。</p>
+<p>トーンとは、色の明度（明るさ）と彩度（鮮やかさ）を合わせた概念のこと。たとえば「パステルトーン」は明度が高く彩度が低い淡い色のグループ、「ビビッドトーン」は彩度が高くはっきりした色のグループです。</p>
+<p>色相（何色か）が違っていても、<strong>トーンを揃えれば自然と統一感が出ます</strong>。逆に、使う色が2色しかなくてもトーンがバラバラだと、なんかちぐはぐな印象になる。</p>
+<div class="callout">
+<p class="callout-label">現場のコツ</p>
+<p>「なんかまとまらないな」と感じたら、まず使っている色を並べてみて「彩度と明度のバランスが揃っているか」を確認してみてください。鮮やかな色と淡い色が混在していると、それだけでバラバラに見えます。トーンを統一するだけで、見違えるほどまとまることがあります。</p>
+</div>
+<p>また、<strong>使う色数は少ないほどまとまりやすい</strong>というのも覚えておくといいです。「メインカラー・サブカラー・ベースカラー（白や薄いグレー）」の3色以内に抑えるのが基本。そこにアクセントカラーを加えても4色まで。それ以上使い始めると、よほど慣れていないとまとめるのが難しくなります。</p>
+<p>ちなみに、こういった配色の組み立て——「この色のトーン違いを出す」「類似色を自動で並べる」「補色を瞬時に見つける」といったことを、自動でやってくれるツールが存在します。手を動かしながら感覚をつかむのにも便利だし、「自分では思いつかない組み合わせ」が出てきたりするので、行き詰まったときに気楽に使ってみるのはおすすめです。</p>
+<div class="tool-cta">
+<p class="tool-cta-label">このサイトの無料ツール</p>
+<h3>カラーパレット生成ツール</h3>
+<p>ベースカラーを1色選ぶだけで、補色・類似色・トーン違いのパレットを自動生成。<br/>インストール不要、ブラウザだけで完結します。</p>
+<a class="btn" href="../tools/color-palette-generator.html">カラーパレット生成ツールを使う →</a>
+</div>
+<h2 id="section5">まとめ</h2>
+<div class="summary-block">
+<p class="summary-lead">配色はセンスじゃなく「型」で決まる。ルールを知れば、誰でも再現できる。</p>
+<ol class="summary-list">
+<li><div><strong>メインカラーを1色決めることから始める</strong><p>いきなり複数色を考えようとするから迷う。まず1色、理由を持って決める。</p></div></li>
+<li><div><strong>補色・類似色・無彩色＋差し色の3パターンを使い分ける</strong><p>目的とシーンに合わせてルールを選ぶだけで、配色の方向性が決まる。</p></div></li>
+<li><div><strong>トーンを揃えると、まとまりが出る</strong><p>色の種類より「明度・彩度が統一されているか」を確認することが大事。</p></div></li>
+</ol>
+</div>
+<p>配色に正解はないけれど、「なぜこの色を選んだか」を説明できる配色は、クライアントへの提案でも自信を持って話せます。まずは型を覚えて、そこから自分なりにアレンジしていくのが近道です。</p>
+<div class="author-box">
+<div aria-hidden="true" class="author-avatar">jun</div>
+<div>
+<p class="author-name">jun</p>
+<p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
+</div>
+</div>
+<div class="sp-sidebar">
+<div class="sidebar-card">
+<p class="sidebar-label">人気記事</p>
+<ol class="sidebar-ranking">
+<li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+<li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+<li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+<li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+<li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">関連記事</p>
+<div class="sidebar-related">
+<a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
+<a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+<a href="what-is-dpi.html">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</a>
+</div>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">このページのツール</p>
+<a class="sidebar-tool-card" href="../tools/color-palette-generator.html"><span class="sidebar-tool-icon">🎨</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">カラーパレット生成ツール</span><span class="sidebar-tool-note">配色のたたき台づくり</span></span><span class="sidebar-tool-arrow">→</span></a><a class="sidebar-tool-card" href="../tools/rgb-cmyk-converter.html"><span class="sidebar-tool-icon">🎨</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">RGB / CMYK変換ツール</span><span class="sidebar-tool-note">印刷色の確認にも便利</span></span><span class="sidebar-tool-arrow">→</span></a></div>
+</div>
+</div>
+</article>
+<aside class="sidebar">
+<div class="sidebar-card">
+<p class="sidebar-label">このページのツール</p>
 
+<a class="sidebar-tool-card" href="../tools/color-palette-generator.html"><span class="sidebar-tool-icon">🎨</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">カラーパレット生成ツール</span><span class="sidebar-tool-note">配色のたたき台づくり</span></span><span class="sidebar-tool-arrow">→</span></a><a class="sidebar-tool-card" href="../tools/rgb-cmyk-converter.html"><span class="sidebar-tool-icon">🎨</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">RGB / CMYK変換ツール</span><span class="sidebar-tool-note">印刷色の確認にも便利</span></span><span class="sidebar-tool-arrow">→</span></a></div>
+<div class="sidebar-card">
+<p class="sidebar-label">人気記事</p>
+<ol class="sidebar-ranking">
+<li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+<li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+<li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+<li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+<li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">カテゴリ</p>
+<ul class="sidebar-categories"><li><a href="../articles/index.html#basic">デザイン基礎<span>3</span></a></li><li><a href="../articles/index.html#color-print">印刷・色管理<span>4</span></a></li><li><a href="../articles/index.html#book-production">冊子・進行管理<span>3</span></a></li></ul>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">関連記事</p>
+<div class="sidebar-related">
+<a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
+<a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+<a href="what-is-dpi.html">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</a>
+</div>
+</div>
+</aside>
+</div>
 <footer>
-    <div class="footer-content">
-        <div class="footer-tools">
-            <h3>ツールを探す</h3>
-            <div class="footer-tools-grid">
-                <a href="../tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
-                <a href="../tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
-                <a href="../tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
-                <a href="../tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
-                <a href="../tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
-                <a href="../tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
-                <a href="../tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
-                <a href="../tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
-                <a href="../tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
-            </div>
-        </div>
-        <div class="footer-links">
-            <h3>サイトメニュー</h3>
-            <a href="../index.html" class="footer-link-item">ホーム</a>
-            <a href="../about.html" class="footer-link-item">About</a>
-            <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
-            <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
-            <a href="../contact.html" class="footer-link-item">Contact</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
-    </div>
+<div class="footer-content">
+<div class="footer-tools">
+<h3>ツールを探す</h3>
+<div class="footer-tools-grid">
+<a class="footer-link-item" href="../tools/page-plan-editor.html">台割作成ツール</a>
+<a class="footer-link-item" href="../tools/paper-size-reference.html">サイズ早見表ツール</a>
+<a class="footer-link-item" href="../tools/px-mm-converter.html">ピクセル ↔ mm 変換ツール</a>
+<a class="footer-link-item" href="../tools/imposition-simulator.html">面付けシミュレーター</a>
+<a class="footer-link-item" href="../tools/color-palette-generator.html">カラーパレット生成ツール</a>
+<a class="footer-link-item" href="../tools/character-count.html">文字数カウントツール</a>
+<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">黄金比率計算ツール</a>
+<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYK変換ツール</a>
+<a class="footer-link-item" href="../tools/schedule-deadline-calculator.html">納期・スケジュール計算メーカー</a>
+<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算ツール</a>
+<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズメーカー</a>
+<a class="footer-link-item" href="../tools/sns-preview-tool-complete.html">SNSプレビューツール</a>
+<a class="footer-link-item" href="../tools/illustrator-shortcut-quiz.html">Illustratorショートカットクイズ</a>
+<a class="footer-link-item" href="../tools/cmyk-color-quiz.html">CMYK/RGB色当てクイズ</a>
+</div>
+</div>
+<div class="footer-links">
+<h3>サイトメニュー</h3>
+<a class="footer-link-item" href="../index.html">Home</a>
+<a class="footer-link-item" href="../about.html">About</a>
+<a class="footer-link-item" href="../privacy.html">Privacy Policy</a>
+<a class="footer-link-item" href="../disclaimer.html">Disclaimer</a>
+<a class="footer-link-item" href="../contact.html">Contact</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="copyright">© <span id="year"></span> Creator Tools Box</p>
+</div>
 </footer>
-
 <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 </script>

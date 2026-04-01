@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <!-- 
+    AI NOTE:
+    このファイルはツールページ共通テンプレートです。
+    編集してよい場所は次の3つのみです。
+    1. TOOL META (タイトルと概要)
+    2. TOOL UI (ツールの本体・ロジック)
+    3. TOOL GUIDE (解説文章)
+    それ以外のレイアウト、CSS、構造は変更しないでください。
+    -->
+
+    <!-- ===== TOOL META START ===== -->
+    <title>SNSプレビュー｜投稿の見え方を事前確認｜クリエイターのお道具箱</title>
+    <meta name="description" content="SNS投稿の見え方を事前に確認できる無料ツール。X（Twitter）・Instagram・OGPカードの表示やトリミング、テキストの折り返しを再現。投稿前のミス防止やクライアント確認に最適。">
+    <!-- ===== TOOL META END ===== -->
+    
+    <!-- LINE Seed JP を読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+    
+    <style>
+        :root {
+            --bg-color: #fcfcfc;    
+            --accent-color: #ffde00; 
+            --black: #333;          
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー：追従しない設定 */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* コンテナ */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ツールエリア（背景・枠線なし） */
+        .tool-card {
+            background: transparent; 
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        /* ツールメタ情報 */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ツールUIエリア */
+        .tool-ui-wrapper {
+            margin-bottom: 3rem;
+            min-height: 200px;
+        }
+
+        /* ツール内共通パーツのスタイル */
+        .tool-ui input, .tool-ui textarea, .tool-ui select {
+            width: 100%;
+            padding: 1rem;
+            border: var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1.2rem;
+            background: var(--white);
+        }
+        .tool-ui .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            color: var(--black);
+            font-size: 1.1rem;
+        }
+        .tool-ui .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .tool-result {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* 注意書き - 横幅を制限して中央配置 */
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin-top: 5rem;
+            border-radius: 4px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ガイドセクション */
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3.5rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        .tool-guide h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tool-guide h2::before {
+            content: "💡";
+            font-size: 1.4rem;
+        }
+        .tool-guide p {
+            margin-bottom: 2rem;
+            color: #444;
+            line-height: 1.9;
+        }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .disclaimer { max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+/* SNS Preview Tool Layout */
+.sns-tool-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.sns-tab-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.sns-tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #333;
+    background: #fff;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+.sns-tab-btn.active {
+    background: #ffde00;
+    box-shadow: 3px 3px 0px #333;
+    transform: translate(-2px, -2px);
+}
+
+.sns-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.sns-drop-zone {
+    border: 2px dashed #ccc;
+    background: #f9f9f9;
+    padding: 40px 10px;
+    text-align: center;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+    transition: 0.2s;
+}
+
+.sns-drop-zone.dragover {
+    border-color: #ffde00;
+    background: #fffdf0;
+}
+
+.sns-info-row {
+    text-align: right;
+    font-size: 0.75rem;
+    color: #777;
+    margin: -10px 0 15px;
+}
+
+/* Mockup Base */
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+#capture-area-wrapper {
+    background: #f0f0f0;
+    padding: 40px 20px;
+    border-radius: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#capture-box {
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+}
+
+.mock-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+/* X (Twitter) Theme */
+.x-theme {
+    padding: 12px 16px;
+    border-radius: 0;
+    border: 1px solid #eff3f4;
+}
+.x-theme .mock-header { display: flex; gap: 12px; margin-bottom: 4px; }
+.mock-avatar { width: 40px; height: 40px; background: #eee; border-radius: 50%; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.mock-avatar svg { width: 80%; height: 80%; }
+.mock-user-meta { flex: 1; }
+.name-row { display: flex; align-items: center; gap: 4px; font-size: 0.9rem; font-weight: bold; }
+.name-bar { color: #0f1419; }
+.verified-badge { width: 18px; height: 18px; flex-shrink: 0; }
+.handle, .time, .dot { color: #536471; font-size: 0.9rem; font-weight: normal; }
+
+.x-theme .mock-body { font-size: 0.95rem; margin-top: 4px; margin-bottom: 12px; line-height: 1.35; color: #0f1419; }
+
+.mock-media-single {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #cfd9de;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: move;
+}
+
+/* IG Theme */
+.ig-theme { border-radius: 8px; }
+.mock-media-ig { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; background: #fafafa; cursor: move; }
+.mock-icons-row { display: flex; gap: 14px; align-items: center; color: #262626; margin-bottom: 8px; }
+
+/* OGP Theme */
+.ogp-card-outer {
+    border: 1px solid #ddd;
+    background: #f2f3f5;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.mock-ogp-img { width: 100%; aspect-ratio: 1.91/1; position: relative; overflow: hidden; background: #ddd; cursor: move; }
+.mock-ogp-info { padding: 12px 14px; background: #fff; }
+.ogp-domain-text { font-size: 0.75rem; color: #65676b; text-transform: uppercase; margin-bottom: 4px; }
+.ogp-title-text { font-size: 1rem; font-weight: 600; color: #1c1e21; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Common Draggable */
+.draggable-img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Safe Area */
+.safe-area-guide {
+    position: absolute;
+    top: 10%; left: 10%; right: 10%; bottom: 10%;
+    border: 2px dashed #ffde00;
+    display: none;
+    align-items: center; justify-content: center;
+    color: #ffde00; font-size: 0.65rem; font-weight: 800;
+    background: rgba(255, 222, 0, 0.1);
+    z-index: 50; pointer-events: none;
+}
+.show-safe .safe-area-guide { display: flex; }
+
+.sns-check-log { font-size: 0.75rem; color: #777; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee; }
+
+@media (max-width: 768px) {
+    .sns-tool-layout { grid-template-columns: 1fr; }
+}
+
+  .related-tools {
+    margin-top: 24px;
+  }
+
+  .related-tool-item + .related-tool-item {
+    margin-top: 32px;
+  }
+
+  .related-tool-link,
+  .related-tool-link:visited {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    color: #111;
+  }
+
+  .related-tool-link:hover {
+    opacity: 0.75;
+  }
+
+  .related-tool-item p {
+    margin: 10px 0 0;
+    line-height: 1.8;
+  }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <article class="tool-card">
+            <!-- ===== TOOL META START ===== -->
+            <header class="tool-header">
+    <h1>SNSプレビューツール</h1>
+    <p class="tool-lead">
+        「投稿してみたら切れてた…」を防ぐ。画像・テキスト・OGPの見え方を、投稿前にその場で確認できる実務向けツールです。
+    </p>
+</header>
+            <!-- ===== TOOL META END ===== -->
+
+<!-- ===== TOOL UI START ===== -->
+<div class="sns-tool-layout">
+    <!-- 設定エリア -->
+    <div class="tool-ui">
+        <div class="sns-tab-group">
+            <button type="button" class="sns-tab-btn active" data-platform="x">X (Twitter)</button>
+            <button type="button" class="sns-tab-btn" data-platform="ig">Instagram</button>
+            <button type="button" class="sns-tab-btn" data-platform="ogp">OGP Card</button>
+        </div>
+
+        <div class="sns-input-section">
+            <label class="sns-label">投稿テキスト</label>
+            <textarea id="sns-text" rows="4" placeholder="ここに投稿内容を入力してください..."></textarea>
+            <div class="sns-info-row"><span id="char-count">0 文字</span></div>
+
+            <div id="field-image">
+                <label class="sns-label">画像アップロード <br><small id="image-hint">※画像は1枚のみ対応。プレビュー内でドラッグしてトリミング位置を調整できます。</small></label>
+                <div class="sns-drop-zone" id="drop-zone">
+                    ファイルをドロップ または クリック
+                    <input type="file" id="sns-file" accept="image/*" style="display:none;">
+                </div>
+                <div id="upload-status" style="font-size:0.7rem; color:#888; margin-top:-10px; margin-bottom:15px;"></div>
+            </div>
+
+            <!-- Instagram用オプション -->
+            <div id="field-ig-ratio" style="display:none;">
+                <label class="sns-label">表示比率</label>
+                <select id="ig-ratio">
+                    <option value="1/1">正方形 (1:1)</option>
+                    <option value="4/5">縦長 (4:5)</option>
+                    <option value="1.91/1">横長 (1.91:1)</option>
+                    <option value="9/16">ストーリーズ (9:16)</option>
+                </select>
+            </div>
+
+            <!-- OGP用オプション -->
+            <div id="field-ogp" style="display:none;">
+                <label class="sns-label">サイトタイトル</label>
+                <input type="text" id="ogp-title" placeholder="ページのタイトルを入力">
+                <label class="sns-label">ドメイン名</label>
+                <input type="text" id="ogp-domain" placeholder="example.com">
+            </div>
+            
+            <div class="sns-action-btns">
+                <button type="button" id="btn-reset" class="btn" style="width:100%; background:#eee; color:#333;">すべてリセット</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 表示エリア -->
+    <div class="tool-result">
+        <div class="preview-header">
+            <span id="preview-label">X プレビュー</span>
+            <label class="safe-toggle"><input type="checkbox" id="toggle-safe"> セーフエリア表示</label>
+        </div>
+
+        <div id="capture-area-wrapper">
+            <div id="capture-box">
+                <!-- X Mock -->
+                <div id="mock-x" class="mock-container x-theme">
+                    <div class="mock-header">
+                        <div class="mock-avatar">
+                            <svg viewBox="0 0 24 24" fill="#cfd9de"><path d="M17.863 13.44c1.477 1.58 2.366 3.72 2.366 6.06V20h-16.46v-.5c0-2.34.89-4.48 2.366-6.06C7.61 12.02 9.72 11.22 12 11.22s4.39.8 5.863 2.22zM12 2.22C14.65 2.22 16.8 4.37 16.8 7.02s-2.15 4.8-4.8 4.8-4.8-2.15-4.8-4.8 2.15-4.8 4.8-4.8z"></path></svg>
+                        </div>
+                        <div class="mock-user-meta">
+                            <div class="name-row">
+                                <span class="name-bar">ユーザー名</span>
+                                <svg viewBox="0 0 22 22" class="verified-badge"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.89-.131-.627-.437-1.202-.882-1.655-.444-.444-1.01-.762-1.63-.907-.619-.145-1.268-.117-1.87.08-.283-.584-.71-1.096-1.238-1.478-.528-.382-1.15-.592-1.787-.604-.63-.013-1.25.184-1.785.567-.534.383-.948.914-1.19 1.523-.615-.213-1.282-.262-1.924-.143-.642.12-1.236.425-1.716.883-.48.458-.813 1.037-.963 1.673-.15.636-.123 1.3.08 1.916-.605.267-1.127.705-1.503 1.258-.376.553-.58 1.204-.587 1.872.007.675.215 1.332.597 1.89.382.558.912 1.003 1.53 1.284-.207.625-.233 1.3-.075 1.944.158.644.498 1.225.98 1.696.481.47.1.06 1.134.787 1.77.92.636.133 1.286.096 1.897-.037.61-.264 1.156-.69 1.572-1.222.417-.533.684-1.166.772-1.84.646.046 1.294-.035 1.898-.24.604-.203 1.144-.57 1.564-1.062.42-.49.704-1.085.823-1.724.12-.639.06-1.3-.173-1.917.584-.27 1.08-.7 1.432-1.237.352-.536.55-1.156.57-1.796z" fill="#1d9bf0"></path><path d="M9.707 14.293l-3.414-3.414 1.414-1.414 2 2 4.585-4.585 1.415 1.414z" fill="#fff"></path></svg>
+                                <span class="handle">@sample_user</span>
+                                <span class="dot">·</span>
+                                <span class="time">12分</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mock-body" id="view-x-text">投稿内容がここに表示されます。</div>
+                    <div class="mock-media-single" id="view-x-media">
+                        <img src="" id="view-x-img" class="draggable-img">
+                        <div class="safe-area-guide">SAFE AREA</div>
+                    </div>
+                </div>
+
+                <!-- IG Mock -->
+                <div id="mock-ig" class="mock-container ig-theme" style="display:none; padding:0;">
+                    <div class="mock-header" style="padding:12px;">
+                        <div class="mock-icon circle gradient"></div>
+                        <div class="mock-user">
+                            <div style="font-size: 0.8rem; font-weight: bold; line-height: 1.2;">sample_user</div>
+                            <div style="font-size: 0.7rem; color: #666;">Tokyo, Japan</div>
+                        </div>
+                        <div style="margin-left: auto; font-weight: bold; color: #333;">...</div>
+                    </div>
+                    <div class="mock-media-ig" id="view-ig-media">
+                        <img src="" id="view-ig-img" class="draggable-img">
+                        <div class="safe-area-guide">SAFE AREA</div>
+                    </div>
+                    <div class="mock-footer-ig" style="padding:12px;">
+                        <div class="mock-icons-row">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            <svg style="margin-left: auto;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <div style="font-size: 0.85rem; font-weight: bold; margin-bottom: 4px; color:#262626;">「いいね！」124件</div>
+                        <div class="mock-body" id="view-ig-text">キャプションがここに表示されます。</div>
+                    </div>
+                </div>
+
+                <!-- OGP Mock -->
+                <div id="mock-ogp" class="mock-container ogp-theme" style="display:none; padding:0; border-radius:0; border:none; background:transparent;">
+                    <div class="ogp-card-outer">
+                        <div class="mock-ogp-img" id="view-ogp-media">
+                            <img src="" id="view-ogp-img" class="draggable-img">
+                            <div class="safe-area-guide">SAFE AREA</div>
+                        </div>
+                        <div class="mock-ogp-info">
+                            <div id="view-ogp-domain" class="ogp-domain-text">DOMAIN.COM</div>
+                            <div id="view-ogp-title" class="ogp-title-text">リンクのタイトルがここに入ります</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="check-log" class="sns-check-log"></div>
+    </div>
+</div>
+
+
+<!-- ===== TOOL UI END ===== -->
+            <div class="disclaimer">
+                <strong>免責事項</strong><br>
+                本ツールは制作の参考情報として提供しています。印刷物の入稿前には必ず、利用される印刷会社の最新ガイドラインや規定をご確認ください。
+            </div>
+        </article>
+
+        <!-- ===== TOOL GUIDE START ===== -->
+        <section class="tool-guide">
+    <h2>このツールでできること</h2>
+    <p>
+        SNS投稿用の画像・テキスト・OGPカードが「実際にどう見えるか」を、投稿前に確認できるツールです。<br><br>
+        X（旧Twitter）・Instagram・OGPカードの表示を再現し、画像のトリミングやテキストの折り返し、省略位置までチェックできます。<br><br>
+        「いい感じに作ったのに、投稿したら見切れていた…」という事故を防ぎ、クライアント提出前の確認やSNS運用の精度を高めることができます。
+    </p>
+
+    <h2>使い方</h2>
+    <p>
+        <strong>1. SNSを選択</strong><br>
+        X・Instagram・OGPの中から、確認したいSNSを選びます。<br><br>
+
+        <strong>2. テキストと画像を入力</strong><br>
+        投稿文を入力し、画像をアップロードします。画像はドラッグして表示位置を調整できます。<br><br>
+
+        <strong>3. 見え方をチェック</strong><br>
+        トリミング・比率・テキストの折り返しを確認しながら、最適な投稿デザインに調整します。
+    </p>
+
+    <h2>こんな人におすすめ</h2>
+    <p>
+        ・SNS運用をしている方（X / Instagram）<br>
+        ・投稿画像を作るデザイナー<br>
+        ・クライアントに提出する前に確認したい方<br>
+        ・「投稿してから修正」が多いと感じている方
+    </p>
+
+    <h2>あわせて使いたいツール</h2>
+    <div class="related-tools">
+        <div class="related-tool-item">
+            <a href="sns-image-size-maker.html" class="related-tool-link">SNS画像サイズメーカー →</a>
+            <p>投稿サイズを最適な比率で作りたいときにおすすめです。</p>
+        </div>
+        <div class="related-tool-item">
+            <a href="px-mm-converter.html" class="related-tool-link">px ↔ mm 変換ツール →</a>
+            <p>印刷や他媒体とのサイズ調整をしたいときに便利です。</p>
+        </div>
+        <div class="related-tool-item">
+            <a href="layout-margin-calculator.html" class="related-tool-link">余白計算ツール →</a>
+            <p>トリミングを意識したレイアウト設計に役立ちます。</p>
+        </div>
+    </div>
+
+            <h2>あわせて読みたい記事</h2>
+            <div class="related-tools">
+                <div class="related-tool-item">
+                    <a href="../articles/how-to-choose-color-palette.html" class="related-tool-link">配色のルールを読む →</a>
+                    <p>プレビュー確認とあわせて、目に入りやすい色の組み方まで調整しやすくなります。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="../articles/what-is-dpi.html" class="related-tool-link">画像サイズと解像度の考え方を見る →</a>
+                    <p>SNS用と印刷用で考え方がどう違うかを知っておくと、流用時の事故を減らせます。</p>
+                </div>
+            </div>
+</section>
+        <!-- ===== TOOL GUIDE END ===== -->
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+                <h3>ツールを探す</h3>
+                <div id="footer-tools-list" class="footer-tools-grid">
+                    <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
+<a href="px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
+<a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+<a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+<a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
+<a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+<a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
+<a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+<a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
+<a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+<a href="cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>サイトメニュー</h3>
+                <a href="../about.html" class="footer-link-item">About</a>
+                                <a href="../articles/index.html" class="footer-link-item">Blog</a>
+<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+                <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+                <a href="../contact.html" class="footer-link-item">Contact</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    let currentPlatform = 'x';
+    let images = []; // { src, w, h, x: 50, y: 50 }
+
+    const elements = {
+        tabs: document.querySelectorAll('.sns-tab-btn'),
+        inputText: document.getElementById('sns-text'),
+        inputFile: document.getElementById('sns-file'),
+        dropZone: document.getElementById('drop-zone'),
+        charCount: document.getElementById('char-count'),
+        igRatio: document.getElementById('ig-ratio'),
+        ogpTitle: document.getElementById('ogp-title'),
+        ogpDomain: document.getElementById('ogp-domain'),
+        btnReset: document.getElementById('btn-reset'),
+        toggleSafe: document.getElementById('toggle-safe'),
+        captureBox: document.getElementById('capture-box'),
+        log: document.getElementById('check-log'),
+        uploadStatus: document.getElementById('upload-status')
+    };
+
+    // ドラッグ状態管理
+    let isDragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    let currentDragTarget = null;
+
+    // タブ切り替え
+    elements.tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+            elements.tabs.forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            currentPlatform = btn.dataset.platform;
+            
+            document.getElementById('field-ig-ratio').style.display = currentPlatform === 'ig' ? 'block' : 'none';
+            document.getElementById('field-ogp').style.display = currentPlatform === 'ogp' ? 'block' : 'none';
+            document.getElementById('preview-label').textContent = btn.textContent + ' プレビュー';
+            document.getElementById('image-hint').textContent = '※画像は1枚のみ対応（ドラッグで位置調整可）';
+
+            document.getElementById('mock-x').style.display = currentPlatform === 'x' ? 'block' : 'none';
+            document.getElementById('mock-ig').style.display = currentPlatform === 'ig' ? 'block' : 'none';
+            document.getElementById('mock-ogp').style.display = currentPlatform === 'ogp' ? 'block' : 'none';
+            
+            // 画像をリセットせず保持するため、images = []; の行を削除しました。
+            updatePreview();
+        });
+    });
+
+    // ドロップゾーンのイベント
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        elements.dropZone.addEventListener(eventName, e => {
+            e.preventDefault();
+            e.stopPropagation();
+        }, false);
+    });
+
+    elements.dropZone.addEventListener('dragover', () => elements.dropZone.classList.add('dragover'));
+    elements.dropZone.addEventListener('dragleave', () => elements.dropZone.classList.remove('dragover'));
+    elements.dropZone.addEventListener('drop', (e) => {
+        elements.dropZone.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    });
+    elements.dropZone.addEventListener('click', () => elements.inputFile.click());
+    elements.inputFile.addEventListener('change', (e) => handleFiles(e.target.files));
+
+    function handleFiles(files) {
+        const fileList = Array.from(files).slice(0, 1);
+        images = [];
+
+        if (fileList.length === 0) return;
+
+        fileList.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    images.push({ src: e.target.result, w: img.width, h: img.height, x: 50, y: 50 });
+                    elements.uploadStatus.textContent = `画像を読み込みました`;
+                    updatePreview();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    const handleDragStart = (e, index) => {
+        if (!images[index]) return;
+        isDragging = true;
+        currentDragTarget = index;
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+        lastX = clientX;
+        lastY = clientY;
+    };
+
+    window.onmousemove = (e) => {
+        if (!isDragging || currentDragTarget === null) return;
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        const dx = (clientX - lastX) / 2.5; 
+        const dy = (clientY - lastY) / 2.5;
+        images[currentDragTarget].x = Math.max(0, Math.min(100, images[currentDragTarget].x - dx));
+        images[currentDragTarget].y = Math.max(0, Math.min(100, images[currentDragTarget].y - dy));
+        lastX = clientX;
+        lastY = clientY;
+        renderImages();
+    };
+
+    window.onmouseup = () => {
+        isDragging = false;
+        currentDragTarget = null;
+    };
+
+    function renderImages() {
+        if (currentPlatform === 'x') {
+            const imgEl = document.getElementById('view-x-img');
+            const wrap = document.getElementById('view-x-media');
+            if (images[0]) {
+                imgEl.src = images[0].src;
+                imgEl.style.objectPosition = `${images[0].x}% ${images[0].y}%`;
+                imgEl.style.display = 'block';
+                wrap.onmousedown = (e) => handleDragStart(e, 0);
+            } else {
+                imgEl.style.display = 'none';
+            }
+        } else if (currentPlatform === 'ig') {
+            const imgEl = document.getElementById('view-ig-img');
+            const wrap = document.getElementById('view-ig-media');
+            if (images[0]) {
+                imgEl.src = images[0].src;
+                imgEl.style.objectPosition = `${images[0].x}% ${images[0].y}%`;
+                imgEl.style.display = 'block';
+                wrap.onmousedown = (e) => handleDragStart(e, 0);
+            } else {
+                imgEl.style.display = 'none';
+            }
+        } else if (currentPlatform === 'ogp') {
+            const imgEl = document.getElementById('view-ogp-img');
+            const wrap = document.getElementById('view-ogp-media');
+            if (images[0]) {
+                imgEl.src = images[0].src;
+                imgEl.style.objectPosition = `${images[0].x}% ${images[0].y}%`;
+                imgEl.style.display = 'block';
+                wrap.onmousedown = (e) => handleDragStart(e, 0);
+            } else {
+                imgEl.style.display = 'none';
+            }
+        }
+    }
+
+    function updatePreview() {
+        const text = elements.inputText.value;
+        elements.charCount.textContent = `${text.length} 文字`;
+        elements.log.innerHTML = '';
+        renderImages();
+
+        if (currentPlatform === 'x') {
+            document.getElementById('view-x-text').textContent = text || "投稿内容がここに表示されます。";
+            if (images[0]) checkSize(images[0], 1.78, "16:9");
+        } 
+        else if (currentPlatform === 'ig') {
+            document.getElementById('view-ig-text').textContent = text || "キャプションがここに表示されます。";
+            const wrap = document.getElementById('view-ig-media');
+            wrap.style.aspectRatio = elements.igRatio.value;
+            if (images[0]) checkSize(images[0], eval(elements.igRatio.value), elements.igRatio.value);
+        }
+        else if (currentPlatform === 'ogp') {
+            document.getElementById('view-ogp-title').textContent = elements.ogpTitle.value || 'リンクのタイトルがここに入ります';
+            document.getElementById('view-ogp-domain').textContent = (elements.ogpDomain.value || 'DOMAIN.COM').toUpperCase();
+            if (images[0]) checkSize(images[0], 1.91, "1.91:1");
+        }
+    }
+
+    function checkSize(img, targetRatio, label) {
+        const ratio = (img.w / img.h).toFixed(2);
+        const diff = Math.abs(ratio - targetRatio);
+        let msg = `元画像サイズ: ${img.w} x ${img.h}px (比率 ${ratio})`;
+        if (diff > 0.15) {
+            msg += `<br><span style="color:#d9534f">⚠️ 推奨比率(${label})と大きく異なります。位置を調整してください。</span>`;
+        } else {
+            msg += `<br><span style="color:#5cb85c">✅ 推奨比率に近いサイズです。</span>`;
+        }
+        elements.log.innerHTML = msg;
+    }
+
+    elements.inputText.addEventListener('input', updatePreview);
+    elements.ogpTitle.addEventListener('input', updatePreview);
+    elements.ogpDomain.addEventListener('input', updatePreview);
+    elements.igRatio.addEventListener('change', updatePreview);
+    elements.toggleSafe.addEventListener('change', (e) => {
+        elements.captureBox.classList.toggle('show-safe', e.target.checked);
+    });
+
+    elements.btnReset.addEventListener('click', () => {
+        elements.inputText.value = '';
+        elements.ogpTitle.value = '';
+        elements.ogpDomain.value = '';
+        elements.inputFile.value = '';
+        images = [];
+        elements.uploadStatus.textContent = "";
+        updatePreview();
+    });
+});
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

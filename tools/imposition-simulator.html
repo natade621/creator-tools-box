@@ -240,6 +240,7 @@
             text-decoration: none;
             color: #666;
             font-size: 0.9rem;
+            line-height: 1.5;
             transition: all 0.2s;
             padding: 0.2rem 0;
         }
@@ -443,6 +444,32 @@
         max-width: 100%;
     }
 }
+  .related-tools {
+    margin-top: 24px;
+  }
+
+  .related-tool-item + .related-tool-item {
+    margin-top: 32px;
+  }
+
+  .related-tool-link,
+  .related-tool-link:visited {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    color: #111;
+  }
+
+  .related-tool-link:hover {
+    opacity: 0.75;
+  }
+
+  .related-tool-item p {
+    margin: 10px 0 0;
+    line-height: 1.8;
+  }
     </style>
 </head>
 <body>
@@ -557,7 +584,35 @@
                 ・冊子レイアウトを確認したい編集者・ディレクター<br>
                 ・印刷入稿前に面付けを確認したい制作担当者
             </p>
-        </section>
+
+            <h2>あわせて使いたいツール</h2>
+            <div class="related-tools">
+                <div class="related-tool-item">
+                    <a href="page-plan-editor.html" class="related-tool-link">台割作成ツール →</a>
+                    <p>ページ構成を整理したあとに面付けへ進むことで、冊子全体の流れを確認しやすくなります。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="paper-size-reference.html" class="related-tool-link">サイズ早見表ツール →</a>
+                    <p>仕上がりサイズや用紙寸法を確認しながら、面付けの前提条件を揃えられます。</p>
+                </div>
+            </div>
+        
+            <h2>あわせて読みたい記事</h2>
+            <div class="related-tools">
+                <div class="related-tool-item">
+                    <a href="../articles/what-is-imposition.html" class="related-tool-link">面付けの基礎を読む →</a>
+                    <p>ページ順がどう並び替わるのか、実務でどこを確認すべきかを先に押さえておくとシミュレーターの結果が読みやすくなります。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="../articles/what-is-daiwari.html" class="related-tool-link">台割の基本を読む →</a>
+                    <p>面付けの前段階で必要になるページ構成の考え方を整理できます。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="../articles/print-prepress-checklist.html" class="related-tool-link">入稿前チェックリストを見る →</a>
+                    <p>面付け確認とあわせて、入稿前に見落としやすいポイントをまとめて確認できます。</p>
+                </div>
+            </div>
+</section>
         <!-- ===== TOOL GUIDE END ===== -->
 
     </main>
@@ -568,23 +623,28 @@
                <h3>ツールを探す</h3>
                 <div id="footer-tools-list" class="footer-tools-grid">
                     <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
+<a href="px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
 <a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
 <a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
 <a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
 <a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
 <a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
 <a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
 <a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
 <a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
-                 
+<a href="cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
                 </div>
             </div>
          <div class="footer-links">
     <h3>サイトメニュー</h3>
     <a href="../about.html" class="footer-link-item">About</a>
-    <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+                    <a href="../articles/index.html" class="footer-link-item">Blog</a>
+<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
     <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
- <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8C0gvBfEMc1g8lcH7g_oJvbfbC6fSsWFcQrWRP14rfsYtUw/viewform?usp=dialog" class="footer-link-item">Contact</a>
+ <a href="../contact.html" class="footer-link-item">Contact</a>
 
 </div>
         <div class="footer-bottom">

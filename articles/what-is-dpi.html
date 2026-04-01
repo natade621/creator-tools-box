@@ -1,22 +1,21 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    <meta name="color-scheme" content="only light">
-    <title>dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説｜クリエイターのお道具箱</title>
-    <meta name="description" content="dpiとは1インチあたりのドット数のこと。印刷は300dpi、Webは72dpiが基本ですが「なぜそうなのか」を現役デザイナーが実務目線で解説。ピクセルmm変換ツールも紹介します。">
-    <link rel="canonical" href="https://creator-tools-box.com/articles/what-is-dpi.html">
-    <meta property="og:title" content="dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説">
-    <meta property="og:description" content="dpiとは1インチあたりのドット数のこと。印刷は300dpi、Webは72dpiが基本ですが「なぜそうなのか」を現役デザイナーが実務目線で解説。">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://creator-tools-box.com/articles/what-is-dpi.html">
-    <meta property="og:site_name" content="クリエイターのお道具箱">
-
-    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<meta content="only light" name="color-scheme"/>
+<title>dpiって何？解像度の意味と印刷・Webでの考え方を現役デザイナーが解説｜クリエイターのお道具箱</title>
+<meta content="dpiとは1インチあたりのドット密度のこと。印刷での考え方、Webではピクセル数が重要になる理由、必要サイズの逆算方法を実務目線で解説します。" name="description"/>
+<link href="https://creator-tools-box.com/articles/what-is-dpi.html" rel="canonical"/>
+<meta content="dpiって何？解像度の意味と印刷・Webでの考え方を現役デザイナーが解説" property="og:title"/>
+<meta content="dpiとは1インチあたりのドット密度のこと。印刷での考え方、Webではピクセル数が重要になる理由、必要サイズの逆算方法を実務目線で解説します。" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://creator-tools-box.com/articles/what-is-dpi.html" property="og:url"/>
+<meta content="クリエイターのお道具箱" property="og:site_name"/>
+<link href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css" rel="stylesheet"/>
+<style>
         :root {
             --bg-color: #fcfcfc;
             --accent-color: #ffde00;
@@ -174,7 +173,8 @@
         .footer-content { max-width: 1000px; margin: 0 auto 4rem; display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
         .footer-tools h3, .footer-links h3 { font-size: 1rem; font-weight: 800; margin-bottom: 2rem; }
         .footer-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem; transition: all 0.2s; padding: 0.2rem 0; }
+        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem;
+            line-height: 1.5; transition: all 0.2s; padding: 0.2rem 0; }
         .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
         .footer-bottom { text-align: center; padding-top: 3rem; border-top: 1px solid #eee; max-width: 1000px; margin: 0 auto; }
         .copyright { font-size: 0.85rem; color: #aaa; letter-spacing: 0.05em; }
@@ -196,268 +196,242 @@
         @media (max-width: 480px) {
             .footer-tools-grid { grid-template-columns: 1fr; }
         }
-    </style>
+    
+        .sp-sidebar { display: none; }
+
+        @media (max-width: 768px) {
+            .sp-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                margin-top: 2rem;
+                padding-top: 2rem;
+                border-top: 1px solid #eee;
+            }
+            .sp-sidebar .sidebar-card {
+                padding-bottom: 1.5rem;
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid #eee;
+            }
+            .sp-sidebar .sidebar-card:last-child {
+                padding-bottom: 0;
+                margin-bottom: 0;
+                border-bottom: none;
+            }
+        }
+
+</style>
 </head>
 <body>
-
 <header class="site-header">
-    <div class="header-inner">
-        <a href="../index.html" class="site-logo">
-            <span class="logo-main">クリエイターのお道具箱</span>
-            <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
-        </a>
-    </div>
+<div class="header-inner">
+<a class="site-logo" href="../index.html">
+<span class="logo-main">クリエイターのお道具箱</span>
+<span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+</a>
+</div>
 </header>
-
-<nav class="breadcrumb" aria-label="パンくずリスト">
-    <a href="../index.html">ホーム</a>
-    <span>›</span>
-    <a href="../articles/">記事一覧</a>
-    <span>›</span>
+<nav aria-label="パンくずリスト" class="breadcrumb">
+<a href="../index.html">ホーム</a>
+<span>›</span>
+<a href="../articles/">記事一覧</a>
+<span>›</span>
     dpiって何？解像度の基本
 </nav>
-
 <div class="main-container">
-
-    <article class="article-body">
-
-        <header class="article-header">
-            <p class="article-category">デザイン基礎</p>
-            <h1 class="article-title">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</h1>
-            <div class="article-meta">
-                <span>2026年4月1日</span>
-            </div>
-        </header>
-
-        <nav class="toc-box" aria-label="目次">
-            <h2>目次</h2>
-            <ol class="toc-list">
-                <li><a href="#section1">dpiとは何か？1行で言うと</a></li>
-                <li><a href="#section2">72dpiと300dpiの違い、どっちを使う？</a></li>
-                <li><a href="#section3">「解像度が足りない」はなぜ起きる？</a></li>
-                <li><a href="#section4">実務でdpiを確認・変換する方法</a></li>
-                <li><a href="#section5">Photoshopで解像度を変更する手順</a></li>
-                <li><a href="#section6">まとめ</a></li>
-
-            </ol>
-        </nav>
-
-        <div class="article-content">
-
-            <p>「この画像、解像度が足りません」——印刷会社からこのメールが来たとき、何をどうすれば良いのか焦った経験、ありませんか？dpiという単語は知っていても、<strong>実際に何を意味していて、どう対処すればいいか</strong>がわからない人は意外と多いです。この記事では、現場で8年デザインをしてきた目線で、dpiと解像度の話をざっくり整理します。</p>
-
-            <h2 id="section1">dpiとは何か？1行で言うと</h2>
-
-            <p><span class="marker">dpi（ドット・パー・インチ）とは、1インチ（約25.4mm）の中にドットが何個あるかを表す単位</span>です。数値が大きいほど密度が高く、細かい表現ができます。</p>
-
-            <p>紙に印刷するとき、インクのドットがぎっしり並ぶことで画像が作られます。このドットの密度がdpiで、これが足りないと「のっぺりしたボケた印刷物」になります。逆にモニター表示では、そこまでの密度は必要ありません。スクリーンはピクセルで色を表示するので、密度よりも「画面上でどれだけのサイズを占めるか」のほうが重要になってきます。</p>
-
-            <div class="accent-box">
-                <p>dpiは「密度」の話。数値が高いほど細かく、印刷物はとくに重要。</p>
-            </div>
-
-            <h2 id="section2">72dpiと300dpiの違い、どっちを使う？</h2>
-
-            <p>「とりあえず300dpiにしておけ」という話をよく聞くと思います。でも、なぜ300なのか。そしてWebはなぜ72なのか。ここをちゃんと理解しておくと、現場での判断がかなり楽になります。</p>
-
-            <table class="compare-table">
-                <thead>
-                    <tr><th>用途</th><th>推奨dpi</th><th>理由</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>印刷（チラシ・パンフ・名刺など）</td><td>300dpi</td><td>人間の目が識別できる限界に近い密度。それ以上は大きくなるだけ。</td></tr>
-                    <tr><td>大判印刷（ポスター・バナーなど）</td><td>72〜150dpi</td><td>離れて見るので、粗さが目立たない。無理に高解像度にすると重くなる。</td></tr>
-                    <tr><td>Web・SNS・動画</td><td>72dpi（またはdpi不問）</td><td>モニターはdpiよりピクセル数が基準。72はあくまで慣例値。</td></tr>
-                </tbody>
-            </table>
-
-            <p>Web画像のdpiは、実のところモニター表示にほぼ影響しません。重要なのは<strong>ピクセル数（横×縦のpx）</strong>です。たとえばInstagramの正方形投稿は1080×1080pxが推奨されていますが、この画像が72dpiでも300dpiでも、スマホ画面上での見た目は同じです。</p>
-
-            <div class="callout">
-                <p class="callout-label">現場のコツ</p>
-                <p>Web用素材をPhotoshopで書き出すとき、「72dpiに変換してから書き出す」必要はありません。解像度はそのままにピクセル数だけ合わせれば十分です。dpiを変えても表示サイズは変わらず、ファイルサイズがわずかに変わるだけです。</p>
-            </div>
-
-            <h2 id="section3">「解像度が足りない」はなぜ起きる？</h2>
-
-            <p>印刷入稿で一番多いトラブルがこれです。よくある原因を整理します。</p>
-
-            <ul class="check-list">
-                <li><strong>Webからダウンロードした画像をそのまま使った</strong>Webの画像は多くが72dpi・小サイズ。A4に引き伸ばすとドットが粗くなります。</li>
-                <li><strong>小さいサイズで作業して、あとから拡大した</strong>ピクセル数は「引き伸ばしても増えない」です。後から大きくすると解像度が下がります。</li>
-                <li><strong>スマホで撮った写真をそのまま配置した</strong>スマホ写真は高画素でも、PhotoshopやIllustratorの配置サイズ次第で解像度が変わります。</li>
-            </ul>
-
-            <p>根本的な話をすると、<span class="marker">解像度は「ピクセル数 ÷ 実寸サイズ」で決まります</span>。たとえば幅300pxの画像を1インチ（約25mm）幅で印刷すれば300dpiですが、2インチ幅で印刷すれば150dpiになります。同じ画像でも、どのサイズで使うかで解像度は変わるわけです。</p>
-
-            <div class="accent-box">
-                <p>解像度の問題は「画像を作り直す」か「使用サイズを小さくする」しか根本解決できない。</p>
-            </div>
-
-            <h2 id="section4">実務でdpiを確認・変換する方法</h2>
-
-            <p>実際の現場では、「このA4チラシに使いたいこの写真は、何pxあれば足りるのか？」という逆算が必要になります。計算式はこうです。</p>
-
-            <p><strong>必要なピクセル数 ＝ 印刷サイズ（インチ）× dpi</strong></p>
-
-            <p>たとえばA4（210×297mm）に300dpiで印刷したい場合。210mmをインチに換算すると約8.27インチなので、<strong>8.27 × 300 ≒ 2481px</strong>。つまり横幅2481px以上の画像が必要ということです。縦は297mm ÷ 25.4 × 300 ≒ 3508px。これがA4・300dpiに必要なピクセル数です。</p>
-
-            <p>この換算、毎回手計算するのは面倒です。<a href="what-is-rgb-cmyk.html">RGBとCMYKの違い</a>と同じく、印刷の基礎知識はツールを使って手間を省くのが現場の流儀です。</p>
-
-            <div class="callout">
-                <p class="callout-label">現場のコツ</p>
-                <p>Illustratorで配置した画像の解像度は「リンク」パネルから確認できます。画像を選択してパネルを開くと「実効PPI」という数値が表示され、これが現在のdpiです。入稿前はここを必ずチェックする癖をつけておくと、差し戻しを防げます。</p>
-            </div>
-
-            <div class="tool-cta">
-                <p class="tool-cta-label">このサイトの無料ツール</p>
-                <h3>ピクセルmm変換ツール</h3>
-                <p>dpiを指定してpxとmmを瞬時に換算できます。<br>インストール不要、ブラウザで完結。</p>
-                <a href="../tools/px-mm-converter.html" class="btn">ピクセルmm変換ツールを使う →</a>
-            </div>
-
-            <h2 id="section5">Photoshopで解像度を変更する手順</h2>
-
-            <p>解像度の話がわかったところで、実際にPhotoshopでどう操作するかを整理しておきます。よく使う場面は2パターンあって、「<strong>現在の解像度を確認したい</strong>」と「<strong>解像度を変更（変換）したい</strong>」は操作が微妙に違います。</p>
-
-            <h3>まず現在のdpiを確認する</h3>
-
-            <p>メニューバーから <strong>イメージ → 画像解像度</strong>（ショートカット：Mac は option+command+I、Win は alt+ctrl+I）を開きます。「解像度」欄に現在のdpiが表示されています。ここで確認してから次の操作へ進みましょう。</p>
-
-            <h3>パターン①：解像度だけ変えたい（ピクセル数は変えない）</h3>
-
-            <p>「画像解像度」ダイアログを開いたら、<span class="marker">「再サンプル」のチェックを外す</span>のがポイントです。この状態で解像度の数値を変えると、ピクセル数はそのままに、印刷時の出力サイズだけが変わります。</p>
-
-            <p>たとえば72dpiの画像を300dpiに変更しても、再サンプルOFFなら画質は劣化しません。ただし、印刷サイズが小さくなります（ピクセル数が同じだから密度を上げるとサイズが縮む）。「データは十分あるのにdpiだけ低い」という場合はこちら。</p>
-
-            <h3>パターン②：解像度もピクセル数も変えたい（再サンプルあり）</h3>
-
-            <p>「再サンプル」にチェックを入れた状態で解像度を変更すると、印刷サイズを維持しながらピクセル数が増減します。小さい画像を「無理やり300dpiにしたい」ときにやりがちですが、<strong>これはAIが画素を補完するだけ</strong>なので、画質が上がるわけではありません。引き伸ばした画像と本質的には同じです。</p>
-
-            <div class="accent-box">
-                <p>再サンプルONで解像度を上げても画質は上がらない。元データのピクセル数が足りないなら、素材を差し替えるのが正解。</p>
-            </div>
-
-            <h3>Web用に書き出すとき（dpiを気にしなくていいケース）</h3>
-
-            <p>Web・SNS用に書き出す場合は、<strong>ファイル → 書き出し → Web用に保存（従来）</strong>を使うのがおすすめです。このダイアログから書き出した画像は、dpiの設定に関係なく72dpiで出力されます。画質はピクセル数と圧縮率で決まるので、解像度は気にせずサイズ（px）だけ合わせましょう。</p>
-
-            <div class="callout">
-                <p class="callout-label">現場のコツ</p>
-                <p>「Web用に保存」ではなく「別名で保存」でJPEGを書き出すと、元のdpiがそのまま保持されます。どちらでもWeb表示には影響ありませんが、ファイルサイズが若干変わります。迷ったら「Web用に保存」を使っておくのが無難です。</p>
-            </div>
-
-            <h2 id="section6">まとめ</h2>
-
-            <div class="summary-block">
-
-                <p class="summary-lead">dpiは「密度」、印刷は300dpi・大判は下げてOK、Webはピクセル数で考える。この3つを押さえれば現場で迷わない。</p>
-                <ol class="summary-list">
-                    <li><div><strong>dpiは1インチあたりのドット数</strong><p>数値が高いほど細かく鮮明な印刷ができる。印刷物は基本300dpi。</p></div></li>
-                    <li><div><strong>Web画像のdpiはほぼ関係ない</strong><p>モニター表示はピクセル数が基準。dpiを変えても見た目は変わらない。</p></div></li>
-                    <li><div><strong>必要pxは「インチ × dpi」で逆算できる</strong><p>A4・300dpiなら横2481px以上が必要。ツールを使えば一瞬で確認できる。</p></div></li>
-                </ol>
-            </div>
-
-            <p>「印刷したら画像がぼやけていた」という失敗は、たいていこのdpiの話が原因です。逆に言えば、入稿前に解像度さえ確認しておけば防げるトラブルです。<a href="print-color-dull-cause.html">印刷で色がくすんでしまう原因</a>と合わせて、入稿前のチェックリストとして活用してみてください。</p>
-
-            <div class="author-box">
-                <div class="author-avatar" aria-hidden="true">jun</div>
-                <div>
-                    <p class="author-name">jun</p>
-                    <p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
-                </div>
-            </div>
-
-            <div class="sp-related">
-                <p class="sp-related-label">関連記事</p>
-                <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
-                <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
-                <a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
-            </div>
-
-        </div>
-    </article>
-
-    <aside class="sidebar">
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">このページのツール</p>
-            <a href="../tools/px-mm-converter.html" class="sidebar-tool-card">
-                <span class="sidebar-tool-icon">📐</span>
-                <span class="sidebar-tool-body">
-                    <span class="sidebar-tool-name">ピクセルmm変換ツール</span>
-                    <span class="sidebar-tool-note">無料 · ブラウザで完結</span>
-                </span>
-                <span class="sidebar-tool-arrow">→</span>
-            </a>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">人気記事</p>
-            <ol class="sidebar-ranking">
-    <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
-    <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
-    <li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
-    <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
-    <li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+<article class="article-body">
+<header class="article-header">
+<p class="article-category">デザイン基礎</p>
+<h1 class="article-title">dpiって何？解像度の意味と印刷・Webでの考え方を現役デザイナーが解説</h1>
+<div class="article-meta">
+<span>2026年4月1日</span>
+</div>
+</header>
+<nav aria-label="目次" class="toc-box">
+<h2>目次</h2>
+<ol class="toc-list">
+<li><a href="#section1">dpiとは何か？1行で言うと</a></li>
+<li><a href="#section2">72dpiと300dpiはどう考える？</a></li>
+<li><a href="#section3">「解像度が足りない」はなぜ起きる？</a></li>
+<li><a href="#section4">実務でdpiを確認・変換する方法</a></li>
+<li><a href="#section5">Photoshopで解像度を変更する手順</a></li>
+<li><a href="#section6">まとめ</a></li>
 </ol>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">カテゴリ</p>
-            <ul class="sidebar-categories">
-                <li><a href="#">印刷・冊子制作 <span>12</span></a></li>
-                <li><a href="#">デザイン基礎 <span>8</span></a></li>
-                <li><a href="#">Illustrator <span>6</span></a></li>
-                <li><a href="#">SNS・Web <span>5</span></a></li>
-                <li><a href="#">ツールの使い方 <span>4</span></a></li>
-            </ul>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">関連記事</p>
-            <div class="sidebar-related">
-    <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
-    <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
-    <a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+</nav>
+<div class="article-content">
+<p>「この画像、解像度が足りません」——印刷会社からこのメールが来たとき、何をどうすれば良いのか焦った経験、ありませんか？dpiという単語は知っていても、<strong>実際に何を意味していて、どう対処すればいいか</strong>がわからない人は意外と多いです。この記事では、現場で8年デザインをしてきた目線で、dpiと解像度の話をざっくり整理します。</p>
+<h2 id="section1">dpiとは何か？1行で言うと</h2>
+<p><span class="marker">dpi（ドット・パー・インチ）とは、1インチ（約25.4mm）の中にドットが何個あるかを表す単位</span>です。数値が大きいほど密度が高く、細かい表現ができます。</p>
+<p>紙に印刷するとき、インクのドットがぎっしり並ぶことで画像が作られます。このドットの密度がdpiで、これが足りないと「のっぺりしたボケた印刷物」になります。逆にモニター表示では、そこまでの密度は必要ありません。スクリーンはピクセルで色を表示するので、密度よりも「画面上でどれだけのサイズを占めるか」のほうが重要になってきます。</p>
+<div class="accent-box">
+<p>dpiは「密度」の話。数値が高いほど細かく、印刷物はとくに重要。</p>
 </div>
-        </div>
-
-    </aside>
-
+<h2 id="section2">72dpiと300dpiはどう考える？</h2>
+<p>「とりあえず300dpiにしておけ」という話をよく聞くと思います。でも、なぜ300なのか。そしてWebで72dpiという数字がよく出てくるのはなぜなのか。ここを整理しておくと、現場での判断がかなり楽になります。</p>
+<table class="compare-table">
+<thead>
+<tr><th>用途</th><th>推奨dpi</th><th>理由</th></tr>
+</thead>
+<tbody>
+<tr><td>印刷（チラシ・パンフ・名刺など）</td><td>300dpi</td><td>人間の目が識別できる限界に近い密度。それ以上は大きくなるだけ。</td></tr>
+<tr><td>大判印刷（ポスター・バナーなど）</td><td>72〜150dpi</td><td>離れて見るので、粗さが目立たない。無理に高解像度にすると重くなる。</td></tr>
+<tr><td>Web・SNS・動画</td><td>dpiは目安扱い</td><td>モニター表示ではピクセル数が基準。72という値は慣例として残ることがあるが、必須条件ではない。</td></tr>
+</tbody>
+</table>
+<p>Web画像のdpiは、実のところモニター表示にほぼ影響しません。重要なのは<strong>ピクセル数（横×縦のpx）</strong>です。たとえばInstagramの正方形投稿では 1080×1080px が代表的なサイズですが、この画像が72dpiでも300dpiでも、スマホ画面上での見た目は同じです。</p>
+<div class="callout">
+<p class="callout-label">現場のコツ</p>
+<p>Web用素材をPhotoshopで書き出すとき、「72dpiに変換してから書き出す」必要はありません。解像度メタデータより、横幅・縦幅のピクセル数を合わせるほうが重要です。表示品質の判断軸は、基本的にpx数と圧縮率です。</p>
 </div>
+<h2 id="section3">「解像度が足りない」はなぜ起きる？</h2>
+<p>印刷入稿で一番多いトラブルがこれです。よくある原因を整理します。</p>
+<ul class="check-list">
+<li><strong>Webからダウンロードした画像をそのまま使った</strong>Webの画像はPPI情報にかかわらず小さいピクセル寸法で配布されることが多く、A4に引き伸ばすと粗くなります。</li>
+<li><strong>小さいサイズで作業して、あとから拡大した</strong>ピクセル数は「引き伸ばしても増えない」です。後から大きくすると解像度が下がります。</li>
+<li><strong>スマホで撮った写真をそのまま配置した</strong>スマホ写真は高画素でも、PhotoshopやIllustratorの配置サイズ次第で解像度が変わります。</li>
+</ul>
+<p>根本的な話をすると、<span class="marker">解像度は「ピクセル数 ÷ 実寸サイズ」で決まります</span>。たとえば幅300pxの画像を1インチ（約25mm）幅で印刷すれば300dpiですが、2インチ幅で印刷すれば150dpiになります。同じ画像でも、どのサイズで使うかで解像度は変わるわけです。</p>
+<div class="accent-box">
+<p>解像度の問題は「画像を作り直す」か「使用サイズを小さくする」しか根本解決できない。</p>
+</div>
+<h2 id="section4">実務でdpiを確認・変換する方法</h2>
+<p>実際の現場では、「このA4チラシに使いたいこの写真は、何pxあれば足りるのか？」という逆算が必要になります。計算式はこうです。</p>
+<p><strong>必要なピクセル数 ＝ 印刷サイズ（インチ）× dpi</strong></p>
+<p>たとえばA4（210×297mm）に300dpiで印刷したい場合。210mmをインチに換算すると約8.27インチなので、<strong>8.27 × 300 ≒ 2481px</strong>。つまり横幅2481px以上の画像が必要ということです。縦は297mm ÷ 25.4 × 300 ≒ 3508px。これがA4・300dpiに必要なピクセル数です。</p>
+<p>この換算、毎回手計算するのは面倒です。<a href="what-is-rgb-cmyk.html">RGBとCMYKの違い</a>と同じく、印刷の基礎知識はツールを使って手間を省くのが現場の流儀です。</p>
+<div class="callout">
+<p class="callout-label">現場のコツ</p>
+<p>Illustratorで配置した画像の解像度は「リンク」パネルから確認できます。画像を選択してパネルを開くと「実効PPI」という数値が表示され、これが現在のdpiです。入稿前はここを必ずチェックする癖をつけておくと、差し戻しを防げます。</p>
+</div>
+<div class="tool-cta">
+<p class="tool-cta-label">このサイトの無料ツール</p>
+<h3>ピクセルmm変換ツール</h3>
+<p>dpiを指定してpxとmmを瞬時に換算できます。<br/>インストール不要、ブラウザで完結。</p>
+<a class="btn" href="../tools/px-mm-converter.html">ピクセルmm変換ツールを使う →</a>
+</div>
+<h2 id="section5">Photoshopで解像度を変更する手順</h2>
+<p>解像度の話がわかったところで、実際にPhotoshopでどう操作するかを整理しておきます。よく使う場面は2パターンあって、「<strong>現在の解像度を確認したい</strong>」と「<strong>解像度を変更（変換）したい</strong>」は操作が微妙に違います。</p>
+<h3>まず現在のdpiを確認する</h3>
+<p>メニューバーから <strong>イメージ → 画像解像度</strong>（ショートカット：Mac は option+command+I、Win は alt+ctrl+I）を開きます。「解像度」欄に現在のdpiが表示されています。ここで確認してから次の操作へ進みましょう。</p>
+<h3>パターン①：解像度だけ変えたい（ピクセル数は変えない）</h3>
+<p>「画像解像度」ダイアログを開いたら、<span class="marker">「再サンプル」のチェックを外す</span>のがポイントです。この状態で解像度の数値を変えると、ピクセル数はそのままに、印刷時の出力サイズだけが変わります。</p>
+<p>たとえば72dpiの画像を300dpiに変更しても、再サンプルOFFなら画質は劣化しません。ただし、印刷サイズが小さくなります（ピクセル数が同じだから密度を上げるとサイズが縮む）。「データは十分あるのにdpiだけ低い」という場合はこちら。</p>
+<h3>パターン②：解像度もピクセル数も変えたい（再サンプルあり）</h3>
+<p>「再サンプル」にチェックを入れた状態で解像度を変更すると、印刷サイズを維持しながらピクセル数が増減します。小さい画像を「無理やり300dpiにしたい」ときにやりがちですが、<strong>これはAIが画素を補完するだけ</strong>なので、画質が上がるわけではありません。引き伸ばした画像と本質的には同じです。</p>
+<div class="accent-box">
+<p>再サンプルONで解像度を上げても画質は上がらない。元データのピクセル数が足りないなら、素材を差し替えるのが正解。</p>
+</div>
+<h3>Web用に書き出すとき（dpiを気にしなくていいケース）</h3>
+<p>Web・SNS用に書き出す場合は、<strong>ファイル → 書き出し → Web用に保存（従来）</strong>のような書き出し機能を使い、画像の横幅・縦幅を基準に調整するのがおすすめです。画質はピクセル数と圧縮率で決まるので、解像度メタデータよりサイズ（px）を優先して考えましょう。</p>
+<div class="callout">
+<p class="callout-label">現場のコツ</p>
+<p>「Web用に保存」でも「別名で保存」でも、Web表示でまず効くのはピクセル数です。どの書き出し方法でも、最終的な用途に合ったpx数と圧縮設定になっているかを優先して確認しましょう。</p>
+</div>
+<h2 id="section6">まとめ</h2>
+<div class="summary-block">
+<p class="summary-lead">dpiは「密度」、印刷は300dpi・大判は下げてOK、Webはピクセル数で考える。この3つを押さえれば現場で迷わない。</p>
+<ol class="summary-list">
+<li><div><strong>dpiは1インチあたりのドット数</strong><p>数値が高いほど細かく鮮明な印刷ができる。印刷物は基本300dpi。</p></div></li>
+<li><div><strong>Web画像のdpiはほぼ関係ない</strong><p>モニター表示はピクセル数が基準。dpiを変えても見た目は変わらない。</p></div></li>
+<li><div><strong>必要pxは「インチ × dpi」で逆算できる</strong><p>A4・300dpiなら横2481px以上が必要。ツールを使えば一瞬で確認できる。</p></div></li>
+</ol>
+</div>
+<p>「印刷したら画像がぼやけていた」という失敗は、たいていこのdpiの話が原因です。逆に言えば、入稿前に解像度さえ確認しておけば防げるトラブルです。<a href="print-color-dull-cause.html">印刷で色がくすんでしまう原因</a>と合わせて、入稿前のチェックリストとして活用してみてください。</p>
+<div class="author-box">
+<div aria-hidden="true" class="author-avatar">jun</div>
+<div>
+<p class="author-name">jun</p>
+<p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
+</div>
+</div>
+<div class="sp-sidebar">
+<div class="sidebar-card">
+<p class="sidebar-label">人気記事</p>
+<ol class="sidebar-ranking">
+<li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+<li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+<li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+<li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+<li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">関連記事</p>
+<div class="sidebar-related">
+<a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+<a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
+<a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+</div>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">このページのツール</p>
+<a class="sidebar-tool-card" href="../tools/px-mm-converter.html"><span class="sidebar-tool-icon">📐</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">ピクセルmm変換ツール</span><span class="sidebar-tool-note">印刷サイズの確認に便利</span></span><span class="sidebar-tool-arrow">→</span></a><a class="sidebar-tool-card" href="../tools/sns-image-size-maker.html"><span class="sidebar-tool-icon">🖼</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">SNS画像サイズメーカー</span><span class="sidebar-tool-note">Web画像サイズ確認にも</span></span><span class="sidebar-tool-arrow">→</span></a></div>
+</div>
+</div>
+</article>
+<aside class="sidebar">
+<div class="sidebar-card">
+<p class="sidebar-label">このページのツール</p>
 
+<a class="sidebar-tool-card" href="../tools/px-mm-converter.html"><span class="sidebar-tool-icon">📐</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">ピクセルmm変換ツール</span><span class="sidebar-tool-note">印刷サイズの確認に便利</span></span><span class="sidebar-tool-arrow">→</span></a><a class="sidebar-tool-card" href="../tools/sns-image-size-maker.html"><span class="sidebar-tool-icon">🖼</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">SNS画像サイズメーカー</span><span class="sidebar-tool-note">Web画像サイズ確認にも</span></span><span class="sidebar-tool-arrow">→</span></a></div>
+<div class="sidebar-card">
+<p class="sidebar-label">人気記事</p>
+<ol class="sidebar-ranking">
+<li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+<li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+<li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+<li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+<li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">カテゴリ</p>
+<ul class="sidebar-categories"><li><a href="../articles/index.html#basic">デザイン基礎<span>3</span></a></li><li><a href="../articles/index.html#color-print">印刷・色管理<span>4</span></a></li><li><a href="../articles/index.html#book-production">冊子・進行管理<span>3</span></a></li></ul>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">関連記事</p>
+<div class="sidebar-related">
+<a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+<a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
+<a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+</div>
+</div>
+</aside>
+</div>
 <footer>
-    <div class="footer-content">
-        <div class="footer-tools">
-            <h3>ツールを探す</h3>
-            <div class="footer-tools-grid">
-                <a href="../tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
-                <a href="../tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
-                <a href="../tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
-                <a href="../tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
-                <a href="../tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
-                <a href="../tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
-                <a href="../tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
-                <a href="../tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
-                <a href="../tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
-            </div>
-        </div>
-        <div class="footer-links">
-            <h3>サイトメニュー</h3>
-            <a href="../index.html" class="footer-link-item">ホーム</a>
-            <a href="../about.html" class="footer-link-item">About</a>
-            <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
-            <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
-            <a href="../contact.html" class="footer-link-item">Contact</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
-    </div>
+<div class="footer-content">
+<div class="footer-tools">
+<h3>ツールを探す</h3>
+<div class="footer-tools-grid">
+<a class="footer-link-item" href="../tools/page-plan-editor.html">台割作成ツール</a>
+<a class="footer-link-item" href="../tools/paper-size-reference.html">サイズ早見表ツール</a>
+<a class="footer-link-item" href="../tools/px-mm-converter.html">ピクセル ↔ mm 変換ツール</a>
+<a class="footer-link-item" href="../tools/imposition-simulator.html">面付けシミュレーター</a>
+<a class="footer-link-item" href="../tools/color-palette-generator.html">カラーパレット生成ツール</a>
+<a class="footer-link-item" href="../tools/character-count.html">文字数カウントツール</a>
+<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">黄金比率計算ツール</a>
+<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYK変換ツール</a>
+<a class="footer-link-item" href="../tools/schedule-deadline-calculator.html">納期・スケジュール計算メーカー</a>
+<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算ツール</a>
+<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズメーカー</a>
+<a class="footer-link-item" href="../tools/sns-preview-tool-complete.html">SNSプレビューツール</a>
+<a class="footer-link-item" href="../tools/illustrator-shortcut-quiz.html">Illustratorショートカットクイズ</a>
+<a class="footer-link-item" href="../tools/cmyk-color-quiz.html">CMYK/RGB色当てクイズ</a>
+</div>
+</div>
+<div class="footer-links">
+<h3>サイトメニュー</h3>
+<a class="footer-link-item" href="../index.html">Home</a>
+<a class="footer-link-item" href="../about.html">About</a>
+<a class="footer-link-item" href="../privacy.html">Privacy Policy</a>
+<a class="footer-link-item" href="../disclaimer.html">Disclaimer</a>
+<a class="footer-link-item" href="../contact.html">Contact</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="copyright">© <span id="year"></span> Creator Tools Box</p>
+</div>
 </footer>
-
 <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 </script>

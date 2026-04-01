@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="color-scheme" content="only light">
+
+    <title>記事一覧｜クリエイターのお道具箱</title>
+    <meta name="description" content="クリエイターのお道具箱の記事一覧ページです。デザイン基礎、印刷・色管理、冊子・進行管理の記事をカテゴリ別にまとめて読めます。">
+    <link rel="canonical" href="https://creator-tools-box.com/articles/">
+    <meta property="og:title" content="記事一覧｜クリエイターのお道具箱">
+    <meta property="og:description" content="クリエイターのお道具箱の記事一覧ページです。カテゴリ別に記事をまとめて読めます。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://creator-tools-box.com/articles/">
+    <meta property="og:site_name" content="クリエイターのお道具箱">
+
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --accent-color: #ffde00;
+            --black: #333;
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--black) !important;
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main { font-size: 1.3rem; font-weight: 800; }
+        .logo-sub { font-size: 0.75rem; font-weight: 400; color: #777; margin-top: 4px; }
+
+        .breadcrumb {
+            max-width: 860px;
+            margin: 1.5rem auto 0;
+            padding: 0 1.5rem;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        .breadcrumb a { color: #999; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; color: var(--black); }
+        .breadcrumb span { margin: 0 0.4rem; }
+
+        .main-container {
+            max-width: 860px;
+            margin: 2rem auto 6rem;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .article-header { margin-bottom: 2.5rem; }
+        .article-category {
+            display: inline-block;
+            background: var(--black);
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.3rem 0.9rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+        .article-title {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin: 0 0 1.2rem;
+        }
+        .article-meta {
+            font-size: 0.82rem;
+            color: #888;
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .toc-box {
+            background: var(--white);
+            border: 1px solid #e9e9e9;
+            border-radius: 12px;
+            padding: 1.2rem 1.4rem;
+            margin-bottom: 2.2rem;
+        }
+        .toc-box h2 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin: 0 0 1rem;
+            letter-spacing: 0.05em;
+            color: #555;
+        }
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: toc;
+        }
+        .toc-list li {
+            counter-increment: toc;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.88rem;
+        }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            gap: 0.6rem;
+            align-items: baseline;
+        }
+        .toc-list a::before {
+            content: counter(toc);
+            background: var(--accent-color);
+            font-size: 0.7rem;
+            font-weight: 800;
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .toc-list a:hover { text-decoration: underline; }
+
+        .article-content h2 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin: 2.8rem 0 1rem;
+            line-height: 1.3;
+        }
+        .article-content p {
+            line-height: 1.95;
+            margin-bottom: 1.4rem;
+            color: #444;
+            font-size: 0.97rem;
+        }
+        .marker {
+            background: linear-gradient(transparent 75%, #ffde00 75%);
+            font-weight: 700;
+            padding: 0 0.1em;
+        }
+
+        .callout {
+            background: #f4f4f4;
+            border-left: 4px solid #d0d0d0;
+            border-radius: 0 10px 10px 0;
+            padding: 1.1rem 1.5rem;
+            margin: 2rem 0;
+        }
+        .callout-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #888;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+        .callout p { margin: 0; color: #555; font-size: 0.93rem; line-height: 1.8; }
+
+        .accent-box {
+            background: #fffbe6;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 10px 10px 0;
+            padding: 1.1rem 1.5rem;
+            margin: 2rem 0;
+        }
+        .accent-box p { margin: 0; color: var(--black); font-size: 0.95rem; font-weight: 700; line-height: 1.8; }
+
+        .list-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0 2.5rem;
+        }
+        .list-summary-card {
+            background: var(--white);
+            border: var(--border);
+            border-radius: 16px;
+            padding: 1.2rem 1rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        .list-summary-card strong {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+        }
+        .list-summary-card span {
+            font-size: 0.82rem;
+            color: #666;
+        }
+
+        .article-link-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-top: 1px solid #f0f0f0;
+        }
+        .article-link-item {
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .article-link-item a {
+            display: block;
+            padding: 1rem 0;
+            text-decoration: none;
+            color: inherit;
+        }
+        .article-link-item a:hover .article-link-title {
+            text-decoration: underline;
+        }
+        .article-link-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: baseline;
+        }
+        .article-link-title {
+            font-size: 0.98rem;
+            font-weight: 700;
+            line-height: 1.6;
+            color: var(--black);
+        }
+        .article-link-date {
+            font-size: 0.78rem;
+            color: #999;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .sidebar { position: sticky; top: 2rem; display: flex; flex-direction: column; gap: 0; }
+        .sidebar-card {
+            padding: 1.4rem 0;
+            border-bottom: 1px solid #ebebeb;
+        }
+        .sidebar-card:last-child { border-bottom: none; padding-bottom: 0; }
+        .sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: #bbb;
+            text-transform: uppercase;
+            margin: 0 0 0.8rem;
+        }
+        .sidebar-tool-card {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            text-decoration: none;
+            background: #fff;
+            border: 1.5px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 0.7rem 0.85rem;
+            margin-bottom: 0.5rem;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .sidebar-tool-card:last-child { margin-bottom: 0; }
+        .sidebar-tool-card:hover { border-color: var(--accent-color); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        .sidebar-tool-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1; }
+        .sidebar-tool-body { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; }
+        .sidebar-tool-name { font-size: 0.85rem; font-weight: 700; color: var(--black); line-height: 1.3; }
+        .sidebar-tool-note { font-size: 0.72rem; color: #aaa; }
+        .sidebar-tool-arrow { font-size: 0.85rem; color: #ccc; flex-shrink: 0; }
+        .sidebar-tool-card:hover .sidebar-tool-arrow { color: var(--black); }
+
+        .sidebar-ranking {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: rank;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .sidebar-ranking li {
+            counter-increment: rank;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .sidebar-ranking li:last-child { border-bottom: none; }
+        .sidebar-ranking li::before {
+            content: counter(rank);
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: var(--black);
+            background: var(--accent-color);
+            border-radius: 4px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+        .sidebar-ranking li:nth-child(2)::before { background: #e8e8e8; }
+        .sidebar-ranking li:nth-child(3)::before { background: #f0c97a; }
+        .sidebar-ranking li:nth-child(4)::before,
+        .sidebar-ranking li:nth-child(5)::before { background: #f0f0f0; }
+        .sidebar-ranking a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #444;
+            text-decoration: none;
+            line-height: 1.5;
+            transition: color 0.15s;
+        }
+        .sidebar-ranking a:hover { color: var(--black); text-decoration: underline; }
+
+        .sidebar-categories {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        .sidebar-categories li a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: #555;
+            font-size: 0.85rem;
+            padding: 0.45rem 0.6rem;
+            border-radius: 6px;
+            transition: background 0.12s, color 0.12s;
+        }
+        .sidebar-categories li a:hover { background: #f5f5f5; color: var(--black); }
+        .sidebar-categories li a span {
+            font-size: 0.72rem;
+            color: #bbb;
+            font-weight: 500;
+        }
+
+        .sidebar-related a {
+            display: block;
+            text-decoration: none;
+            color: #555;
+            font-size: 0.83rem;
+            padding: 0.45rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            line-height: 1.5;
+            transition: color 0.15s;
+        }
+        .sidebar-related a:last-child { border-bottom: none; }
+        .sidebar-related a:hover { color: var(--black); text-decoration: underline; }
+        .sidebar-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
+
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .copyright { font-size: 0.85rem; color: #aaa; letter-spacing: 0.05em; }
+
+        .sp-related { display: none; }
+
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .article-title { font-size: 1.6rem; }            .article-link-top { display: block; }
+            .article-link-date { display: inline-block; margin-top: 0.25rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .sp-related {
+                display: block;
+                margin-top: 2rem;
+                padding-top: 2rem;
+                border-top: 1px solid #eee;
+            }
+            .sp-related-label {
+                font-size: 0.75rem;
+                font-weight: 800;
+                letter-spacing: 0.1em;
+                color: #aaa;
+                margin: 0 0 0.8rem;
+            }
+            .sp-related a {
+                display: block;
+                text-decoration: none;
+                color: #555;
+                font-size: 0.88rem;
+                padding: 0.45rem 0;
+                border-bottom: 1px solid #f0f0f0;
+                line-height: 1.5;
+            }
+            .sp-related a:last-child { border-bottom: none; }
+            .sp-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
+            .sp-related a:hover { color: var(--black); }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a href="../index.html" class="site-logo">
+            <span class="logo-main">クリエイターのお道具箱</span>
+            <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+        </a>
+    </div>
+</header>
+
+<nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="../index.html">ホーム</a>
+    <span>›</span>
+    記事一覧
+</nav>
+
+<div class="main-container">
+
+    <article class="article-body">
+
+        <header class="article-header">
+            <p class="article-category">記事一覧</p>
+            <h1 class="article-title">記事一覧</h1>
+            <div class="article-meta">
+                <span>全10記事</span>
+                <span>最終更新：2026年4月1日</span>
+            </div>
+        </header>
+
+        
+
+        <div class="article-content">
+
+            <p>クリエイターのお道具箱内の記事を、内容の近さと読み進めやすさで整理しました。<span class="marker">まず土台を押さえたい人は「デザイン基礎」から、印刷のトラブルや色の扱いで困っている人は「印刷・色管理」から</span>読むと流れがつかみやすいです。</p>
+
+            <p>内容の近さで整理しているので、気になるテーマからそのまま読めます。基礎を固めたい人は「デザイン基礎」、印刷まわりの悩みがある人は「印刷・色管理」、冊子制作や進行の流れを見たい人は「冊子・進行管理」からどうぞ。</p>
+
+            <h2 id="basic">デザイン基礎</h2>
+            <p>配色・比率・解像度など、制作物の見た目や判断の土台になる記事をまとめています。</p>
+            <ul class="article-link-list">
+                <li class="article-link-item">
+                    <a href="what-is-dpi.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</span>
+                            <span class="article-link-date">2026年4月1日</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-link-item">
+                    <a href="what-is-golden-ratio.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">なんかおしゃれに見える理由は黄金比だった｜意味と使い方をデザイナーが解説</span>
+                            <span class="article-link-date">2026年4月1日</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-link-item">
+                    <a href="how-to-choose-color-palette.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール</span>
+                            <span class="article-link-date">2026年4月1日</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <h2 id="color-print">印刷・色管理</h2>
+            <p>印刷したら色が変わる、入稿で差し戻される、といった実務の困りごとに直結する記事をまとめています。</p>
+            <ul class="article-link-list">
+                <li class="article-link-item">
+                    <a href="what-is-rgb-cmyk.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</span>
+                            <span class="article-link-date">2026年3月31日</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-link-item">
+                    <a href="print-prepress-checklist.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</span>
+                            <span class="article-link-date">2026年3月31日</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-link-item">
+                    <a href="print-color-dull-cause.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</span>
+                            <span class="article-link-date">2026年3月31日</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-link-item">
+                    <a href="hex-to-cmyk.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</span>
+                            <span class="article-link-date">2026年3月31日</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <h2 id="book-production">冊子・進行管理</h2>
+            <p>冊子づくりや制作進行に関する記事をまとめています。実制作の流れに近い順番で並べています。</p>
+            <ul class="article-link-list">
+                <li class="article-link-item">
+                    <a href="what-is-daiwari.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">台割とは？冊子制作で必ず必要なページ構成の基本</span>
+                            <span class="article-link-date">2026年3月30日</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-link-item">
+                    <a href="what-is-imposition.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</span>
+                            <span class="article-link-date">2026年3月31日</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="article-link-item">
+                    <a href="schedule-reverse-planning.html">
+                        <div class="article-link-top">
+                            <span class="article-link-title">なぜ制作スケジュールは必ず崩れるのか？逆算思考で組む進行管理の基本</span>
+                            <span class="article-link-date">2026年4月1日</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            
+
+        </div>
+    </article>
+
+    <aside class="sidebar">
+
+        
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">人気記事</p>
+            <ol class="sidebar-ranking">
+                <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+                <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+                <li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+                <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+                <li><a href="what-is-imposition.html">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</a></li>
+            </ol>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">カテゴリ</p>
+            <ul class="sidebar-categories">
+                <li><a href="index.html#basic">デザイン基礎 <span>3</span></a></li>
+                <li><a href="index.html#color-print">印刷・色管理 <span>4</span></a></li>
+                <li><a href="index.html#book-production">冊子・進行管理 <span>3</span></a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">関連記事</p>
+            <div class="sidebar-related">
+                <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
+                <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+                <a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+            </div>
+        </div>
+
+    </aside>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-tools">
+            <h3>ツールを探す</h3>
+            <div class="footer-tools-grid">
+<a class="footer-link-item" href="../tools/page-plan-editor.html">台割作成ツール</a>
+<a class="footer-link-item" href="../tools/paper-size-reference.html">サイズ早見表ツール</a>
+<a class="footer-link-item" href="../tools/px-mm-converter.html">ピクセル ↔ mm 変換ツール</a>
+<a class="footer-link-item" href="../tools/imposition-simulator.html">面付けシミュレーター</a>
+<a class="footer-link-item" href="../tools/color-palette-generator.html">カラーパレット生成ツール</a>
+<a class="footer-link-item" href="../tools/character-count.html">文字数カウントツール</a>
+<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">黄金比率計算ツール</a>
+<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYK変換ツール</a>
+<a class="footer-link-item" href="../tools/schedule-deadline-calculator.html">納期・スケジュール計算メーカー</a>
+<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算ツール</a>
+<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズメーカー</a>
+<a class="footer-link-item" href="../tools/sns-preview-tool-complete.html">SNSプレビューツール</a>
+<a class="footer-link-item" href="../tools/illustrator-shortcut-quiz.html">Illustratorショートカットクイズ</a>
+<a class="footer-link-item" href="../tools/cmyk-color-quiz.html">CMYK/RGB色当てクイズ</a>
+</div>
+        </div>
+        <div class="footer-links">
+            <h3>サイトメニュー</h3>
+            <a href="../index.html" class="footer-link-item">Home</a>
+            <a href="../about.html" class="footer-link-item">About</a>
+                            <a href="../articles/index.html" class="footer-link-item">Blog</a>
+<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+            <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+            <a href="../contact.html" class="footer-link-item">Contact</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

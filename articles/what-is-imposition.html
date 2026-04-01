@@ -1,23 +1,21 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    <meta name="color-scheme" content="only light">
-
-    <title>面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ｜クリエイターのお道具箱</title>
-    <meta name="description" content="面付けとは、複数のページを1枚の印刷用紙に正しい順番で配置する作業のこと。ZINEや同人誌、ポートフォリオを印刷する前に知っておかないと、ページ順がズレたり逆さになったりするトラブルの原因になります。">
-    <link rel="canonical" href="https://creator-tools-box.com/articles/what-is-imposition.html">
-    <meta property="og:title" content="面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ">
-    <meta property="og:description" content="面付けとは、複数のページを1枚の印刷用紙に正しい順番で配置する作業のこと。ZINEや同人誌、ポートフォリオを印刷する前に知っておかないと、ページ順がズレたりするトラブルの原因になります。">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://creator-tools-box.com/articles/what-is-imposition.html">
-    <meta property="og:site_name" content="クリエイターのお道具箱">
-
-    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<meta content="only light" name="color-scheme"/>
+<title>面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ｜クリエイターのお道具箱</title>
+<meta content="面付けとは、複数のページを1枚の印刷用紙に正しい順番で配置する作業のこと。ZINEや同人誌、ポートフォリオを印刷する前に知っておかないと、ページ順がズレたり逆さになったりするトラブルの原因になります。" name="description"/>
+<link href="https://creator-tools-box.com/articles/what-is-imposition.html" rel="canonical"/>
+<meta content="面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ" property="og:title"/>
+<meta content="面付けとは、複数のページを1枚の印刷用紙に正しい順番で配置する作業のこと。ZINEや同人誌、ポートフォリオを印刷する前に知っておかないと、ページ順がズレたりするトラブルの原因になります。" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://creator-tools-box.com/articles/what-is-imposition.html" property="og:url"/>
+<meta content="クリエイターのお道具箱" property="og:site_name"/>
+<link href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css" rel="stylesheet"/>
+<style>
         /* ============================================================
            ⚠️ CSS はここから footer まで変更不要
            記事固有のスタイルが必要な場合はこのブロックの末尾に追記する
@@ -177,7 +175,8 @@
         .footer-content { max-width: 1000px; margin: 0 auto 4rem; display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
         .footer-tools h3, .footer-links h3 { font-size: 1rem; font-weight: 800; margin-bottom: 2rem; }
         .footer-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem; transition: all 0.2s; padding: 0.2rem 0; }
+        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem;
+            line-height: 1.5; transition: all 0.2s; padding: 0.2rem 0; }
         .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
         .footer-bottom { text-align: center; padding-top: 3rem; border-top: 1px solid #eee; max-width: 1000px; margin: 0 auto; }
         .copyright { font-size: 0.85rem; color: #aaa; letter-spacing: 0.05em; }
@@ -202,303 +201,296 @@
         /* ============================================================
            ↑ ここまでCSS変更不要
         ============================================================ */
-    </style>
+    
+        .sp-sidebar { display: none; }
+
+        @media (max-width: 768px) {
+            .sp-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                margin-top: 2rem;
+                padding-top: 2rem;
+                border-top: 1px solid #eee;
+            }
+            .sp-sidebar .sidebar-card {
+                padding-bottom: 1.5rem;
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid #eee;
+            }
+            .sp-sidebar .sidebar-card:last-child {
+                padding-bottom: 0;
+                margin-bottom: 0;
+                border-bottom: none;
+            }
+        }
+
+</style>
 </head>
 <body>
-
 <header class="site-header">
-    <div class="header-inner">
-        <a href="../index.html" class="site-logo">
-            <span class="logo-main">クリエイターのお道具箱</span>
-            <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
-        </a>
-    </div>
+<div class="header-inner">
+<a class="site-logo" href="../index.html">
+<span class="logo-main">クリエイターのお道具箱</span>
+<span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+</a>
+</div>
 </header>
-
-<nav class="breadcrumb" aria-label="パンくずリスト">
-    <a href="../index.html">ホーム</a>
-    <span>›</span>
-    <a href="../articles/">記事一覧</a>
-    <span>›</span>
+<nav aria-label="パンくずリスト" class="breadcrumb">
+<a href="../index.html">ホーム</a>
+<span>›</span>
+<a href="../articles/">記事一覧</a>
+<span>›</span>
     面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ
 </nav>
-
 <div class="main-container">
-
-    <article class="article-body">
-
-        <header class="article-header">
-            <p class="article-category">印刷・冊子制作</p>
-            <h1 class="article-title">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</h1>
-            <div class="article-meta">
-                <span>2026年3月31日</span>
-            </div>
-        </header>
-
-        <nav class="toc-box" aria-label="目次">
-            <h2>目次</h2>
-            <ol class="toc-list">
-                <li><a href="#intro">「面付け」って、なんかプロっぽい言葉ですよね</a></li>
-                <li><a href="#definition">面付けとは？ひと言で言うと</a></li>
-                <li><a href="#why">なぜ面付けが必要なのか</a></li>
-                <li><a href="#types">製本方法で変わる面付けのルール</a></li>
-                <li><a href="#mistakes">やりがちな失敗パターン</a></li>
-                <li><a href="#tool">面付けをブラウザで確認する方法</a></li>
-                <li><a href="#summary">まとめ</a></li>
-            </ol>
-        </nav>
-
-        <div class="article-content" id="intro">
-
-            <p>
+<article class="article-body">
+<header class="article-header">
+<p class="article-category">印刷・冊子制作</p>
+<h1 class="article-title">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</h1>
+<div class="article-meta">
+<span>2026年3月31日</span>
+</div>
+</header>
+<nav aria-label="目次" class="toc-box">
+<h2>目次</h2>
+<ol class="toc-list">
+<li><a href="#intro">「面付け」って、なんかプロっぽい言葉ですよね</a></li>
+<li><a href="#definition">面付けとは？ひと言で言うと</a></li>
+<li><a href="#why">なぜ面付けが必要なのか</a></li>
+<li><a href="#types">製本方法で変わる面付けのルール</a></li>
+<li><a href="#mistakes">やりがちな失敗パターン</a></li>
+<li><a href="#tool">面付けをブラウザで確認する方法</a></li>
+<li><a href="#summary">まとめ</a></li>
+</ol>
+</nav>
+<div class="article-content" id="intro">
+<p>
                 「入稿したら、ページ順が全部ズレてた……」
             </p>
-            <p>
+<p>
                 ZINEや同人誌を初めて印刷所に頼んだとき、こういうトラブルにハマる人は少なくありません。しかも<span class="marker">原因のほとんどが「面付けのことを知らなかった」</span>というシンプルな話だったりします。
             </p>
-            <p>
+<p>
                 この記事では、「面付けってそもそも何？」というところから、<span class="marker">印刷前に確認しておくべき実務的なポイント</span>まで、デザイナー目線でわかりやすく解説します。
             </p>
-
-            <h2 id="definition">面付けとは？ひと言で言うと</h2>
-
-            <div class="accent-box">
-                <p>面付けとは、<span class="marker">複数ページを1枚の用紙に正しい順番・向きで配置する作業</span>のこと。折ったり綴じたりしたときに、ちゃんと読める冊子になるように設計する工程です。</p>
-            </div>
-
-            <p>
+<h2 id="definition">面付けとは？ひと言で言うと</h2>
+<div class="accent-box">
+<p>面付けとは、<span class="marker">複数ページを1枚の用紙に正しい順番・向きで配置する作業</span>のこと。折ったり綴じたりしたときに、ちゃんと読める冊子になるように設計する工程です。</p>
+</div>
+<p>
                 たとえば、A5サイズの冊子をA4用紙に印刷するとき、表と裏で2ページ分が1枚に乗ります。このとき、ただ「1ページ目、2ページ目」と並べても、折ったあとにページがバラバラになってしまいます。
             </p>
-            <p>
+<p>
                 面付けは、<span class="marker">「折ったあとに正しい順番で読めるように」</span>逆算してページを並び替える作業です。印刷の世界ではずっと使われてきた、地味だけど絶対に必要な工程のひとつです。
             </p>
-
-            <h2 id="why">なぜ面付けが必要なのか</h2>
-
-            <h3>冊子は「折って綴じる」から順番が変わる</h3>
-            <p>
+<h2 id="why">なぜ面付けが必要なのか</h2>
+<h3>冊子は「折って綴じる」から順番が変わる</h3>
+<p>
                 1枚の紙を半分に折ると、表4面・裏4面で合計4ページになります。このとき、紙の「上から1ページ目」に印刷した内容が、折ったあとに何ページ目になるかは、<span class="marker">折り方によって決まります</span>。
             </p>
-            <p>
+<p>
                 中綴じ（ホッチキス留め）なら、一番外側の用紙に表紙（1ページ目）と最終ページが来ます。ここをミスると、表紙を開いたら最後のページが出てきた、なんてことになります。
             </p>
-
-            <h3>印刷所は「1ページずつのPDF」を自動で面付けしてくれない</h3>
-            <p>
+<h3>印刷所は「1ページずつのPDF」を自動で面付けしてくれない</h3>
+<p>
                 「入稿ってPDFを送ればいいんでしょ？」と思って、ページ順のPDFをそのまま送ってしまうケースがよくあります。ところが多くの印刷所では、<span class="marker">面付けはデータを作る側の責任</span>という前提があります。
             </p>
-            <p>
+<p>
                 もちろん、面付けを代行してくれる印刷所もあります。ただ、その場合も「どういう仕様で面付けするか」を指定しないといけないので、基本を知っておくことは大切です。
             </p>
-
-            <div class="callout">
-                <p class="callout-label">現場のコツ</p>
-                <p>印刷所に発注する前に、仕様書（綴じ方・ページ数・サイズ）を決めてから面付けを考える順番が正解。先にデザインを全部作ってから面付けを考えると、ページ数が合わなくてやり直しになることがあります。<strong>「ページ数は4の倍数」</strong>が基本ルールなので、構成段階から意識しておくと安全です。</p>
-            </div>
-
-            <h2 id="types">製本方法で変わる面付けのルール</h2>
-
-            <p>
+<div class="callout">
+<p class="callout-label">現場のコツ</p>
+<p>印刷所に発注する前に、仕様書（綴じ方・ページ数・サイズ）を決めてから面付けを考える順番が正解。先にデザインを全部作ってから面付けを考えると、ページ数が合わなくてやり直しになることがあります。<strong>「ページ数は4の倍数」</strong>が基本ルールなので、構成段階から意識しておくと安全です。</p>
+</div>
+<h2 id="types">製本方法で変わる面付けのルール</h2>
+<p>
                 面付けのルールは、どんな製本方法を使うかによって変わります。ZINEや同人誌でよく使われる2種類を整理しておきましょう。
             </p>
-
-            <table class="compare-table">
-                <thead>
-                    <tr>
-                        <th>製本方法</th>
-                        <th>特徴</th>
-                        <th>ページ数の条件</th>
-                        <th>向いている冊子</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>中綴じ</strong></td>
-                        <td>用紙を重ねて真ん中をホッチキス留め。開きやすく薄い冊子向き</td>
-                        <td>4の倍数（8・12・16…）</td>
-                        <td>ZINE、パンフレット、薄い同人誌</td>
-                    </tr>
-                    <tr>
-                        <td><strong>無線綴じ</strong></td>
-                        <td>背に糊をつけて綴じる。本らしい見た目になる</td>
-                        <td>偶数ページであれば可（印刷所により4の倍数推奨の場合あり）</td>
-                        <td>厚めの同人誌、ポートフォリオ、小説本</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <p>
+<table class="compare-table">
+<thead>
+<tr>
+<th>製本方法</th>
+<th>特徴</th>
+<th>ページ数の条件</th>
+<th>向いている冊子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>中綴じ</strong></td>
+<td>用紙を重ねて真ん中をホッチキス留め。開きやすく薄い冊子向き</td>
+<td>4の倍数（8・12・16…）</td>
+<td>ZINE、パンフレット、薄い同人誌</td>
+</tr>
+<tr>
+<td><strong>無線綴じ</strong></td>
+<td>背に糊をつけて綴じる。本らしい見た目になる</td>
+<td>偶数ページであれば可（印刷所により4の倍数推奨の場合あり）</td>
+<td>厚めの同人誌、ポートフォリオ、小説本</td>
+</tr>
+</tbody>
+</table>
+<p>
                 中綴じの面付けは少しわかりやすく、たとえば8ページの冊子なら1枚目の表に「8ページ・1ページ」、裏に「2ページ・7ページ」と配置します。折ったときに順番通りになる、この並べ方が面付けのキモです。
             </p>
-
-            <div class="accent-box">
-                <p>面付けを間違えると、印刷後に修正はできません。<span class="marker">「刷り直し」＝追加コスト</span>になるので、入稿前の確認が一番大切です。</p>
-            </div>
-
-            <h2 id="mistakes">やりがちな失敗パターン</h2>
-
-            <ul class="check-list">
-                <li>
-                    <strong>ページ数が4の倍数になっていない</strong>
+<div class="accent-box">
+<p>面付けを間違えると、印刷後に修正はできません。<span class="marker">「刷り直し」＝追加コスト</span>になるので、入稿前の確認が一番大切です。</p>
+</div>
+<h2 id="mistakes">やりがちな失敗パターン</h2>
+<ul class="check-list">
+<li>
+<strong>ページ数が4の倍数になっていない</strong>
                     中綴じは必ず4の倍数でないと成立しません。「なんか1ページ余った」はよくある話。構成は最初から4の倍数で組みましょう。
                 </li>
-                <li>
-                    <strong>表紙と本文を別ファイルで作っていない</strong>
+<li>
+<strong>表紙と本文を別ファイルで作っていない</strong>
                     表紙（表1〜表4）と本文は分けて入稿することが多いです。一緒くたにしてページ番号を振ると、面付け時に混乱のもとになります。
                 </li>
-                <li>
-                    <strong>見開きデザインを単ページで作った</strong>
+<li>
+<strong>見開きデザインを単ページで作った</strong>
                     両端のページをまたぐ見開きデザインは、面付けしたときに左右がずれる可能性があります。印刷所によっては見開きPDFで入稿する仕様もあるので事前確認を。
                 </li>
-                <li>
-                    <strong>折り方向を考えずにデザインを入れた</strong>
+<li>
+<strong>折り方向を考えずにデザインを入れた</strong>
                     天（上側）・地（下側）の向きを意識していないと、折ったときに逆さまのページができることがあります。特に縦横混在のレイアウトは要注意。
                 </li>
-            </ul>
-
-            <h2 id="tool">面付けをブラウザで確認する方法</h2>
-
-            <p>
+</ul>
+<h2 id="tool">面付けをブラウザで確認する方法</h2>
+<p>
                 「正直、頭の中だけで面付けをイメージするのは難しい……」というのが本音だと思います。ページ数が増えるほど、どのページがどこに来るかが複雑になります。
             </p>
-            <p>
+<p>
                 そんなときに便利なのが、<span class="marker">面付けをビジュアルで確認できるツール</span>です。ページ数と製本方法を入力するだけで、どのページがどこに配置されるかをシミュレーションできます。入稿前のチェックに使えば、ページ順のミスをほぼゼロにできます。
             </p>
-
-            <div class="tool-cta">
-                <p class="tool-cta-label">このサイトの無料ツール</p>
-                <h3>面付けシミュレーター</h3>
-                <p>ページ数と製本方法を選ぶだけで、面付けの配置を視覚的に確認できます。<br>インストール不要、ブラウザで完結。入稿前のセルフチェックにどうぞ。</p>
-                <a href="../tools/imposition-simulator.html" class="btn">面付けシミュレーターを使う →</a>
-            </div>
-
-            <h2 id="summary">まとめ</h2>
-
-            <div class="summary-block">
-                <p class="summary-lead">面付けは「折ったあとに正しく読める配置」の設計。<br>知らずに入稿すると刷り直しになるので、入稿前に必ず確認する習慣をつけよう。</p>
-                <ol class="summary-list">
-                    <li>
-                        <div>
-                            <strong>面付け＝ページを折った順番通りに読めるように配置すること</strong>
-                            <p>1ページずつ並べたPDFがそのまま冊子になるわけではない。折り方に合わせて配置を変える作業が面付け。</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <strong>製本方法（中綴じ・無線綴じ）でルールが変わる</strong>
-                            <p>中綴じはページ数が4の倍数必須。無線綴じは8の倍数が理想。構成を決める段階から意識しておくと失敗が減る。</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <strong>入稿前にシミュレーターで確認するのが最速</strong>
-                            <p>頭の中だけで面付けを把握するのは難しい。ツールを使って視覚的に確認してから入稿するのが現場の基本。</p>
-                        </div>
-                    </li>
-                </ol>
-            </div>
-
-            <p>
+<div class="tool-cta">
+<p class="tool-cta-label">このサイトの無料ツール</p>
+<h3>面付けシミュレーター</h3>
+<p>ページ数と製本方法を選ぶだけで、面付けの配置を視覚的に確認できます。<br/>インストール不要、ブラウザで完結。入稿前のセルフチェックにどうぞ。</p>
+<a class="btn" href="../tools/imposition-simulator.html">面付けシミュレーターを使う →</a>
+</div>
+<h2 id="summary">まとめ</h2>
+<div class="summary-block">
+<p class="summary-lead">面付けは「折ったあとに正しく読める配置」の設計。<br/>知らずに入稿すると刷り直しになるので、入稿前に必ず確認する習慣をつけよう。</p>
+<ol class="summary-list">
+<li>
+<div>
+<strong>面付け＝ページを折った順番通りに読めるように配置すること</strong>
+<p>1ページずつ並べたPDFがそのまま冊子になるわけではない。折り方に合わせて配置を変える作業が面付け。</p>
+</div>
+</li>
+<li>
+<div>
+<strong>製本方法（中綴じ・無線綴じ）でルールが変わる</strong>
+<p>中綴じはページ数が4の倍数必須。無線綴じは8の倍数が理想。構成を決める段階から意識しておくと失敗が減る。</p>
+</div>
+</li>
+<li>
+<div>
+<strong>入稿前にシミュレーターで確認するのが最速</strong>
+<p>頭の中だけで面付けを把握するのは難しい。ツールを使って視覚的に確認してから入稿するのが現場の基本。</p>
+</div>
+</li>
+</ol>
+</div>
+<p>
                 面付けはむずかしい概念ではなく、「折ったときに順番通りになるように逆算する」というシンプルな話です。一度理解してしまえば、次からは自然と意識できるようになります。最初の1冊は、シミュレーターで確認しながら進めてみてください。
             </p>
-
-            <div class="author-box">
-                <div class="author-avatar" aria-hidden="true">jun</div>
-                <div>
-                    <p class="author-name">jun</p>
-                    <p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
-                </div>
-            </div>
-
-            <div class="sp-related">
-                <p class="sp-related-label">関連記事</p>
-                <a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a>
-                <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
-                <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
-            </div>
-
-        </div>
-    </article>
-
-    <aside class="sidebar">
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">このページのツール</p>
-            <a href="../tools/imposition-simulator.html" class="sidebar-tool-card">
-                <span class="sidebar-tool-icon">📄</span>
-                <span class="sidebar-tool-body">
-                    <span class="sidebar-tool-name">面付けシミュレーター</span>
-                    <span class="sidebar-tool-note">無料 · ブラウザで完結</span>
-                </span>
-                <span class="sidebar-tool-arrow">→</span>
-            </a>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">人気記事</p>
-            <ol class="sidebar-ranking">
-    <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
-    <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
-    <li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
-    <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
-    <li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
-</ol>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">カテゴリ</p>
-            <ul class="sidebar-categories">
-                <li><a href="#">印刷・冊子制作 <span>12</span></a></li>
-                <li><a href="#">デザイン基礎 <span>8</span></a></li>
-                <li><a href="#">Illustrator <span>6</span></a></li>
-                <li><a href="#">SNS・Web <span>5</span></a></li>
-                <li><a href="#">ツールの使い方 <span>4</span></a></li>
-            </ul>
-        </div>
-
-        <div class="sidebar-card">
-            <p class="sidebar-label">関連記事</p>
-            <div class="sidebar-related">
-                <a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a>
-                <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
-                <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
-            </div>
-        </div>
-
-    </aside>
-
+<div class="author-box">
+<div aria-hidden="true" class="author-avatar">jun</div>
+<div>
+<p class="author-name">jun</p>
+<p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
 </div>
+</div>
+<div class="sp-sidebar">
+<div class="sidebar-card">
+<p class="sidebar-label">人気記事</p>
+<ol class="sidebar-ranking">
+<li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+<li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+<li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+<li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+<li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">関連記事</p>
+<div class="sidebar-related">
+<a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a>
+<a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+<a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
+</div>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">このページのツール</p>
+<a class="sidebar-tool-card" href="../tools/imposition-simulator.html"><span class="sidebar-tool-icon">🖨</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">面付けシミュレーター</span><span class="sidebar-tool-note">ページ順を確認できる</span></span><span class="sidebar-tool-arrow">→</span></a><a class="sidebar-tool-card" href="../tools/page-plan-editor.html"><span class="sidebar-tool-icon">📋</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">台割作成ツール</span><span class="sidebar-tool-note">台割整理とセットで便利</span></span><span class="sidebar-tool-arrow">→</span></a></div>
+</div>
+</div>
+</article>
+<aside class="sidebar">
+<div class="sidebar-card">
+<p class="sidebar-label">このページのツール</p>
 
+<a class="sidebar-tool-card" href="../tools/imposition-simulator.html"><span class="sidebar-tool-icon">🖨</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">面付けシミュレーター</span><span class="sidebar-tool-note">ページ順を確認できる</span></span><span class="sidebar-tool-arrow">→</span></a><a class="sidebar-tool-card" href="../tools/page-plan-editor.html"><span class="sidebar-tool-icon">📋</span><span class="sidebar-tool-body"><span class="sidebar-tool-name">台割作成ツール</span><span class="sidebar-tool-note">台割整理とセットで便利</span></span><span class="sidebar-tool-arrow">→</span></a></div>
+<div class="sidebar-card">
+<p class="sidebar-label">人気記事</p>
+<ol class="sidebar-ranking">
+<li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+<li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+<li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+<li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+<li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">カテゴリ</p>
+<ul class="sidebar-categories"><li><a href="../articles/index.html#basic">デザイン基礎<span>3</span></a></li><li><a href="../articles/index.html#color-print">印刷・色管理<span>4</span></a></li><li><a href="../articles/index.html#book-production">冊子・進行管理<span>3</span></a></li></ul>
+</div>
+<div class="sidebar-card">
+<p class="sidebar-label">関連記事</p>
+<div class="sidebar-related">
+<a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a>
+<a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+<a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
+</div>
+</div>
+</aside>
+</div>
 <footer>
-    <div class="footer-content">
-        <div class="footer-tools">
-            <h3>ツールを探す</h3>
-            <div class="footer-tools-grid">
-                <a href="../tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
-                <a href="../tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
-                <a href="../tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
-                <a href="../tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
-                <a href="../tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
-                <a href="../tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
-                <a href="../tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
-                <a href="../tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
-                <a href="../tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
-            </div>
-        </div>
-        <div class="footer-links">
-            <h3>サイトメニュー</h3>
-            <a href="../index.html" class="footer-link-item">ホーム</a>
-            <a href="../about.html" class="footer-link-item">About</a>
-            <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
-            <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
-            <a href="../contact.html" class="footer-link-item">Contact</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
-    </div>
+<div class="footer-content">
+<div class="footer-tools">
+<h3>ツールを探す</h3>
+<div class="footer-tools-grid">
+<a class="footer-link-item" href="../tools/page-plan-editor.html">台割作成ツール</a>
+<a class="footer-link-item" href="../tools/paper-size-reference.html">サイズ早見表ツール</a>
+<a class="footer-link-item" href="../tools/px-mm-converter.html">ピクセル ↔ mm 変換ツール</a>
+<a class="footer-link-item" href="../tools/imposition-simulator.html">面付けシミュレーター</a>
+<a class="footer-link-item" href="../tools/color-palette-generator.html">カラーパレット生成ツール</a>
+<a class="footer-link-item" href="../tools/character-count.html">文字数カウントツール</a>
+<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">黄金比率計算ツール</a>
+<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYK変換ツール</a>
+<a class="footer-link-item" href="../tools/schedule-deadline-calculator.html">納期・スケジュール計算メーカー</a>
+<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算ツール</a>
+<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズメーカー</a>
+<a class="footer-link-item" href="../tools/sns-preview-tool-complete.html">SNSプレビューツール</a>
+<a class="footer-link-item" href="../tools/illustrator-shortcut-quiz.html">Illustratorショートカットクイズ</a>
+<a class="footer-link-item" href="../tools/cmyk-color-quiz.html">CMYK/RGB色当てクイズ</a>
+</div>
+</div>
+<div class="footer-links">
+<h3>サイトメニュー</h3>
+<a class="footer-link-item" href="../index.html">Home</a>
+<a class="footer-link-item" href="../about.html">About</a>
+<a class="footer-link-item" href="../privacy.html">Privacy Policy</a>
+<a class="footer-link-item" href="../disclaimer.html">Disclaimer</a>
+<a class="footer-link-item" href="../contact.html">Contact</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="copyright">© <span id="year"></span> Creator Tools Box</p>
+</div>
 </footer>
-
 <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 </script>

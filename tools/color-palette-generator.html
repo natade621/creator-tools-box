@@ -248,6 +248,7 @@
             text-decoration: none;
             color: #666;
             font-size: 0.9rem;
+            line-height: 1.5;
             transition: all 0.2s;
             padding: 0.2rem 0;
         }
@@ -439,6 +440,32 @@
     .color-item { height: 90px; flex-direction: row; justify-content: space-between; padding: 0 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
     .color-label-wrap { flex-direction: row; justify-content: flex-end; gap: 20px; padding: 0; }
 }
+  .related-tools {
+    margin-top: 24px;
+  }
+
+  .related-tool-item + .related-tool-item {
+    margin-top: 32px;
+  }
+
+  .related-tool-link,
+  .related-tool-link:visited {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    color: #111;
+  }
+
+  .related-tool-link:hover {
+    opacity: 0.75;
+  }
+
+  .related-tool-item p {
+    margin: 10px 0 0;
+    line-height: 1.8;
+  }
     </style>
 </head>
 <body>
@@ -595,7 +622,31 @@ WebデザインやUIデザイン、グラフィック制作、ブランドカラ
                 <li>SNS投稿や資料用にカラーパレットを作りたい人</li>
                 <li>デザイン制作の初期段階でカラーコンセプトを検討したいチーム</li>
             </ul>
-        </section>
+
+            <h2>あわせて使いたいツール</h2>
+            <div class="related-tools">
+                <div class="related-tool-item">
+                    <a href="cmyk-color-quiz.html" class="related-tool-link">CMYKカラーチャレンジ →</a>
+                    <p>色の見分け方や混色感覚を鍛えながら、配色の精度をさらに高められます。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="sns-image-size-maker.html" class="related-tool-link">SNS画像サイズメーカー →</a>
+                    <p>決めた配色をそのままSNS用ビジュアルづくりに展開しやすくなります。</p>
+                </div>
+            </div>
+        
+            <h2>あわせて読みたい記事</h2>
+            <div class="related-tools">
+                <div class="related-tool-item">
+                    <a href="../articles/how-to-choose-color-palette.html" class="related-tool-link">配色の決め方の記事を読む →</a>
+                    <p>補色・類似色・トーンの考え方を先に押さえておくと、生成されたパレットを「なぜこの配色なのか」まで説明しやすくなります。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="../articles/what-is-rgb-cmyk.html" class="related-tool-link">RGBとCMYKの違いを知る →</a>
+                    <p>画面で見た配色と印刷後の見え方が変わる理由を理解しておくと、配色の事故を減らせます。</p>
+                </div>
+            </div>
+</section>
         <!-- ===== TOOL GUIDE END ===== -->
 
     </main>
@@ -606,23 +657,28 @@ WebデザインやUIデザイン、グラフィック制作、ブランドカラ
                <h3>ツールを探す</h3>
                 <div id="footer-tools-list" class="footer-tools-grid">
                     <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
+<a href="px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
 <a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
 <a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
 <a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
 <a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
 <a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
 <a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
 <a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
 <a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
-                 
+<a href="cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
                 </div>
             </div>
             <div class="footer-links">
                    <h3>サイトメニュー</h3>
     <a href="../about.html" class="footer-link-item">About</a>
-    <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+                    <a href="../articles/index.html" class="footer-link-item">Blog</a>
+<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
     <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
- <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8C0gvBfEMc1g8lcH7g_oJvbfbC6fSsWFcQrWRP14rfsYtUw/viewform?usp=dialog" class="footer-link-item">Contact</a>
+ <a href="../contact.html" class="footer-link-item">Contact</a>
 </div>
         <div class="footer-bottom">
             <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>

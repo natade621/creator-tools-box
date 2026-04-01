@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <title>納期・スケジュール計算メーカー｜クリエイターのお道具箱</title>
+    <meta name="description" content="納品日から制作スケジュールを逆算できる無料ツール。デザイン、確認、修正、入稿準備などの必要日数を入れると、各工程の締め切りをブラウザ上ですばやく整理できます。">
+
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --accent-color: #ffde00;
+            --black: #333;
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0 0 #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        .tool-card {
+            margin-bottom: 5rem;
+        }
+        .tool-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 4px;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            opacity: 0.6;
+            z-index: -1;
+        }
+        .tool-lead {
+            font-size: 1.05rem;
+            color: #555;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .tool-ui {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+        .intro-panel {
+            background: #fffdf2;
+            border: 1px solid #f0e5a0;
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+            font-size: 0.92rem;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem 1.2rem;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+        .field.full {
+            grid-column: 1 / -1;
+        }
+        .field label {
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 0.95rem 1rem;
+            border: var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            background: var(--white);
+        }
+        .button-row {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1.2rem;
+        }
+        .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 0.95rem 2rem;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            color: var(--black);
+        }
+        .btn.secondary {
+            background: #fff;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .tool-result {
+            margin-top: 1.6rem;
+            background: #fdfdfd;
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+        }
+        .result-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding-bottom: 1rem;
+            border-bottom: 2px dashed #e5e5e5;
+            margin-bottom: 1rem;
+        }
+        .result-head h2 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        .result-note {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0;
+        }
+        .schedule-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .schedule-item {
+            display: grid;
+            grid-template-columns: max-content minmax(0, 1fr);
+            gap: 1rem;
+            align-items: start;
+            border: 1px solid #ececec;
+            border-radius: 14px;
+            padding: 1rem;
+            background: #fff;
+        }
+        .schedule-date {
+            width: max-content;
+            max-width: 100%;
+            font-weight: 800;
+            font-size: 0.95rem;
+            background: var(--accent-color);
+            border-radius: 10px;
+            padding: 0.5rem 0.7rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .schedule-body {
+            min-width: 0;
+        }
+        .schedule-body strong {
+            display: block;
+            margin-bottom: 0.2rem;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+        .schedule-body p {
+            margin: 0;
+            color: #666;
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        .summary-card {
+            border: 1px solid #ececec;
+            border-radius: 14px;
+            padding: 0.9rem 1rem;
+            background: #fff;
+        }
+        .summary-card span {
+            display: block;
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 0.25rem;
+        }
+        .summary-card strong {
+            font-size: 1rem;
+        }
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.4rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin: 2rem auto 0;
+            border-radius: 4px;
+            max-width: 700px;
+        }
+
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        .tool-guide h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+        }
+        .tool-guide p {
+            color: #444;
+            line-height: 1.9;
+        }
+
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3,
+        .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            .tool-header h1 {
+                font-size: 2rem;
+            }
+            .form-grid,
+            .summary-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            .schedule-item {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <article class="tool-card">
+            <header class="tool-header">
+                <h1>納期・スケジュール計算メーカー</h1>
+                <p class="tool-lead">納品日から逆算して、制作開始日や確認締切を整理できる簡易スケジュールツールです。案件の余白を見落とさないためのたたき台として使えます。</p>
+            </header>
+
+            <div class="tool-ui">
+                <div class="intro-panel">
+                    納品日と各工程の日数を入れると、確認・修正・入稿準備の締切をまとめて逆算します。営業日ベースではなく暦日ベースの簡易計算です。
+                </div>
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="deliveryDate">納品日</label>
+                        <input type="date" id="deliveryDate">
+                    </div>
+                    <div class="field">
+                        <label for="bufferDays">予備日</label>
+                        <input type="number" id="bufferDays" min="0" value="2">
+                    </div>
+                    <div class="field">
+                        <label for="printDays">入稿・納品準備</label>
+                        <input type="number" id="printDays" min="0" value="2">
+                    </div>
+                    <div class="field">
+                        <label for="reviewDays">確認待ち・承認待ち</label>
+                        <input type="number" id="reviewDays" min="0" value="3">
+                    </div>
+                    <div class="field">
+                        <label for="fixDays">修正対応</label>
+                        <input type="number" id="fixDays" min="0" value="2">
+                    </div>
+                    <div class="field">
+                        <label for="designDays">制作期間</label>
+                        <input type="number" id="designDays" min="0" value="5">
+                    </div>
+                    <div class="field full">
+                        <label for="projectName">案件メモ</label>
+                        <input type="text" id="projectName" placeholder="例: 春の展示会チラシ">
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn" id="calcBtn" type="button">逆算する</button>
+                    <button class="btn secondary" id="resetBtn" type="button">リセット</button>
+                </div>
+
+                <div class="tool-result" id="resultArea" hidden>
+                    <div class="result-head">
+                        <div>
+                            <h2 id="resultTitle">逆算スケジュール</h2>
+                            <p class="result-note" id="resultNote"></p>
+                        </div>
+                        <p class="result-note">日付は日本時間の暦日ベースで計算しています。</p>
+                    </div>
+
+                    <ul class="schedule-list" id="scheduleList"></ul>
+
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <span>制作開始の目安</span>
+                            <strong id="startDateText">-</strong>
+                        </div>
+                        <div class="summary-card">
+                            <span>全体所要日数</span>
+                            <strong id="totalDaysText">-</strong>
+                        </div>
+                        <div class="summary-card">
+                            <span>余白込みの見積り</span>
+                            <strong id="bufferText">-</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <strong>免責事項</strong><br>
+                本ツールは制作進行のたたき台です。実際の納期・営業日・印刷会社の締切・クライアント確認期間は、案件ごとの条件に合わせて必ず最終調整してください。
+            </div>
+        </article>
+
+        <section class="tool-guide">
+            <h2>このツールでできること</h2>
+            <p>納品日だけ先に決まっていて、「いつ制作を始めれば安全か」が見えにくいときの簡易逆算に向いています。制作、修正、確認、入稿準備、予備日のような現場で抜けやすい工程をまとめて見える化できます。</p>
+
+            <h2>使い方</h2>
+            <p>納品日を入れたあと、各工程に必要な日数を入力して「逆算する」を押してください。結果には制作開始の目安と、中間締切の一覧が表示されます。土日祝を除外する高度な工程表ではないため、実案件では1段階余裕を持たせるのがおすすめです。</p>
+
+            <h2>こんな人におすすめ</h2>
+            <p>・納期から逆算してタスクを組みたいデザイナー<br>・印刷前の確認や修正期間を見落としやすい方<br>・案件のたたき台をすばやく作りたいフリーランスや制作担当者</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+                <h3>ツールを探す</h3>
+                <div id="footer-tools-list" class="footer-tools-grid">
+                    <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
+<a href="px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
+<a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+<a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+<a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
+<a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+<a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
+<a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+<a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
+<a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+<a href="cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>サイトメニュー</h3>
+                <a href="../index.html" class="footer-link-item">Home</a>
+                <a href="../about.html" class="footer-link-item">About</a>
+                                <a href="../articles/index.html" class="footer-link-item">Blog</a>
+<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+                <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+                <a href="../contact.html" class="footer-link-item">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+        const deliveryDate = document.getElementById("deliveryDate");
+        const bufferDays = document.getElementById("bufferDays");
+        const printDays = document.getElementById("printDays");
+        const reviewDays = document.getElementById("reviewDays");
+        const fixDays = document.getElementById("fixDays");
+        const designDays = document.getElementById("designDays");
+        const projectName = document.getElementById("projectName");
+        const resultArea = document.getElementById("resultArea");
+        const resultTitle = document.getElementById("resultTitle");
+        const resultNote = document.getElementById("resultNote");
+        const scheduleList = document.getElementById("scheduleList");
+        const startDateText = document.getElementById("startDateText");
+        const totalDaysText = document.getElementById("totalDaysText");
+        const bufferText = document.getElementById("bufferText");
+
+        function toDate(value) {
+            const date = new Date(value + "T00:00:00+09:00");
+            return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+        function minusDays(date, days) {
+            const next = new Date(date);
+            next.setDate(next.getDate() - days);
+            return next;
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                weekday: "short"
+            });
+        }
+
+        function addItem(date, title, note) {
+            const item = document.createElement("li");
+            item.className = "schedule-item";
+            item.innerHTML = `
+                <div class="schedule-date">${formatDate(date)}</div>
+                <div class="schedule-body">
+                    <strong>${title}</strong>
+                    <p>${note}</p>
+                </div>
+            `;
+            scheduleList.appendChild(item);
+        }
+
+        function calculate() {
+            const delivery = toDate(deliveryDate.value);
+            if (!delivery) {
+                alert("納品日を入力してください。");
+                return;
+            }
+
+            const days = {
+                buffer: Math.max(0, Number(bufferDays.value) || 0),
+                print: Math.max(0, Number(printDays.value) || 0),
+                review: Math.max(0, Number(reviewDays.value) || 0),
+                fix: Math.max(0, Number(fixDays.value) || 0),
+                design: Math.max(0, Number(designDays.value) || 0)
+            };
+
+            const shipDeadline = minusDays(delivery, days.buffer);
+            const printDeadline = minusDays(shipDeadline, days.print);
+            const reviewDeadline = minusDays(printDeadline, days.review);
+            const fixDeadline = minusDays(reviewDeadline, days.fix);
+            const startDate = minusDays(fixDeadline, days.design);
+            const totalDays = days.buffer + days.print + days.review + days.fix + days.design;
+
+            scheduleList.innerHTML = "";
+            addItem(startDate, "制作開始の目安", "初稿制作に着手したい日です。素材集めや構成整理もここまでに済ませておくと安全です。");
+            addItem(fixDeadline, "初稿提出・修正準備", "初稿を出し、戻しを受ける前提で余白を持たせた締切です。");
+            addItem(reviewDeadline, "確認締切", "クライアントや関係者の確認を、この日までに完了させる想定です。");
+            addItem(printDeadline, "入稿データ確定", "入稿前チェックや書き出しを終え、印刷・納品準備へ渡したい日です。");
+            addItem(shipDeadline, "納品準備完了", "最終納品直前の予備日を確保した状態です。");
+            addItem(delivery, "納品日", "最終成果物を渡す基準日です。");
+
+            resultTitle.textContent = projectName.value.trim() ? `${projectName.value.trim()} の逆算スケジュール` : "逆算スケジュール";
+            resultNote.textContent = `納品日 ${formatDate(delivery)} から ${totalDays} 日分を逆算しました。`;
+            startDateText.textContent = formatDate(startDate);
+            totalDaysText.textContent = `${totalDays}日`;
+            bufferText.textContent = `予備 ${days.buffer}日を確保`;
+            resultArea.hidden = false;
+        }
+
+        document.getElementById("calcBtn").addEventListener("click", calculate);
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            deliveryDate.value = "";
+            bufferDays.value = 2;
+            printDays.value = 2;
+            reviewDays.value = 3;
+            fixDays.value = 2;
+            designDays.value = 5;
+            projectName.value = "";
+            scheduleList.innerHTML = "";
+            resultArea.hidden = true;
+        });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

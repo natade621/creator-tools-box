@@ -240,6 +240,7 @@
             text-decoration: none;
             color: #666;
             font-size: 0.9rem;
+            line-height: 1.5;
             transition: all 0.2s;
             padding: 0.2rem 0;
         }
@@ -270,6 +271,76 @@
         @media (max-width: 480px) {
             .footer-tools-grid { grid-template-columns: 1fr; }
         }
+/* 運営者プロフィールカード */
+.profile-card {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-top: 1.5rem;
+}
+.profile-avatar {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--black);
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border);
+    letter-spacing: 0.05em;
+}
+.profile-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem;
+}
+.profile-role {
+    font-size: 0.85rem;
+    color: #777;
+    margin: 0 0 1.5rem;
+    font-weight: 600;
+}
+.profile-body p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: #444;
+    margin-bottom: 1rem;
+}
+.profile-facts {
+    list-style: none;
+    padding: 1.25rem 0 0;
+    margin: 1.25rem 0 0;
+    border-top: 2px dashed #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.profile-facts li {
+    font-size: 0.875rem;
+    color: #555;
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+}
+.fact-label {
+    flex-shrink: 0;
+    width: 5.5em;
+    font-size: 0.8rem;
+    color: #999;
+    font-weight: 600;
+}
+@media (max-width: 600px) {
+    .profile-card {
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 1.5rem;
+    }
+}
+
 /* ABOUTページ専用スタイル */
 .about-container {
     max-width: 800px;
@@ -522,11 +593,35 @@
 </p>
 
 <h2>運営者</h2>
-<p>
-    本サイトは、デザイン制作に関わるクリエイターによって運営されています。実際の制作現場で感じた課題をもとに、実務で役立つツールの制作・公開を行っています。</p>
-<p>「こんなのあったらいいな」というツールがあれば、
-ぜひお問合せから教えてもらえると嬉しいです。
-</p>
+
+<div class="profile-card">
+    <div class="profile-avatar" aria-hidden="true">jun</div>
+    <div class="profile-body">
+        <p class="profile-name">jun</p>
+        <p class="profile-role">グラフィックデザイナー（経歴8年）</p>
+
+        <p>
+            印刷・広告・パッケージなど、紙まわりのグラフィックデザインを中心に活動しているデザイナーです。
+            日々の制作でIllustratorやInDesignを使いながら、クライアントワークと並行して個人制作も続けています。
+        </p>
+        <p>
+            このサイトを作ったのは、自分が仕事中に感じた「ちょっとした不便」がきっかけです。
+            余白の計算、SNS画像のサイズ確認、RGBとCMYKの変換——どれも数分あれば終わる作業なのに、
+            そのたびに手を止めて検索する手間が積み重なっていました。
+        </p>
+        <p>
+            「自分が使いたいものを、自分で作ろう」と思ってツールを作り始め、
+            同じように制作現場で働くデザイナーやイラストレーターの方にも役立てばと思い、このサイトとして公開しました。
+            「こんなツールがあったら」というご要望があれば、ぜひ<a href="contact.html" style="color:var(--black);font-weight:800;">お問い合わせ</a>から教えてください。
+        </p>
+
+        <ul class="profile-facts">
+            <li><span class="fact-label">専門</span>グラフィックデザイン（印刷・広告・パッケージ）</li>
+            <li><span class="fact-label">使用ツール</span>Illustrator / InDesign / Photoshop</li>
+            <li><span class="fact-label">活動形態</span>フリーランス</li>
+        </ul>
+    </div>
+</div>
         </section>
         <!-- ===== TOOL GUIDE END ===== -->
 
@@ -538,23 +633,29 @@
                 <h3>ツールを探す</h3>
  <div id="footer-tools-list" class="footer-tools-grid">
                    <a href="tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="tools/paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
+<a href="tools/px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
 <a href="tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
 <a href="tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
 <a href="tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
 <a href="tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
 <a href="tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="tools/schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
 <a href="tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
 <a href="tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="tools/sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
 <a href="tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
-                 
+<a href="tools/cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
                 </div>
             </div>
             <div class="footer-links">
   <h3>サイトメニュー</h3>
   <a href="index.html" class="footer-link-item">Home</a>
+  <a href="articles/index.html" class="footer-link-item">Blog</a>
+  <a href="about.html" class="footer-link-item">About</a>
   <a href="privacy.html" class="footer-link-item">Privacy Policy</a>
   <a href="disclaimer.html" class="footer-link-item">Disclaimer</a>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8C0gvBfEMc1g8lcH7g_oJvbfbC6fSsWFcQrWRP14rfsYtUw/viewform?usp=dialog" class="footer-link-item">Contact</a>
+                <a href="contact.html" class="footer-link-item">Contact</a>
             </div>
         </div>
         

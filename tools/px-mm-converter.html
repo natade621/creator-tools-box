@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <!-- 
+    AI NOTE:
+    このファイルはツールページ共通テンプレートです。
+    編集してよい場所は次の3つのみです。
+    1. TOOL META (タイトルと概要)
+    2. TOOL UI (ツールの本体・ロジック)
+    3. TOOL GUIDE (解説文章)
+    それ以外のレイアウト、CSS、構造は変更しないでください。
+    -->
+
+    <!-- ===== TOOL META START ===== -->
+    <title>ピクセルをmmに変換｜px↔mm計算ツール（dpi対応）｜クリエイターのお道具箱</title>
+    <meta name="description" content="ピクセル（px）とミリ（mm）を相互変換できる無料ツール。dpi（解像度）を指定して印刷サイズや必要なpx数を簡単に計算できます。SNS画像や印刷用データのサイズ確認に最適。">
+    <!-- ===== TOOL META END ===== -->
+    
+    <!-- LINE Seed JP を読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+    
+    <style>
+        :root {
+            --bg-color: #fcfcfc;    
+            --accent-color: #ffde00; 
+            --black: #333;          
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー：追従しない設定 */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* コンテナ */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ツールエリア（背景・枠線なし） */
+        .tool-card {
+            background: transparent; 
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        /* ツールメタ情報 */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ツールUIエリア */
+        .tool-ui-wrapper {
+            margin-bottom: 3rem;
+            min-height: 200px;
+        }
+
+        /* ツール内共通パーツのスタイル */
+        .tool-ui input, .tool-ui textarea, .tool-ui select {
+            width: 100%;
+            padding: 1rem;
+            border: var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1.2rem;
+            background: var(--white);
+        }
+        .tool-ui .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            color: var(--black);
+            font-size: 1.1rem;
+        }
+        .tool-ui .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .tool-result {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* 注意書き - 横幅を制限して中央配置 */
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            margin-top: 5rem;
+            border-radius: 4px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ガイドセクション */
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3.5rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+        }
+        .tool-guide h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tool-guide h2::before {
+            content: "💡";
+            font-size: 1.4rem;
+        }
+        .tool-guide p {
+            margin-bottom: 2rem;
+            color: #444;
+            line-height: 1.9;
+        }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .disclaimer { max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+
+/* ツール全体のラッパー */
+.tool-ui-wrapper {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    color: #333;
+}
+
+.tool-ui {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.tool-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.tool-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 24px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* タブ切り替え */
+.tool-tabs {
+    display: flex;
+    background: #f0f0f0;
+    padding: 4px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+
+.tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.tab-btn.active {
+    background: #fff;
+    color: #00B3A6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* コンテンツ制御 */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 入力グループ */
+.input-group {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.input-field {
+    flex: 1;
+}
+
+.input-field label, 
+.dpi-selector label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.input-field input,
+.custom-dpi-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* 解像度セレクター */
+.dpi-selector {
+    margin-bottom: 24px;
+}
+
+.dpi-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.btn-outline {
+    flex: 1;
+    min-width: 60px;
+    padding: 8px;
+    border: 1px solid #00B3A6;
+    background: #fff;
+    color: #00B3A6;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.btn-outline.active {
+    background: #00B3A6;
+    color: #fff;
+}
+
+/* 結果表示 */
+.tool-result {
+    background: #f8f9fa;
+    border-left: 4px solid #00B3A6;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+}
+
+.result-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.result-item {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.result-item .val {
+    color: #00B3A6;
+    font-size: 1.4rem;
+}
+
+.status-comment {
+    font-size: 0.85rem;
+    color: #d63384; 
+    background: rgba(214, 51, 132, 0.05);
+    padding: 8px 12px;
+    border-radius: 4px;
+    line-height: 1.4;
+}
+
+/* アクションボタン */
+.tool-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s, background 0.2s, color 0.2s;
+}
+
+.btn-primary {
+    background: #00B3A6;
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: #fff;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.tool-footer-note {
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: #999;
+    text-align: center;
+}
+
+/* スマホ対応 */
+@media (max-width: 480px) {
+    .input-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .tool-actions {
+        flex-direction: column;
+    }
+    .btn-outline {
+        flex: none;
+        width: calc(33.33% - 6px);
+    }
+}
+  .related-tools {
+    margin-top: 24px;
+  }
+
+  .related-tool-item + .related-tool-item {
+    margin-top: 32px;
+  }
+
+  .related-tool-link,
+  .related-tool-link:visited {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    color: #111;
+  }
+
+  .related-tool-link:hover {
+    opacity: 0.75;
+  }
+
+  .related-tool-item p {
+    margin: 10px 0 0;
+    line-height: 1.8;
+  }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <article class="tool-card">
+            <!-- ===== TOOL META START ===== -->
+            <header class="tool-header">
+                <h1>ピクセル ↔ mm 変換ツール</h1>
+                <p class="tool-lead">
+                    「その画像、印刷したらどうなる？」と「何pxで作ればいい？」を一発で解決。Webと印刷のサイズ確認をスムーズにする計算ツールです。
+                </p>
+            </header>
+            <!-- ===== TOOL META END ===== -->
+
+<!-- ===== TOOL UI START ===== -->
+<div class="tool-ui-wrapper">
+    <div class="tool-ui">
+        <h2 class="tool-title">その画像、印刷したらどうなる？</h2>
+        <p class="tool-description">pxとmmを相互変換できます。印刷サイズや必要な解像度の確認に使えます。</p>
+
+        <!-- タブ切り替え -->
+        <div class="tool-tabs">
+            <button type="button" class="tab-btn active" data-tab="px-to-mm">印刷するとどうなる？</button>
+            <button type="button" class="tab-btn" data-tab="mm-to-px">何pxで作ればいい？</button>
+        </div>
+
+        <!-- タブ①：px → mm -->
+        <div id="px-to-mm" class="tab-content active">
+            <div class="input-group">
+                <div class="input-field">
+                    <label>幅 (px)</label>
+                    <input type="number" id="p2m-width" value="1200" min="1" step="1">
+                </div>
+                <div class="input-field">
+                    <label>高さ (px)</label>
+                    <input type="number" id="p2m-height" value="675" min="1" step="1">
+                </div>
+            </div>
+            
+            <div class="dpi-selector">
+                <label>解像度 (dpi)</label>
+                <div class="dpi-presets" id="p2m-dpi-presets">
+                    <button type="button" class="btn-outline" data-value="72">72</button>
+                    <button type="button" class="btn-outline" data-value="96">96</button>
+                    <button type="button" class="btn-outline" data-value="150">150</button>
+                    <button type="button" class="btn-outline active" data-value="300">300</button>
+                    <button type="button" class="btn-outline" data-value="350">350</button>
+                </div>
+                <input type="number" id="p2m-dpi" value="300" min="1" step="1" class="custom-dpi-input" placeholder="手入力">
+            </div>
+
+            <div class="tool-result" id="p2m-result">
+                <div class="result-items">
+                    <div class="result-item">幅：<span class="val" id="res-p2m-w">-</span> mm</div>
+                    <div class="result-item">高さ：<span class="val" id="res-p2m-h">-</span> mm</div>
+                </div>
+                <div class="status-comment" id="p2m-comment">---</div>
+            </div>
+        </div>
+
+        <!-- タブ②：mm → px -->
+        <div id="mm-to-px" class="tab-content">
+            <div class="input-group">
+                <div class="input-field">
+                    <label>幅 (mm)</label>
+                    <input type="number" id="m2p-width" value="91" min="1" step="1">
+                </div>
+                <div class="input-field">
+                    <label>高さ (mm)</label>
+                    <input type="number" id="m2p-height" value="55" min="1" step="1">
+                </div>
+            </div>
+
+            <div class="dpi-selector">
+                <label>解像度 (dpi)</label>
+                <div class="dpi-presets" id="m2p-dpi-presets">
+                    <button type="button" class="btn-outline active" data-value="300">300</button>
+                    <button type="button" class="btn-outline" data-value="350">350</button>
+                    <button type="button" class="btn-outline" data-value="150">150</button>
+                    <button type="button" class="btn-outline" data-value="72">72</button>
+                </div>
+                <input type="number" id="m2p-dpi" value="300" min="1" step="1" class="custom-dpi-input" placeholder="手入力">
+            </div>
+
+            <div class="tool-result" id="m2p-result">
+                <div class="result-items">
+                    <div class="result-item">幅：<span class="val" id="res-m2p-w">-</span> px</div>
+                    <div class="result-item">高さ：<span class="val" id="res-m2p-h">-</span> px</div>
+                </div>
+                <div class="status-comment">このサイズで作成すれば印刷に適した解像度になります。</div>
+            </div>
+        </div>
+
+        <!-- 共通アクション -->
+        <div class="tool-actions">
+            <button type="button" class="btn btn-primary" id="copy-btn">結果をコピー</button>
+            <button type="button" class="btn btn-secondary" id="reset-btn">リセット</button>
+        </div>
+        
+        <p class="tool-footer-note">※同じpxでもdpiによって印刷サイズは変わります。</p>
+    </div>
+</div>
+
+<!-- ===== TOOL UI END ===== -->
+            <div class="disclaimer">
+                <strong>免責事項</strong><br>
+                本ツールは制作の参考情報として提供しています。印刷物の入稿前には必ず、利用される印刷会社の最新ガイドラインや規定をご確認ください。
+            </div>
+        </article>
+
+        <!-- ===== TOOL GUIDE START ===== -->
+        <section class="tool-guide">
+            <h2>このツールでできること</h2>
+            <p>
+                ピクセル（px）とミリメートル（mm）を、解像度（dpi）に基づいて相互変換できる無料ブラウザツールです。「Web用の画像を印刷したらどのくらいの大きさになるのか？」を確認したり、逆に「作りたい印刷サイズには何ピクセル必要なのか？」を算出したりする際に役立ちます。SNS運用の画像作成から、名刺やパンフレットの入稿データ設計まで、解像度が関わるあらゆるクリエイティブ作業を効率化します。
+            </p>
+
+            <h2>使い方</h2>
+            <p>
+                <strong>1. 目的の変換モードを選択</strong><br>Web画像を印刷サイズに変換したい場合は「印刷するとどうなる？（px→mm）」、印刷物に必要なピクセル数を知りたい場合は「何pxで作ればいい？（mm→px）」タブを選択します。<br><br>
+                <strong>2. 数値を入力・解像度を選択</strong><br>幅、高さ、および解像度（dpi）を入力します。dpiは一般的な数値（72, 300など）のプリセットボタンからワンタップで選択可能です。<br><br>
+                <strong>3. 結果を確認・コピー</strong><br>入力と同時にリアルタイムで計算結果が表示されます。「結果をコピー」ボタンを押すと、計算式と結果をまとめてクリップボードに保存でき、制作指示書などへの転記も簡単です。
+            </p>
+
+            <h2>こんな人におすすめ</h2>
+            <p>
+                ・WebデザインやSNS運用（Instagram/X）を行っている方<br>
+                ・Canvaなどで作成した画像を印刷したい方<br>
+                ・印刷物の入稿データを作成するデザイナー<br>
+                ・「dpi」や「解像度」の計算が苦手なデザイン初心者
+            </p>
+
+            <h2>あわせて使いたいツール</h2>
+            <div class="related-tools">
+                <div class="related-tool-item">
+                    <a href="paper-size-reference.html" class="related-tool-link">サイズ早見表ツール →</a>
+                    <p>A判・B判やSNS規格サイズを確認しながら、変換したい寸法の前提をすばやく揃えられます。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="sns-image-size-maker.html" class="related-tool-link">SNS画像サイズメーカー →</a>
+                    <p>必要な画像サイズを確認したあと、そのまま投稿用ビジュアル制作へ進めます。</p>
+                </div>
+            </div>
+        
+            <h2>あわせて読みたい記事</h2>
+            <div class="related-tools">
+                <div class="related-tool-item">
+                    <a href="../articles/what-is-dpi.html" class="related-tool-link">dpiの基礎を読む →</a>
+                    <p>pxとmmの変換がなぜ dpi によって変わるのか、仕組みから理解できます。</p>
+                </div>
+                <div class="related-tool-item">
+                    <a href="../articles/print-prepress-checklist.html" class="related-tool-link">入稿前チェックリストを見る →</a>
+                    <p>解像度確認と一緒に、入稿前に見落としやすいチェック項目もまとめて押さえられます。</p>
+                </div>
+            </div>
+</section>
+        <!-- ===== TOOL GUIDE END ===== -->
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+                <h3>ツールを探す</h3>
+                <div id="footer-tools-list" class="footer-tools-grid">
+                    <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
+<a href="px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
+<a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+<a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+<a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
+<a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+<a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
+<a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+<a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
+<a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+<a href="cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>サイトメニュー</h3>
+                <a href="../about.html" class="footer-link-item">About</a>
+                                <a href="../articles/index.html" class="footer-link-item">Blog</a>
+<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+                <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+                <a href="../contact.html" class="footer-link-item">Contact</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+(function() {
+    // 要素の取得
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+    const copyBtn = document.getElementById('copy-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // タブ切り替えロジック
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            const target = document.getElementById(tab.dataset.tab);
+            target.classList.add('active');
+            calculate(); 
+        });
+    });
+
+    // 計算ロジック本体
+    function calculate() {
+        const activeTab = document.querySelector('.tab-content.active').id;
+
+        if (activeTab === 'px-to-mm') {
+            const w = parseFloat(document.getElementById('p2m-width').value);
+            const h = parseFloat(document.getElementById('p2m-height').value);
+            const dpi = parseFloat(document.getElementById('p2m-dpi').value);
+
+            if (w > 0 && h > 0 && dpi > 0) {
+                const resW = (w / dpi * 25.4).toFixed(1);
+                const resH = (h / dpi * 25.4).toFixed(1);
+                document.getElementById('res-p2m-w').textContent = resW;
+                document.getElementById('res-p2m-h').textContent = resH;
+                updateComment(dpi);
+            } else {
+                clearResults('p2m');
+            }
+        } else {
+            const w = parseFloat(document.getElementById('m2p-width').value);
+            const h = parseFloat(document.getElementById('m2p-height').value);
+            const dpi = parseFloat(document.getElementById('m2p-dpi').value);
+
+            if (w > 0 && h > 0 && dpi > 0) {
+                const resW = Math.round(w / 25.4 * dpi);
+                const resH = Math.round(h / 25.4 * dpi);
+                document.getElementById('res-m2p-w').textContent = resW;
+                document.getElementById('res-m2p-h').textContent = resH;
+            } else {
+                clearResults('m2p');
+            }
+        }
+    }
+
+    function clearResults(type) {
+        document.getElementById(`res-${type}-w`).textContent = '-';
+        document.getElementById(`res-${type}-h`).textContent = '-';
+        if(type === 'p2m') document.getElementById('p2m-comment').textContent = '数値を入力してください';
+    }
+
+    function updateComment(dpi) {
+        const commentEl = document.getElementById('p2m-comment');
+        if (dpi <= 72) {
+            commentEl.innerHTML = '⚠️ かなり大きく印刷されます。<br>画質が粗くなる可能性があります。';
+        } else if (dpi < 150) {
+            commentEl.innerHTML = '⚠️ やや粗くなる可能性があります。';
+        } else if (dpi < 300) {
+            commentEl.innerHTML = '💡 用途によっては十分ですが、高品質な印刷には300dpi以上を推奨します。';
+        } else {
+            commentEl.innerHTML = '✅ 印刷に適した解像度です。';
+        }
+    }
+
+    // イベントリスナーの設定
+    const inputs = document.querySelectorAll('.tool-ui input');
+    inputs.forEach(input => {
+        input.addEventListener('input', calculate);
+    });
+
+    // プリセットボタンの制御
+    function setupPresets(containerId, inputId) {
+        const container = document.getElementById(containerId);
+        const input = document.getElementById(inputId);
+        const btns = container.querySelectorAll('.btn-outline');
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                input.value = btn.dataset.value;
+                calculate();
+            });
+        });
+
+        input.addEventListener('input', () => {
+            btns.forEach(b => {
+                if (b.dataset.value === input.value) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+        });
+    }
+
+    setupPresets('p2m-dpi-presets', 'p2m-dpi');
+    setupPresets('m2p-dpi-presets', 'm2p-dpi');
+
+    // コピー機能
+    copyBtn.addEventListener('click', () => {
+        const activeTab = document.querySelector('.tab-content.active').id;
+        let text = "";
+
+        if (activeTab === 'px-to-mm') {
+            const w = document.getElementById('p2m-width').value;
+            const h = document.getElementById('p2m-height').value;
+            const dpi = document.getElementById('p2m-dpi').value;
+            const resW = document.getElementById('res-p2m-w').textContent;
+            const resH = document.getElementById('res-p2m-h').textContent;
+            text = `${w}×${h}px (${dpi}dpi) ＝ ${resW}×${resH}mm`;
+        } else {
+            const w = document.getElementById('m2p-width').value;
+            const h = document.getElementById('m2p-height').value;
+            const dpi = document.getElementById('m2p-dpi').value;
+            const resW = document.getElementById('res-m2p-w').textContent;
+            const resH = document.getElementById('res-m2p-h').textContent;
+            text = `${w}×${h}mm (${dpi}dpi) ＝ ${resW}×${resH}px`;
+        }
+
+        const dummy = document.createElement('textarea');
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = "コピーしました！";
+        copyBtn.style.background = "#000000";
+        copyBtn.style.color = "#ffffff";
+        
+        setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.background = "";
+            copyBtn.style.color = "";
+        }, 2000);
+    });
+
+    // リセット機能
+    resetBtn.addEventListener('click', () => {
+        document.getElementById('p2m-width').value = 1200;
+        document.getElementById('p2m-height').value = 675;
+        document.getElementById('p2m-dpi').value = 300;
+        document.getElementById('m2p-width').value = 91;
+        document.getElementById('m2p-height').value = 55;
+        document.getElementById('m2p-dpi').value = 300;
+
+        document.querySelectorAll('.btn-outline').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.btn-outline[data-value="300"]').forEach(b => b.classList.add('active'));
+
+        calculate();
+    });
+
+    calculate();
+
+})();
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

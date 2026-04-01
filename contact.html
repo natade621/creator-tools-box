@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>お問い合わせ｜クリエイターのお道具箱</title>
+    <meta name="description" content="ツールの不具合報告・機能のご要望・その他のお問い合わせはこちらからどうぞ。">
+
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --accent-color: #ffde00;
+            --black: #333;
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .logo-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* コンテナ */
+        .main-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        .tool-card {
+            background: transparent;
+            padding: 0;
+            margin-bottom: 5rem;
+        }
+
+        /* ページヘッダー */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .tool-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 0 0 1.2rem 0;
+            display: inline-block;
+            position: relative;
+        }
+        .tool-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-color);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .tool-lead {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* お問い合わせエリア */
+        .contact-wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .contact-panel {
+            background: var(--white);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .contact-panel p {
+            margin: 0 auto 1.2rem;
+            max-width: 560px;
+            color: #555;
+            line-height: 1.9;
+        }
+
+        /* 送信ボタン */
+        .submit-area {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .btn-submit {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 1rem 4rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: var(--black);
+            letter-spacing: 0.05em;
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        /* 注意書き */
+        .contact-note {
+            font-size: 0.85rem;
+            color: #777;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 3rem;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ガイドセクション */
+        .tool-guide {
+            margin-top: 6rem;
+            padding: 3.5rem;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tool-guide h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .tool-guide h2::before {
+            content: "💡";
+            font-size: 1.2rem;
+        }
+        .tool-guide p, .tool-guide li {
+            color: #444;
+            line-height: 1.9;
+            font-size: 0.95rem;
+        }
+        .tool-guide ul {
+            padding-left: 1.4rem;
+            margin: 0.5rem 0 0;
+        }
+        .tool-guide li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover {
+            color: var(--black);
+            padding-left: 5px;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: #aaa;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 2rem auto; }
+            .tool-header h1 { font-size: 2rem; }
+            .tool-guide { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="site-logo">
+                <span class="logo-main">クリエイターのお道具箱</span>
+                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <article class="tool-card">
+
+            <header class="tool-header">
+                <h1>お問い合わせ</h1>
+                <p class="tool-lead">
+                    ツールの不具合報告・機能のご要望・その他のご質問など、<br>
+                    お気軽にご連絡ください。
+                </p>
+            </header>
+
+            <div class="contact-wrapper">
+
+                <p class="contact-note">
+                    送信ボタンを押すと、Googleフォームが新しいタブで開きます。
+                    不具合報告・機能要望・その他のお問い合わせは、フォームから直接ご連絡ください。<br>
+                    ※ 返信が必要な場合は、Googleフォーム側でメールアドレスを正確にご入力ください。
+                </p>
+
+                <div class="contact-panel">
+                    <p>内容の入力は Googleフォーム側で行います。ボタンを押すとお問い合わせフォームへ移動します。</p>
+                    <div class="submit-area">
+                        <button class="btn-submit" id="submit-btn">Googleフォームを開く</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <section class="tool-guide">
+                <h2>お問い合わせの前に</h2>
+                <p>以下のご連絡をいただけると、より迅速に対応できます。</p>
+                <ul>
+                    <li><strong>不具合報告</strong>：ご使用のブラウザ名（Chrome / Safari など）と操作手順</li>
+                    <li><strong>機能要望</strong>：「どんな場面で」「どう使いたいか」を具体的に</li>
+                    <li><strong>返信希望</strong>：メールアドレスを正確にご入力ください</li>
+                </ul>
+            </section>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tools">
+                <h3>ツールを探す</h3>
+                <div id="footer-tools-list" class="footer-tools-grid">
+                   <a href="tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+<a href="tools/paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
+<a href="tools/px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
+<a href="tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+<a href="tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+<a href="tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
+<a href="tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+<a href="tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+<a href="tools/schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
+<a href="tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+<a href="tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+<a href="tools/sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
+<a href="tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+<a href="tools/cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>サイトメニュー</h3>
+                <a href="index.html" class="footer-link-item">Home</a>
+                <a href="about.html" class="footer-link-item">About</a>
+                                <a href="articles/index.html" class="footer-link-item">Blog</a>
+<a href="privacy.html" class="footer-link-item">Privacy Policy</a>
+                <a href="disclaimer.html" class="footer-link-item">Disclaimer</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+        </div>
+    </footer>
+
+    <script>
+    // Googleフォームを新しいタブで開く
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSc8C0gvBfEMc1g8lcH7g_oJvbfbC6fSsWFcQrWRP14rfsYtUw/viewform';
+
+    document.getElementById('submit-btn').addEventListener('click', () => {
+        window.open(GOOGLE_FORM_URL, '_blank');
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
