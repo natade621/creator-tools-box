@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="color-scheme" content="only light">
+
+    <title>なんかおしゃれに見える理由は黄金比だった｜意味と使い方をデザイナーが解説｜クリエイターのお道具箱</title>
+    <meta name="description" content="「なんかこのデザイン、おしゃれだな」と感じる作品には黄金比が使われていることが多い。黄金比とは何か、デザイン現場での具体的な使い方をグラフィックデザイナーがわかりやすく解説します。">
+    <link rel="canonical" href="https://creator-tools-box.com/articles/what-is-golden-ratio.html">
+    <meta property="og:title" content="なんかおしゃれに見える理由は黄金比だった｜意味と使い方をデザイナーが解説">
+    <meta property="og:description" content="「なんかこのデザイン、おしゃれだな」と感じる作品には黄金比が使われていることが多い。黄金比とは何か、デザイン現場での具体的な使い方をグラフィックデザイナーがわかりやすく解説します。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://creator-tools-box.com/articles/what-is-golden-ratio.html">
+    <meta property="og:site_name" content="クリエイターのお道具箱">
+
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+
+    <style>
+        /* ============================================================
+           ⚠️ CSS はここから footer まで変更不要
+           記事固有のスタイルが必要な場合はこのブロックの末尾に追記する
+        ============================================================ */
+        :root {
+            --bg-color: #fcfcfc;
+            --accent-color: #ffde00;
+            --black: #333;
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--black) !important;
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー */
+        .site-header { background: var(--white); border-bottom: var(--border); padding: 1.2rem 2rem; position: relative; z-index: 100; }
+        .header-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; }
+        .site-logo { text-decoration: none; color: var(--black); display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-main { font-size: 1.3rem; font-weight: 800; }
+        .logo-sub { font-size: 0.75rem; font-weight: 400; color: #777; margin-top: 4px; }
+
+        /* パンくず */
+        .breadcrumb { max-width: 860px; margin: 1.5rem auto 0; padding: 0 1.5rem; font-size: 0.8rem; color: #999; }
+        .breadcrumb a { color: #999; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; color: var(--black); }
+        .breadcrumb span { margin: 0 0.4rem; }
+
+        /* メインレイアウト */
+        .main-container { max-width: 860px; margin: 2rem auto 6rem; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 260px; gap: 3rem; align-items: start; }
+
+        /* 記事ヘッダー */
+        .article-header { margin-bottom: 2.5rem; }
+        .article-category { display: inline-block; background: var(--black); color: var(--white); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1rem; letter-spacing: 0.05em; }
+        .article-title { font-size: 2rem; font-weight: 800; line-height: 1.35; margin: 0 0 1.2rem; }
+        .article-meta { font-size: 0.82rem; color: #888; display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+        /* 目次 */
+        .toc-box { background: var(--white); border: var(--border); border-radius: 16px; padding: 1.5rem 2rem; margin-bottom: 3rem; }
+        .toc-box h2 { font-size: 0.9rem; font-weight: 800; margin: 0 0 1rem; letter-spacing: 0.05em; color: #555; }
+        .toc-list { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+        .toc-list li { counter-increment: toc; padding: 0.4rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.88rem; }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a { text-decoration: none; color: var(--black); display: flex; gap: 0.6rem; align-items: baseline; }
+        .toc-list a::before { content: counter(toc); background: var(--accent-color); font-size: 0.7rem; font-weight: 800; width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .toc-list a:hover { text-decoration: underline; }
+
+        /* 本文 */
+        .article-content h2 { font-size: 1.4rem; font-weight: 800; margin: 3rem 0 1.2rem; padding-left: 1rem; border-left: 6px solid var(--accent-color); line-height: 1.3; }
+        .article-content h3 { font-size: 1.1rem; font-weight: 800; margin: 2rem 0 0.8rem; }
+        .article-content p { line-height: 1.95; margin-bottom: 1.4rem; color: #444; font-size: 0.97rem; }
+        .article-content strong { color: var(--black); font-weight: 800; }
+
+        /* ── パーツ ── */
+
+        /* コールアウト（補足・現場のコツ）— グレー左ボーダー */
+        .callout { background: #f4f4f4; border-left: 4px solid #d0d0d0; border-radius: 0 10px 10px 0; padding: 1.1rem 1.5rem; margin: 2rem 0; }
+        .callout-label { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; color: #888; margin-bottom: 0.4rem; text-transform: uppercase; }
+        .callout p { margin: 0; color: #555; font-size: 0.93rem; line-height: 1.8; }
+
+        /* アクセントボックス（重要な一文）— 黄色左ボーダー */
+        .accent-box { background: #fffbe6; border-left: 4px solid var(--accent-color); border-radius: 0 10px 10px 0; padding: 1.1rem 1.5rem; margin: 2rem 0; }
+        .accent-box p { margin: 0; color: var(--black); font-size: 0.95rem; font-weight: 700; line-height: 1.8; }
+
+        /* 黄色マーカー（インライン強調）*/
+        .marker { background: linear-gradient(transparent 75%, #ffde00 75%); font-weight: 700; padding: 0 0.1em; }
+
+        /* チェックリスト */
+        .check-list { list-style: none; padding: 0; margin: 0.5rem 0 1.5rem; display: flex; flex-direction: column; gap: 0; }
+        .check-list li { position: relative; font-size: 0.94rem; color: #333; line-height: 1.7; padding: 0.75rem 0 0.75rem 2.6rem; border-bottom: 1px solid #f0f0f0; }
+        .check-list li:last-child { border-bottom: none; }
+        .check-list li::before { content: "✓"; position: absolute; left: 0; top: 0.8rem; font-weight: 900; font-size: 0.8rem; color: #333; background: var(--accent-color); width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+        .check-list li strong { font-weight: 800; display: block; margin-bottom: 0.15rem; color: #222; }
+
+        /* 比較テーブル */
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0 2rem; font-size: 0.9rem; }
+        .compare-table th { background: var(--black); color: var(--white); padding: 0.8rem 1rem; font-weight: 700; text-align: left; }
+        .compare-table th:first-child { border-radius: 8px 0 0 0; }
+        .compare-table th:last-child { border-radius: 0 8px 0 0; }
+        .compare-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #eee; color: #444; vertical-align: top; line-height: 1.7; }
+        .compare-table tr:last-child td { border-bottom: none; }
+        .compare-table tr:nth-child(even) td { background: #f4f4f4; }
+        .compare-table tbody { background: #fafafa; }
+
+        /* バッジ */
+        .badge { display: inline-block; background: var(--accent-color); font-size: 0.72rem; font-weight: 800; padding: 0.1rem 0.5rem; border-radius: 4px; margin-left: 0.4rem; vertical-align: middle; }
+
+        /* まとめブロック */
+        .summary-block { background: var(--white); border: var(--border); border-radius: 20px; padding: 2rem 2rem 1.5rem; margin: 1.5rem 0 2rem; box-shadow: var(--shadow); }
+        .summary-lead { font-size: 1rem; font-weight: 800; color: var(--black); line-height: 1.7; margin: 0 0 1.6rem !important; padding-bottom: 1.4rem; border-bottom: 2px dashed #e0e0e0; }
+        .summary-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; counter-reset: summary-counter; }
+        .summary-list li { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid #f2f2f2; counter-increment: summary-counter; }
+        .summary-list li:last-child { border-bottom: none; }
+        .summary-list li::before { content: "0" counter(summary-counter); font-size: 0.7rem; font-weight: 900; background: var(--accent-color); color: var(--black); border-radius: 6px; min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.15rem; font-family: var(--font-main); }
+        .summary-list li div { flex: 1; }
+        .summary-list li strong { display: block; font-size: 0.95rem; font-weight: 800; color: var(--black); margin-bottom: 0.25rem; line-height: 1.45; }
+        .summary-list li p { font-size: 0.85rem; color: #666; margin: 0 !important; line-height: 1.7; }
+
+        /* ツールCTAバナー */
+        .tool-cta { background: var(--white); border: var(--border); border-radius: 20px; padding: 2rem; margin: 3rem 0; box-shadow: var(--shadow); text-align: center; }
+        .tool-cta-label { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; color: #888; margin-bottom: 0.6rem; }
+        .tool-cta h3 { font-size: 1.2rem; font-weight: 800; margin: 0 0 0.6rem; }
+        .tool-cta p { font-size: 0.88rem; color: #666; margin: 0 0 1.2rem; }
+        .btn { background: var(--accent-color); border: var(--border); padding: 0.9rem 2.5rem; border-radius: 50px; font-weight: 800; font-size: 1rem; font-family: var(--font-main); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; color: var(--black); text-decoration: none; display: inline-block; }
+        .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+
+        /* 著者ボックス */
+        .author-box { display: flex; gap: 1rem; align-items: flex-start; padding: 1.5rem 0; border-top: 2px dashed #ddd; border-bottom: 2px dashed #ddd; margin: 3rem 0; }
+        .author-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--black); color: var(--white); font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .author-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .author-bio { font-size: 0.83rem; color: #666; line-height: 1.7; }
+
+        /* スマホ用関連記事 */
+        .sp-related { display: none; }
+
+        /* ── サイドバー ── */
+        .sidebar { position: sticky; top: 2rem; display: flex; flex-direction: column; gap: 0; }
+        .sidebar-card { padding: 1.4rem 0; border-bottom: 1px solid #ebebeb; }
+        .sidebar-card:last-child { border-bottom: none; padding-bottom: 0; }
+        .sidebar-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; color: #bbb; text-transform: uppercase; margin: 0 0 0.8rem; }
+
+        /* ツールカード */
+        .sidebar-tool-card { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; background: #fff; border: 1.5px solid #e8e8e8; border-radius: 10px; padding: 0.7rem 0.85rem; margin-bottom: 0.5rem; transition: border-color 0.15s, box-shadow 0.15s; }
+        .sidebar-tool-card:last-child { margin-bottom: 0; }
+        .sidebar-tool-card:hover { border-color: var(--accent-color); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        .sidebar-tool-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1; }
+        .sidebar-tool-body { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; }
+        .sidebar-tool-name { font-size: 0.85rem; font-weight: 700; color: var(--black); line-height: 1.3; }
+        .sidebar-tool-note { font-size: 0.72rem; color: #aaa; }
+        .sidebar-tool-arrow { font-size: 0.85rem; color: #ccc; flex-shrink: 0; }
+        .sidebar-tool-card:hover .sidebar-tool-arrow { color: var(--black); }
+
+        /* 人気記事ランキング */
+        .sidebar-ranking { list-style: none; padding: 0; margin: 0; counter-reset: rank; display: flex; flex-direction: column; }
+        .sidebar-ranking li { counter-increment: rank; display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.55rem 0; border-bottom: 1px solid #f5f5f5; }
+        .sidebar-ranking li:last-child { border-bottom: none; }
+        .sidebar-ranking li::before { content: counter(rank); font-size: 0.68rem; font-weight: 900; color: var(--black); border-radius: 4px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
+        .sidebar-ranking li:nth-child(1)::before { background: #ffde00; }
+        .sidebar-ranking li:nth-child(2)::before { background: #e8e8e8; }
+        .sidebar-ranking li:nth-child(3)::before { background: #f0c97a; }
+        .sidebar-ranking li:nth-child(4)::before,
+        .sidebar-ranking li:nth-child(5)::before { background: #f0f0f0; }
+        .sidebar-ranking a { font-size: 0.82rem; font-weight: 500; color: #444; text-decoration: none; line-height: 1.5; transition: color 0.15s; }
+        .sidebar-ranking a:hover { color: var(--black); text-decoration: underline; }
+
+        /* カテゴリ */
+        .sidebar-categories { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+        .sidebar-categories li a { display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #555; font-size: 0.85rem; padding: 0.45rem 0.6rem; border-radius: 6px; transition: background 0.12s, color 0.12s; }
+        .sidebar-categories li a:hover { background: #f5f5f5; color: var(--black); }
+        .sidebar-categories li a span { font-size: 0.72rem; color: #bbb; font-weight: 500; }
+
+        /* 関連記事 */
+        .sidebar-related a { display: block; text-decoration: none; color: #555; font-size: 0.83rem; padding: 0.45rem 0; border-bottom: 1px solid #f0f0f0; line-height: 1.5; transition: color 0.15s; }
+        .sidebar-related a:last-child { border-bottom: none; }
+        .sidebar-related a:hover { color: var(--black); text-decoration: underline; }
+        .sidebar-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
+
+        /* フッター */
+        footer { margin-top: 8rem; padding: 5rem 2rem 3rem; background: var(--white); border-top: var(--border); }
+        .footer-content { max-width: 1000px; margin: 0 auto 4rem; display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+        .footer-tools h3, .footer-links h3 { font-size: 1rem; font-weight: 800; margin-bottom: 2rem; }
+        .footer-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem; transition: all 0.2s; padding: 0.2rem 0; }
+        .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
+        .footer-bottom { text-align: center; padding-top: 3rem; border-top: 1px solid #eee; max-width: 1000px; margin: 0 auto; }
+        .copyright { font-size: 0.85rem; color: #aaa; letter-spacing: 0.05em; }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .article-title { font-size: 1.6rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .sp-related { display: block; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee; }
+            .sp-related-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: #aaa; margin: 0 0 0.8rem; }
+            .sp-related a { display: block; text-decoration: none; color: #555; font-size: 0.88rem; padding: 0.45rem 0; border-bottom: 1px solid #f0f0f0; line-height: 1.5; }
+            .sp-related a:last-child { border-bottom: none; }
+            .sp-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
+            .sp-related a:hover { color: var(--black); }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+        /* ============================================================
+           ↑ ここまでCSS変更不要
+           記事固有のスタイルが必要なら以下に追記する
+        ============================================================ */
+
+        /* 太字を黄色アンダーラインに統一（strong要素のfont-weightはそのまま維持） */
+        .article-content strong {
+            background: linear-gradient(transparent 75%, #ffde00 75%);
+            padding: 0 0.1em;
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a href="../index.html" class="site-logo">
+            <span class="logo-main">クリエイターのお道具箱</span>
+            <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+        </a>
+    </div>
+</header>
+
+<nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="../index.html">ホーム</a>
+    <span>›</span>
+    <a href="../articles/">記事一覧</a>
+    <span>›</span>
+    なんかおしゃれに見える理由は黄金比だった
+</nav>
+
+<div class="main-container">
+
+    <article class="article-body">
+
+        <header class="article-header">
+            <p class="article-category">デザイン基礎</p>
+            <h1 class="article-title">なんかおしゃれに見える理由は黄金比だった｜意味と使い方をデザイナーが解説</h1>
+            <div class="article-meta">
+                <span>2026年4月1日</span>
+            </div>
+        </header>
+
+        <nav class="toc-box" aria-label="目次">
+            <h2>目次</h2>
+            <ol class="toc-list">
+                <li><a href="#section1">黄金比とは？まず1文で言うと</a></li>
+                <li><a href="#section2">「1.618」という数字の正体</a></li>
+                <li><a href="#section3">黄金比はデザインのどこに使う？</a></li>
+                <li><a href="#section4">黄金比と白銀比の違い</a></li>
+                <li><a href="#section5">まとめ</a></li>
+            </ol>
+        </nav>
+
+        <div class="article-content">
+
+            <p>デザインを勉強し始めたころ、「なんかこのロゴ、バランスいいな」とか「このレイアウト、なぜかまとまって見える」と感じた作品ってありませんでしたか？　ちゃんと分析してみると、<span class="marker">黄金比が意識的に使われていた</span>、ということが多い。</p>
+
+            <p>知ってしまえば「なんだそういうことか」と思うんですが、知る前と後では見え方がガラッと変わる。それが黄金比です。</p>
+
+            <h2 id="section1">黄金比とは？まず1文で言うと</h2>
+
+            <p><strong>黄金比とは、「人間が最も美しいと感じる比率」とされる 1：1.618 のこと</strong>です。</p>
+
+            <p>古代ギリシャの時代から使われてきた比率で、パルテノン神殿やレオナルド・ダ・ヴィンチの絵画にも登場します。現代でも、Appleのロゴ、TwitterのUI、有名ブランドのロゴタイプなど、身の回りのデザインにひっそりと組み込まれています。</p>
+
+            <div class="accent-box">
+                <p>黄金比 ＝ 1：1.618（φ／ファイ）。長い辺と短い辺の比が常にこの値になる「黄金長方形」が基本の形。</p>
+            </div>
+
+            <h2 id="section2">「1.618」という数字の正体</h2>
+
+            <p>1.618という数値、どこから来たのかというと<strong>フィボナッチ数列</strong>がもとになっています。1、1、2、3、5、8、13、21…と続くあの数列で、隣り合う数を割り算していくと約1.618に収束するんです。</p>
+
+            <p>面白いのは、これが自然界にも現れること。ひまわりの種の並び、巻き貝の螺旋、木の枝の分岐…。人間が「美しい」と感じる形は、こういった自然の法則と呼応していることが多い。黄金比がデザインに使われるのも、そこに根拠があります。</p>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>比率を毎回電卓で計算するのは面倒です。<strong>ざっくり「5：8」で代用できる</strong>と覚えておくと実用的。厳密には違いますが、レイアウト検討の段階では十分に使えます。</p>
+            </div>
+
+            <h2 id="section3">黄金比はデザインのどこに使う？</h2>
+
+            <p>「概念はわかった、でも実際どうやって使うの？」というのが本題ですよね。デザインの現場では主に3つの場面で登場します。</p>
+
+            <h3>ロゴデザイン</h3>
+            <p>ロゴの各パーツのサイズ比に使います。たとえばシンボルマークとロゴタイプの幅の比を 1：1.618 に設定すると、バランスが自然に整いやすい。Appleのロゴや有名なブランドロゴをよく観察すると、このアプローチが随所に見えてきます。</p>
+
+            <h3>レイアウト・余白設計</h3>
+            <p>コンテンツエリアとサイドバーの幅の比、メインビジュアルの縦横比、余白の取り方にも活用できます。A4チラシで言えば、コンテンツ幅を全体の約61%（1.618の逆数）に設定するのが黄金比的アプローチ。窮屈にも間延びにもならない、絶妙な余白感が生まれます。</p>
+
+            <h3>タイポグラフィ（文字サイズの比率）</h3>
+            <p>見出しと本文のフォントサイズ比にも応用できます。本文が14pxなら、見出しは 14×1.618 ≒ 22〜23px。この比率で設計すると、見出しが「大きすぎず、小さすぎず」というちょうどいいスケール感に落ち着きます。</p>
+
+            <ul class="check-list">
+                <li><strong>ロゴのパーツ比率</strong>シンボルとロゴタイプのサイズ関係に</li>
+                <li><strong>レイアウトの幅分割</strong>コンテンツ幅 vs サイドバー幅に</li>
+                <li><strong>余白・マージンの比率</strong>上下左右の余白バランスに</li>
+                <li><strong>フォントサイズのスケール</strong>見出しと本文の比率設計に</li>
+            </ul>
+
+            <!-- ツールCTA -->
+            <div class="tool-cta">
+                <p class="tool-cta-label">このサイトの無料ツール</p>
+                <h3>黄金比率計算ツール</h3>
+                <p>数値を入力するだけで黄金比のサイズを即計算。レイアウト設計や余白設計にそのまま使えます。<br>インストール不要、データはブラウザに自動保存。</p>
+                <a href="../tools/golden-ratio-calculator.html" class="btn">黄金比率計算ツールを使う →</a>
+            </div>
+
+            <h2 id="section4">黄金比と白銀比の違い</h2>
+
+            <p>黄金比と並んでよく出てくるのが<strong>白銀比（1：1.414）</strong>です。こちらはA4やA3などの紙のサイズに使われている比率で、半分に折っても同じ比率になるという特性を持っています。</p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>比率</th>
+                        <th>数値</th>
+                        <th>特徴・使われる場面</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>黄金比</strong></td>
+                        <td>1：1.618</td>
+                        <td>ロゴ・レイアウト・UI設計。西洋的な「美しさ」の基準</td>
+                    </tr>
+                    <tr>
+                        <td><strong>白銀比</strong></td>
+                        <td>1：1.414</td>
+                        <td>A判・B判用紙のサイズ比。日本的なデザインや漫画のコマ割りにも多い</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>日本のキャラクターデザインやアニメのキャラクター比率には白銀比が多いとも言われます。どちらが優れているということではなく、<span class="marker">目指す雰囲気によって使い分けるのが現場的な感覚</span>です。</p>
+
+            <h2 id="section5">まとめ</h2>
+            <div class="summary-block">
+                <p class="summary-lead">黄金比は「なんかおしゃれ」を作るための、根拠のある比率です。</p>
+                <ol class="summary-list">
+                    <li>
+                        <div>
+                            <strong>黄金比 ＝ 1：1.618</strong>
+                            <p>人間が美しいと感じやすい比率。自然界にも現れる普遍的な法則が背景にある。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>ロゴ・レイアウト・タイポグラフィの3場面で使える</strong>
+                            <p>「なんとなく」ではなく数値で根拠を持ってデザインできるようになる。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>白銀比（1：1.414）とは別物</strong>
+                            <p>用紙サイズや日本的なデザインには白銀比。目的と雰囲気で使い分けよう。</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <p>「なんとなく良く見える」から「なぜ良く見えるか説明できる」に変わると、デザインの精度が一段上がります。黄金比は、その第一歩として覚えておいて損のない知識です。</p>
+
+            <!-- 著者（変更不要） -->
+            <div class="author-box">
+                <div class="author-avatar" aria-hidden="true">jun</div>
+                <div>
+                    <p class="author-name">jun</p>
+                    <p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
+                </div>
+            </div>
+
+            <div class="sp-related">
+    <p class="sp-related-label">関連記事</p>
+    <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
+    <a href="what-is-dpi.html">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</a>
+    <a href="print-prepress-checklist.html">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</a>
+</div>
+
+        </div>
+    </article>
+
+    <aside class="sidebar">
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">このページのツール</p>
+            <a href="../tools/golden-ratio-calculator.html" class="sidebar-tool-card">
+                <span class="sidebar-tool-icon">📐</span>
+                <span class="sidebar-tool-body">
+                    <span class="sidebar-tool-name">黄金比率計算ツール</span>
+                    <span class="sidebar-tool-note">無料 · ブラウザで完結</span>
+                </span>
+                <span class="sidebar-tool-arrow">→</span>
+            </a>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">人気記事</p>
+            <ol class="sidebar-ranking">
+    <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+    <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+    <li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+    <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+    <li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">カテゴリ</p>
+            <ul class="sidebar-categories">
+                <li><a href="#">印刷・冊子制作 <span>12</span></a></li>
+                <li><a href="#">デザイン基礎 <span>8</span></a></li>
+                <li><a href="#">Illustrator <span>6</span></a></li>
+                <li><a href="#">SNS・Web <span>5</span></a></li>
+                <li><a href="#">ツールの使い方 <span>4</span></a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">関連記事</p>
+            <div class="sidebar-related">
+    <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
+    <a href="what-is-dpi.html">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</a>
+    <a href="print-prepress-checklist.html">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</a>
+</div>
+        </div>
+
+    </aside>
+
+</div>
+
+<!-- フッター（変更不要） -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-tools">
+            <h3>ツールを探す</h3>
+            <div class="footer-tools-grid">
+                <a href="../tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+                <a href="../tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+                <a href="../tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+                <a href="../tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
+                <a href="../tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+                <a href="../tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+                <a href="../tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+                <a href="../tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+                <a href="../tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <h3>サイトメニュー</h3>
+            <a href="../index.html" class="footer-link-item">ホーム</a>
+            <a href="../about.html" class="footer-link-item">About</a>
+            <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+            <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+            <a href="../contact.html" class="footer-link-item">Contact</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

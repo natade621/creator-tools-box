@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="color-scheme" content="only light">
+    <title>dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説｜クリエイターのお道具箱</title>
+    <meta name="description" content="dpiとは1インチあたりのドット数のこと。印刷は300dpi、Webは72dpiが基本ですが「なぜそうなのか」を現役デザイナーが実務目線で解説。ピクセルmm変換ツールも紹介します。">
+    <link rel="canonical" href="https://creator-tools-box.com/articles/what-is-dpi.html">
+    <meta property="og:title" content="dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説">
+    <meta property="og:description" content="dpiとは1インチあたりのドット数のこと。印刷は300dpi、Webは72dpiが基本ですが「なぜそうなのか」を現役デザイナーが実務目線で解説。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://creator-tools-box.com/articles/what-is-dpi.html">
+    <meta property="og:site_name" content="クリエイターのお道具箱">
+
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --accent-color: #ffde00;
+            --black: #333;
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--black) !important;
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー */
+        .site-header { background: var(--white); border-bottom: var(--border); padding: 1.2rem 2rem; position: relative; z-index: 100; }
+        .header-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; }
+        .site-logo { text-decoration: none; color: var(--black); display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-main { font-size: 1.3rem; font-weight: 800; }
+        .logo-sub { font-size: 0.75rem; font-weight: 400; color: #777; margin-top: 4px; }
+
+        /* パンくず */
+        .breadcrumb { max-width: 860px; margin: 1.5rem auto 0; padding: 0 1.5rem; font-size: 0.8rem; color: #999; }
+        .breadcrumb a { color: #999; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; color: var(--black); }
+        .breadcrumb span { margin: 0 0.4rem; }
+
+        /* メインレイアウト */
+        .main-container { max-width: 860px; margin: 2rem auto 6rem; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 260px; gap: 3rem; align-items: start; }
+
+        /* 記事ヘッダー */
+        .article-header { margin-bottom: 2.5rem; }
+        .article-category { display: inline-block; background: var(--black); color: var(--white); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1rem; letter-spacing: 0.05em; }
+        .article-title { font-size: 2rem; font-weight: 800; line-height: 1.35; margin: 0 0 1.2rem; }
+        .article-meta { font-size: 0.82rem; color: #888; display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+        /* 目次 */
+        .toc-box { background: var(--white); border: var(--border); border-radius: 16px; padding: 1.5rem 2rem; margin-bottom: 3rem; }
+        .toc-box h2 { font-size: 0.9rem; font-weight: 800; margin: 0 0 1rem; letter-spacing: 0.05em; color: #555; }
+        .toc-list { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+        .toc-list li { counter-increment: toc; padding: 0.4rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.88rem; }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a { text-decoration: none; color: var(--black); display: flex; gap: 0.6rem; align-items: baseline; }
+        .toc-list a::before { content: counter(toc); background: var(--accent-color); font-size: 0.7rem; font-weight: 800; width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .toc-list a:hover { text-decoration: underline; }
+
+        /* 本文 */
+        .article-content h2 { font-size: 1.4rem; font-weight: 800; margin: 3rem 0 1.2rem; padding-left: 1rem; border-left: 6px solid var(--accent-color); line-height: 1.3; }
+        .article-content h3 { font-size: 1.1rem; font-weight: 800; margin: 2rem 0 0.8rem; }
+        .article-content p { line-height: 1.95; margin-bottom: 1.4rem; color: #444; font-size: 0.97rem; }
+        .article-content strong { color: var(--black); font-weight: 800; }
+
+        /* コールアウト */
+        .callout { background: #f4f4f4; border-left: 4px solid #d0d0d0; border-radius: 0 10px 10px 0; padding: 1.1rem 1.5rem; margin: 2rem 0; }
+        .callout-label { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; color: #888; margin-bottom: 0.4rem; text-transform: uppercase; }
+        .callout p { margin: 0; color: #555; font-size: 0.93rem; line-height: 1.8; }
+
+        /* アクセントボックス */
+        .accent-box { background: #fffbe6; border-left: 4px solid var(--accent-color); border-radius: 0 10px 10px 0; padding: 1.1rem 1.5rem; margin: 2rem 0; }
+        .accent-box p { margin: 0; color: var(--black); font-size: 0.95rem; font-weight: 700; line-height: 1.8; }
+
+        /* マーカー */
+        .marker { background: linear-gradient(transparent 75%, #ffde00 75%); font-weight: 700; padding: 0 0.1em; }
+
+        /* チェックリスト */
+        .check-list { list-style: none; padding: 0; margin: 0.5rem 0 1.5rem; display: flex; flex-direction: column; gap: 0; }
+        .check-list li { position: relative; font-size: 0.94rem; color: #333; line-height: 1.7; padding: 0.75rem 0 0.75rem 2.6rem; border-bottom: 1px solid #f0f0f0; }
+        .check-list li:last-child { border-bottom: none; }
+        .check-list li::before { content: "✓"; position: absolute; left: 0; top: 0.8rem; font-weight: 900; font-size: 0.8rem; color: #333; background: var(--accent-color); width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+        .check-list li strong { font-weight: 800; display: block; margin-bottom: 0.15rem; color: #222; }
+
+        /* 比較テーブル */
+        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0 2rem; font-size: 0.9rem; }
+        .compare-table th { background: var(--black); color: var(--white); padding: 0.8rem 1rem; font-weight: 700; text-align: left; }
+        .compare-table th:first-child { border-radius: 8px 0 0 0; }
+        .compare-table th:last-child { border-radius: 0 8px 0 0; }
+        .compare-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #eee; color: #444; vertical-align: top; line-height: 1.7; }
+        .compare-table tr:last-child td { border-bottom: none; }
+        .compare-table tr:nth-child(even) td { background: #f4f4f4; }
+        .compare-table tbody { background: #fafafa; }
+
+        /* まとめブロック */
+        .summary-block { background: var(--white); border: var(--border); border-radius: 20px; padding: 2rem 2rem 1.5rem; margin: 1.5rem 0 2rem; box-shadow: var(--shadow); }
+        .summary-lead { font-size: 1rem; font-weight: 800; color: var(--black); line-height: 1.7; margin: 0 0 1.6rem !important; padding-bottom: 1.4rem; border-bottom: 2px dashed #e0e0e0; }
+        .summary-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; counter-reset: summary-counter; }
+        .summary-list li { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid #f2f2f2; counter-increment: summary-counter; }
+        .summary-list li:last-child { border-bottom: none; }
+        .summary-list li::before { content: "0" counter(summary-counter); font-size: 0.7rem; font-weight: 900; background: var(--accent-color); color: var(--black); border-radius: 6px; min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.15rem; font-family: var(--font-main); }
+        .summary-list li div { flex: 1; }
+        .summary-list li strong { display: block; font-size: 0.95rem; font-weight: 800; color: var(--black); margin-bottom: 0.25rem; line-height: 1.45; }
+        .summary-list li p { font-size: 0.85rem; color: #666; margin: 0 !important; line-height: 1.7; }
+
+        /* ツールCTAバナー */
+        .tool-cta { background: var(--white); border: var(--border); border-radius: 20px; padding: 2rem; margin: 3rem 0; box-shadow: var(--shadow); text-align: center; }
+        .tool-cta-label { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; color: #888; margin-bottom: 0.6rem; }
+        .tool-cta h3 { font-size: 1.2rem; font-weight: 800; margin: 0 0 0.6rem; }
+        .tool-cta p { font-size: 0.88rem; color: #666; margin: 0 0 1.2rem; }
+        .btn { background: var(--accent-color); border: var(--border); padding: 0.9rem 2.5rem; border-radius: 50px; font-weight: 800; font-size: 1rem; font-family: var(--font-main); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; color: var(--black); text-decoration: none; display: inline-block; }
+        .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+
+        /* 著者ボックス */
+        .author-box { display: flex; gap: 1rem; align-items: flex-start; padding: 1.5rem 0; border-top: 2px dashed #ddd; border-bottom: 2px dashed #ddd; margin: 3rem 0; }
+        .author-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--black); color: var(--white); font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .author-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .author-bio { font-size: 0.83rem; color: #666; line-height: 1.7; }
+
+        /* スマホ用関連記事 */
+        .sp-related { display: none; }
+
+        /* サイドバー */
+        .sidebar { position: sticky; top: 2rem; display: flex; flex-direction: column; gap: 0; }
+        .sidebar-card { padding: 1.4rem 0; border-bottom: 1px solid #ebebeb; }
+        .sidebar-card:last-child { border-bottom: none; padding-bottom: 0; }
+        .sidebar-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; color: #bbb; text-transform: uppercase; margin: 0 0 0.8rem; }
+        .sidebar-tool-card { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; background: #fff; border: 1.5px solid #e8e8e8; border-radius: 10px; padding: 0.7rem 0.85rem; margin-bottom: 0.5rem; transition: border-color 0.15s, box-shadow 0.15s; }
+        .sidebar-tool-card:last-child { margin-bottom: 0; }
+        .sidebar-tool-card:hover { border-color: var(--accent-color); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        .sidebar-tool-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1; }
+        .sidebar-tool-body { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; }
+        .sidebar-tool-name { font-size: 0.85rem; font-weight: 700; color: var(--black); line-height: 1.3; }
+        .sidebar-tool-note { font-size: 0.72rem; color: #aaa; }
+        .sidebar-tool-arrow { font-size: 0.85rem; color: #ccc; flex-shrink: 0; }
+        .sidebar-tool-card:hover .sidebar-tool-arrow { color: var(--black); }
+        .sidebar-ranking { list-style: none; padding: 0; margin: 0; counter-reset: rank; display: flex; flex-direction: column; }
+        .sidebar-ranking li { counter-increment: rank; display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.55rem 0; border-bottom: 1px solid #f5f5f5; }
+        .sidebar-ranking li:last-child { border-bottom: none; }
+        .sidebar-ranking li::before { content: counter(rank); font-size: 0.68rem; font-weight: 900; color: var(--black); border-radius: 4px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
+        .sidebar-ranking li:nth-child(1)::before { background: #ffde00; }
+        .sidebar-ranking li:nth-child(2)::before { background: #e8e8e8; }
+        .sidebar-ranking li:nth-child(3)::before { background: #f0c97a; }
+        .sidebar-ranking li:nth-child(4)::before, .sidebar-ranking li:nth-child(5)::before { background: #f0f0f0; }
+        .sidebar-ranking a { font-size: 0.82rem; font-weight: 500; color: #444; text-decoration: none; line-height: 1.5; transition: color 0.15s; }
+        .sidebar-ranking a:hover { color: var(--black); text-decoration: underline; }
+        .sidebar-categories { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+        .sidebar-categories li a { display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #555; font-size: 0.85rem; padding: 0.45rem 0.6rem; border-radius: 6px; transition: background 0.12s, color 0.12s; }
+        .sidebar-categories li a:hover { background: #f5f5f5; color: var(--black); }
+        .sidebar-categories li a span { font-size: 0.72rem; color: #bbb; font-weight: 500; }
+        .sidebar-related a { display: block; text-decoration: none; color: #555; font-size: 0.83rem; padding: 0.45rem 0; border-bottom: 1px solid #f0f0f0; line-height: 1.5; transition: color 0.15s; }
+        .sidebar-related a:last-child { border-bottom: none; }
+        .sidebar-related a:hover { color: var(--black); text-decoration: underline; }
+        .sidebar-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
+
+        /* フッター */
+        footer { margin-top: 8rem; padding: 5rem 2rem 3rem; background: var(--white); border-top: var(--border); }
+        .footer-content { max-width: 1000px; margin: 0 auto 4rem; display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+        .footer-tools h3, .footer-links h3 { font-size: 1rem; font-weight: 800; margin-bottom: 2rem; }
+        .footer-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem; transition: all 0.2s; padding: 0.2rem 0; }
+        .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
+        .footer-bottom { text-align: center; padding-top: 3rem; border-top: 1px solid #eee; max-width: 1000px; margin: 0 auto; }
+        .copyright { font-size: 0.85rem; color: #aaa; letter-spacing: 0.05em; }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .article-title { font-size: 1.6rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .sp-related { display: block; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee; }
+            .sp-related-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: #aaa; margin: 0 0 0.8rem; }
+            .sp-related a { display: block; text-decoration: none; color: #555; font-size: 0.88rem; padding: 0.45rem 0; border-bottom: 1px solid #f0f0f0; line-height: 1.5; }
+            .sp-related a:last-child { border-bottom: none; }
+            .sp-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
+            .sp-related a:hover { color: var(--black); }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a href="../index.html" class="site-logo">
+            <span class="logo-main">クリエイターのお道具箱</span>
+            <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+        </a>
+    </div>
+</header>
+
+<nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="../index.html">ホーム</a>
+    <span>›</span>
+    <a href="../articles/">記事一覧</a>
+    <span>›</span>
+    dpiって何？解像度の基本
+</nav>
+
+<div class="main-container">
+
+    <article class="article-body">
+
+        <header class="article-header">
+            <p class="article-category">デザイン基礎</p>
+            <h1 class="article-title">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</h1>
+            <div class="article-meta">
+                <span>2026年4月1日</span>
+            </div>
+        </header>
+
+        <nav class="toc-box" aria-label="目次">
+            <h2>目次</h2>
+            <ol class="toc-list">
+                <li><a href="#section1">dpiとは何か？1行で言うと</a></li>
+                <li><a href="#section2">72dpiと300dpiの違い、どっちを使う？</a></li>
+                <li><a href="#section3">「解像度が足りない」はなぜ起きる？</a></li>
+                <li><a href="#section4">実務でdpiを確認・変換する方法</a></li>
+                <li><a href="#section5">Photoshopで解像度を変更する手順</a></li>
+                <li><a href="#section6">まとめ</a></li>
+
+            </ol>
+        </nav>
+
+        <div class="article-content">
+
+            <p>「この画像、解像度が足りません」——印刷会社からこのメールが来たとき、何をどうすれば良いのか焦った経験、ありませんか？dpiという単語は知っていても、<strong>実際に何を意味していて、どう対処すればいいか</strong>がわからない人は意外と多いです。この記事では、現場で8年デザインをしてきた目線で、dpiと解像度の話をざっくり整理します。</p>
+
+            <h2 id="section1">dpiとは何か？1行で言うと</h2>
+
+            <p><span class="marker">dpi（ドット・パー・インチ）とは、1インチ（約25.4mm）の中にドットが何個あるかを表す単位</span>です。数値が大きいほど密度が高く、細かい表現ができます。</p>
+
+            <p>紙に印刷するとき、インクのドットがぎっしり並ぶことで画像が作られます。このドットの密度がdpiで、これが足りないと「のっぺりしたボケた印刷物」になります。逆にモニター表示では、そこまでの密度は必要ありません。スクリーンはピクセルで色を表示するので、密度よりも「画面上でどれだけのサイズを占めるか」のほうが重要になってきます。</p>
+
+            <div class="accent-box">
+                <p>dpiは「密度」の話。数値が高いほど細かく、印刷物はとくに重要。</p>
+            </div>
+
+            <h2 id="section2">72dpiと300dpiの違い、どっちを使う？</h2>
+
+            <p>「とりあえず300dpiにしておけ」という話をよく聞くと思います。でも、なぜ300なのか。そしてWebはなぜ72なのか。ここをちゃんと理解しておくと、現場での判断がかなり楽になります。</p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr><th>用途</th><th>推奨dpi</th><th>理由</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>印刷（チラシ・パンフ・名刺など）</td><td>300dpi</td><td>人間の目が識別できる限界に近い密度。それ以上は大きくなるだけ。</td></tr>
+                    <tr><td>大判印刷（ポスター・バナーなど）</td><td>72〜150dpi</td><td>離れて見るので、粗さが目立たない。無理に高解像度にすると重くなる。</td></tr>
+                    <tr><td>Web・SNS・動画</td><td>72dpi（またはdpi不問）</td><td>モニターはdpiよりピクセル数が基準。72はあくまで慣例値。</td></tr>
+                </tbody>
+            </table>
+
+            <p>Web画像のdpiは、実のところモニター表示にほぼ影響しません。重要なのは<strong>ピクセル数（横×縦のpx）</strong>です。たとえばInstagramの正方形投稿は1080×1080pxが推奨されていますが、この画像が72dpiでも300dpiでも、スマホ画面上での見た目は同じです。</p>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>Web用素材をPhotoshopで書き出すとき、「72dpiに変換してから書き出す」必要はありません。解像度はそのままにピクセル数だけ合わせれば十分です。dpiを変えても表示サイズは変わらず、ファイルサイズがわずかに変わるだけです。</p>
+            </div>
+
+            <h2 id="section3">「解像度が足りない」はなぜ起きる？</h2>
+
+            <p>印刷入稿で一番多いトラブルがこれです。よくある原因を整理します。</p>
+
+            <ul class="check-list">
+                <li><strong>Webからダウンロードした画像をそのまま使った</strong>Webの画像は多くが72dpi・小サイズ。A4に引き伸ばすとドットが粗くなります。</li>
+                <li><strong>小さいサイズで作業して、あとから拡大した</strong>ピクセル数は「引き伸ばしても増えない」です。後から大きくすると解像度が下がります。</li>
+                <li><strong>スマホで撮った写真をそのまま配置した</strong>スマホ写真は高画素でも、PhotoshopやIllustratorの配置サイズ次第で解像度が変わります。</li>
+            </ul>
+
+            <p>根本的な話をすると、<span class="marker">解像度は「ピクセル数 ÷ 実寸サイズ」で決まります</span>。たとえば幅300pxの画像を1インチ（約25mm）幅で印刷すれば300dpiですが、2インチ幅で印刷すれば150dpiになります。同じ画像でも、どのサイズで使うかで解像度は変わるわけです。</p>
+
+            <div class="accent-box">
+                <p>解像度の問題は「画像を作り直す」か「使用サイズを小さくする」しか根本解決できない。</p>
+            </div>
+
+            <h2 id="section4">実務でdpiを確認・変換する方法</h2>
+
+            <p>実際の現場では、「このA4チラシに使いたいこの写真は、何pxあれば足りるのか？」という逆算が必要になります。計算式はこうです。</p>
+
+            <p><strong>必要なピクセル数 ＝ 印刷サイズ（インチ）× dpi</strong></p>
+
+            <p>たとえばA4（210×297mm）に300dpiで印刷したい場合。210mmをインチに換算すると約8.27インチなので、<strong>8.27 × 300 ≒ 2481px</strong>。つまり横幅2481px以上の画像が必要ということです。縦は297mm ÷ 25.4 × 300 ≒ 3508px。これがA4・300dpiに必要なピクセル数です。</p>
+
+            <p>この換算、毎回手計算するのは面倒です。<a href="what-is-rgb-cmyk.html">RGBとCMYKの違い</a>と同じく、印刷の基礎知識はツールを使って手間を省くのが現場の流儀です。</p>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>Illustratorで配置した画像の解像度は「リンク」パネルから確認できます。画像を選択してパネルを開くと「実効PPI」という数値が表示され、これが現在のdpiです。入稿前はここを必ずチェックする癖をつけておくと、差し戻しを防げます。</p>
+            </div>
+
+            <div class="tool-cta">
+                <p class="tool-cta-label">このサイトの無料ツール</p>
+                <h3>ピクセルmm変換ツール</h3>
+                <p>dpiを指定してpxとmmを瞬時に換算できます。<br>インストール不要、ブラウザで完結。</p>
+                <a href="../tools/px-mm-converter.html" class="btn">ピクセルmm変換ツールを使う →</a>
+            </div>
+
+            <h2 id="section5">Photoshopで解像度を変更する手順</h2>
+
+            <p>解像度の話がわかったところで、実際にPhotoshopでどう操作するかを整理しておきます。よく使う場面は2パターンあって、「<strong>現在の解像度を確認したい</strong>」と「<strong>解像度を変更（変換）したい</strong>」は操作が微妙に違います。</p>
+
+            <h3>まず現在のdpiを確認する</h3>
+
+            <p>メニューバーから <strong>イメージ → 画像解像度</strong>（ショートカット：Mac は option+command+I、Win は alt+ctrl+I）を開きます。「解像度」欄に現在のdpiが表示されています。ここで確認してから次の操作へ進みましょう。</p>
+
+            <h3>パターン①：解像度だけ変えたい（ピクセル数は変えない）</h3>
+
+            <p>「画像解像度」ダイアログを開いたら、<span class="marker">「再サンプル」のチェックを外す</span>のがポイントです。この状態で解像度の数値を変えると、ピクセル数はそのままに、印刷時の出力サイズだけが変わります。</p>
+
+            <p>たとえば72dpiの画像を300dpiに変更しても、再サンプルOFFなら画質は劣化しません。ただし、印刷サイズが小さくなります（ピクセル数が同じだから密度を上げるとサイズが縮む）。「データは十分あるのにdpiだけ低い」という場合はこちら。</p>
+
+            <h3>パターン②：解像度もピクセル数も変えたい（再サンプルあり）</h3>
+
+            <p>「再サンプル」にチェックを入れた状態で解像度を変更すると、印刷サイズを維持しながらピクセル数が増減します。小さい画像を「無理やり300dpiにしたい」ときにやりがちですが、<strong>これはAIが画素を補完するだけ</strong>なので、画質が上がるわけではありません。引き伸ばした画像と本質的には同じです。</p>
+
+            <div class="accent-box">
+                <p>再サンプルONで解像度を上げても画質は上がらない。元データのピクセル数が足りないなら、素材を差し替えるのが正解。</p>
+            </div>
+
+            <h3>Web用に書き出すとき（dpiを気にしなくていいケース）</h3>
+
+            <p>Web・SNS用に書き出す場合は、<strong>ファイル → 書き出し → Web用に保存（従来）</strong>を使うのがおすすめです。このダイアログから書き出した画像は、dpiの設定に関係なく72dpiで出力されます。画質はピクセル数と圧縮率で決まるので、解像度は気にせずサイズ（px）だけ合わせましょう。</p>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>「Web用に保存」ではなく「別名で保存」でJPEGを書き出すと、元のdpiがそのまま保持されます。どちらでもWeb表示には影響ありませんが、ファイルサイズが若干変わります。迷ったら「Web用に保存」を使っておくのが無難です。</p>
+            </div>
+
+            <h2 id="section6">まとめ</h2>
+
+            <div class="summary-block">
+
+                <p class="summary-lead">dpiは「密度」、印刷は300dpi・大判は下げてOK、Webはピクセル数で考える。この3つを押さえれば現場で迷わない。</p>
+                <ol class="summary-list">
+                    <li><div><strong>dpiは1インチあたりのドット数</strong><p>数値が高いほど細かく鮮明な印刷ができる。印刷物は基本300dpi。</p></div></li>
+                    <li><div><strong>Web画像のdpiはほぼ関係ない</strong><p>モニター表示はピクセル数が基準。dpiを変えても見た目は変わらない。</p></div></li>
+                    <li><div><strong>必要pxは「インチ × dpi」で逆算できる</strong><p>A4・300dpiなら横2481px以上が必要。ツールを使えば一瞬で確認できる。</p></div></li>
+                </ol>
+            </div>
+
+            <p>「印刷したら画像がぼやけていた」という失敗は、たいていこのdpiの話が原因です。逆に言えば、入稿前に解像度さえ確認しておけば防げるトラブルです。<a href="print-color-dull-cause.html">印刷で色がくすんでしまう原因</a>と合わせて、入稿前のチェックリストとして活用してみてください。</p>
+
+            <div class="author-box">
+                <div class="author-avatar" aria-hidden="true">jun</div>
+                <div>
+                    <p class="author-name">jun</p>
+                    <p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
+                </div>
+            </div>
+
+            <div class="sp-related">
+                <p class="sp-related-label">関連記事</p>
+                <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+                <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
+                <a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+            </div>
+
+        </div>
+    </article>
+
+    <aside class="sidebar">
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">このページのツール</p>
+            <a href="../tools/px-mm-converter.html" class="sidebar-tool-card">
+                <span class="sidebar-tool-icon">📐</span>
+                <span class="sidebar-tool-body">
+                    <span class="sidebar-tool-name">ピクセルmm変換ツール</span>
+                    <span class="sidebar-tool-note">無料 · ブラウザで完結</span>
+                </span>
+                <span class="sidebar-tool-arrow">→</span>
+            </a>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">人気記事</p>
+            <ol class="sidebar-ranking">
+    <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+    <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+    <li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+    <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+    <li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">カテゴリ</p>
+            <ul class="sidebar-categories">
+                <li><a href="#">印刷・冊子制作 <span>12</span></a></li>
+                <li><a href="#">デザイン基礎 <span>8</span></a></li>
+                <li><a href="#">Illustrator <span>6</span></a></li>
+                <li><a href="#">SNS・Web <span>5</span></a></li>
+                <li><a href="#">ツールの使い方 <span>4</span></a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">関連記事</p>
+            <div class="sidebar-related">
+    <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+    <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
+    <a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+</div>
+        </div>
+
+    </aside>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-tools">
+            <h3>ツールを探す</h3>
+            <div class="footer-tools-grid">
+                <a href="../tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+                <a href="../tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+                <a href="../tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+                <a href="../tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
+                <a href="../tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+                <a href="../tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+                <a href="../tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+                <a href="../tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+                <a href="../tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <h3>サイトメニュー</h3>
+            <a href="../index.html" class="footer-link-item">ホーム</a>
+            <a href="../about.html" class="footer-link-item">About</a>
+            <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+            <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+            <a href="../contact.html" class="footer-link-item">Contact</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

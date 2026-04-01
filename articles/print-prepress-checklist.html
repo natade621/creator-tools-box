@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="color-scheme" content="only light">
+
+    <title>印刷入稿前チェックリスト｜現場デザイナーが確認する5項目｜クリエイターのお道具箱</title>
+    <meta name="description" content="印刷入稿前に確認すべきカラーモード・CMYK数値・解像度・トンボ・塗り足し・フォントのアウトラインを、現場デザイナー目線でわかりやすく解説。チェックリスト付きで、入稿ミスを防ぐ実務の手順をまとめました。">
+    <link rel="canonical" href="https://creator-tools-box.com/articles/print-prepress-checklist.html">
+    <meta property="og:title" content="印刷入稿前チェックリスト｜現場デザイナーが確認する5項目">
+    <meta property="og:description" content="印刷入稿前に確認すべきカラーモード・CMYK数値・解像度・トンボ・塗り足し・フォントのアウトラインを、現場デザイナー目線でわかりやすく解説。チェックリスト付き。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://creator-tools-box.com/articles/print-prepress-checklist.html">
+    <meta property="og:site_name" content="クリエイターのお道具箱">
+
+    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --accent-color: #ffde00;
+            --black: #333;
+            --white: #fff;
+            --border: 2px solid #333;
+            --shadow: 4px 4px 0px 0px #333;
+            --radius: 20px;
+            --font-main: "Line Seed JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--black) !important;
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 0.02em;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ヘッダー */
+        .site-header {
+            background: var(--white);
+            border-bottom: var(--border);
+            padding: 1.2rem 2rem;
+            position: relative;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .site-logo {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .logo-main { font-size: 1.3rem; font-weight: 800; }
+        .logo-sub { font-size: 0.75rem; font-weight: 400; color: #777; margin-top: 4px; }
+
+        /* パンくず */
+        .breadcrumb {
+            max-width: 860px;
+            margin: 1.5rem auto 0;
+            padding: 0 1.5rem;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        .breadcrumb a { color: #999; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; color: var(--black); }
+        .breadcrumb span { margin: 0 0.4rem; }
+
+        /* メインレイアウト */
+        .main-container {
+            max-width: 860px;
+            margin: 2rem auto 6rem;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .article-body {}
+
+        /* 記事ヘッダー */
+        .article-header { margin-bottom: 2.5rem; }
+        .article-category {
+            display: inline-block;
+            background: var(--black);
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.3rem 0.9rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+        .article-title {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin: 0 0 1.2rem;
+        }
+        .article-title .highlight { display: inline; }
+        .article-meta {
+            font-size: 0.82rem;
+            color: #888;
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        /* 目次 */
+        .toc-box {
+            background: var(--white);
+            border: var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+        }
+        .toc-box h2 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin: 0 0 1rem;
+            letter-spacing: 0.05em;
+            color: #555;
+        }
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: toc;
+        }
+        .toc-list li {
+            counter-increment: toc;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.88rem;
+        }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a {
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            gap: 0.6rem;
+            align-items: baseline;
+        }
+        .toc-list a::before {
+            content: counter(toc);
+            background: var(--accent-color);
+            font-size: 0.7rem;
+            font-weight: 800;
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .toc-list a:hover { text-decoration: underline; }
+
+        /* 本文要素 */
+        .article-content h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 3rem 0 1.2rem;
+            padding-left: 1rem;
+            border-left: 6px solid var(--accent-color);
+            line-height: 1.3;
+        }
+        .article-content h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin: 2rem 0 0.8rem;
+        }
+        .article-content p {
+            line-height: 1.95;
+            margin-bottom: 1.4rem;
+            color: #444;
+            font-size: 0.97rem;
+        }
+        .article-content strong { color: var(--black); font-weight: 800; }
+
+        /* コールアウト */
+        .callout {
+            background: #f4f4f4;
+            border-left: 4px solid #d0d0d0;
+            border-radius: 0 10px 10px 0;
+            padding: 1.1rem 1.5rem;
+            margin: 2rem 0;
+        }
+        .callout-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #888;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+        .callout p { margin: 0; color: #555; font-size: 0.93rem; line-height: 1.8; }
+
+        /* アクセントボックス */
+        .accent-box {
+            background: #fffbe6;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 10px 10px 0;
+            padding: 1.1rem 1.5rem;
+            margin: 2rem 0;
+        }
+        .accent-box p { margin: 0; color: var(--black); font-size: 0.95rem; font-weight: 700; line-height: 1.8; }
+
+        /* 黄色マーカー */
+        .marker {
+            background: linear-gradient(transparent 75%, #ffde00 75%);
+            font-weight: 700;
+            padding: 0 0.1em;
+        }
+
+        /* チェックリスト */
+        .check-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .check-list li {
+            position: relative;
+            font-size: 0.94rem;
+            color: #333;
+            line-height: 1.7;
+            padding: 0.75rem 0 0.75rem 2.6rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .check-list li:last-child { border-bottom: none; }
+        .check-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0.8rem;
+            font-weight: 900;
+            font-size: 0.8rem;
+            color: #333;
+            background: var(--accent-color);
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .check-list li strong {
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.15rem;
+            color: #222;
+        }
+
+        /* 比較テーブル */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0 2rem;
+            font-size: 0.9rem;
+        }
+        .compare-table th {
+            background: var(--black);
+            color: var(--white);
+            padding: 0.8rem 1rem;
+            font-weight: 700;
+            text-align: left;
+        }
+        .compare-table th:first-child { border-radius: 8px 0 0 0; }
+        .compare-table th:last-child { border-radius: 0 8px 0 0; }
+        .compare-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+            color: #444;
+            vertical-align: top;
+            line-height: 1.7;
+        }
+        .compare-table tr:last-child td { border-bottom: none; }
+        .compare-table tr:nth-child(even) td { background: #f4f4f4; }
+        .compare-table tbody { background: #fafafa; }
+        .badge {
+            display: inline-block;
+            background: var(--accent-color);
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.4rem;
+            vertical-align: middle;
+        }
+
+        /* CTAバナー */
+        .tool-cta {
+            background: var(--white);
+            border: var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        .tool-cta-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: #888;
+            margin-bottom: 0.6rem;
+        }
+        .tool-cta h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: 0 0 0.6rem;
+        }
+        .tool-cta p {
+            font-size: 0.88rem;
+            color: #666;
+            margin: 0 0 1.2rem;
+        }
+        .btn {
+            background: var(--accent-color);
+            border: var(--border);
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: var(--black);
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+
+        /* 著者 */
+        .author-box {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1.5rem 0;
+            border-top: 2px dashed #ddd;
+            border-bottom: 2px dashed #ddd;
+            margin: 3rem 0;
+        }
+        .author-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--black);
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .author-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .author-bio { font-size: 0.83rem; color: #666; line-height: 1.7; }
+
+        /* サイドバー */
+        .sidebar { position: sticky; top: 2rem; display: flex; flex-direction: column; gap: 0; }
+        .sidebar-card {
+            padding: 1.4rem 0;
+            border-bottom: 1px solid #ebebeb;
+        }
+        .sidebar-card:last-child { border-bottom: none; padding-bottom: 0; }
+        .sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: #bbb;
+            text-transform: uppercase;
+            margin: 0 0 0.8rem;
+        }
+        .sidebar-tool-card {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            text-decoration: none;
+            background: #fff;
+            border: 1.5px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 0.7rem 0.85rem;
+            margin-bottom: 0.5rem;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .sidebar-tool-card:last-child { margin-bottom: 0; }
+        .sidebar-tool-card:hover { border-color: var(--accent-color); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        .sidebar-tool-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1; }
+        .sidebar-tool-body { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; }
+        .sidebar-tool-name { font-size: 0.85rem; font-weight: 700; color: var(--black); line-height: 1.3; }
+        .sidebar-tool-note { font-size: 0.72rem; color: #aaa; }
+        .sidebar-tool-arrow { font-size: 0.85rem; color: #ccc; flex-shrink: 0; }
+        .sidebar-tool-card:hover .sidebar-tool-arrow { color: var(--black); }
+
+        /* 人気記事ランキング */
+        .sidebar-ranking {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: rank;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .sidebar-ranking li {
+            counter-increment: rank;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .sidebar-ranking li:last-child { border-bottom: none; }
+        .sidebar-ranking li::before {
+            content: counter(rank);
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: var(--black);
+            background: var(--accent-color);
+            border-radius: 4px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+        .sidebar-ranking li:nth-child(1)::before { background: #ffde00; }
+        .sidebar-ranking li:nth-child(2)::before { background: #e8e8e8; }
+        .sidebar-ranking li:nth-child(3)::before { background: #f0c97a; }
+        .sidebar-ranking li:nth-child(4)::before,
+        .sidebar-ranking li:nth-child(5)::before { background: #f0f0f0; }
+        .sidebar-ranking a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #444;
+            text-decoration: none;
+            line-height: 1.5;
+            transition: color 0.15s;
+        }
+        .sidebar-ranking a:hover { color: var(--black); text-decoration: underline; }
+
+        /* カテゴリ */
+        .sidebar-categories {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        .sidebar-categories li a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: #555;
+            font-size: 0.85rem;
+            padding: 0.45rem 0.6rem;
+            border-radius: 6px;
+            transition: background 0.12s, color 0.12s;
+        }
+        .sidebar-categories li a:hover { background: #f5f5f5; color: var(--black); }
+        .sidebar-categories li a span {
+            font-size: 0.72rem;
+            color: #bbb;
+            font-weight: 500;
+        }
+
+        /* 関連記事 */
+        .sidebar-related a {
+            display: block;
+            text-decoration: none;
+            color: #555;
+            font-size: 0.83rem;
+            padding: 0.45rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            line-height: 1.5;
+            transition: color 0.15s;
+        }
+        .sidebar-related a:last-child { border-bottom: none; }
+        .sidebar-related a:hover { color: var(--black); text-decoration: underline; }
+        .sidebar-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
+
+        /* フッター */
+        footer {
+            margin-top: 8rem;
+            padding: 5rem 2rem 3rem;
+            background: var(--white);
+            border-top: var(--border);
+        }
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        .footer-tools h3, .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+        .footer-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .footer-link-item {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.2rem 0;
+        }
+        .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .copyright { font-size: 0.85rem; color: #aaa; letter-spacing: 0.05em; }
+
+        /* スマホ用関連記事 */
+        .sp-related { display: none; }
+
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .article-title { font-size: 1.6rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
+            .sp-related {
+                display: block;
+                margin-top: 2rem;
+                padding-top: 2rem;
+                border-top: 1px solid #eee;
+            }
+            .sp-related-label {
+                font-size: 0.75rem;
+                font-weight: 800;
+                letter-spacing: 0.1em;
+                color: #aaa;
+                margin: 0 0 0.8rem;
+            }
+            .sp-related a {
+                display: block;
+                text-decoration: none;
+                color: #555;
+                font-size: 0.88rem;
+                padding: 0.45rem 0;
+                border-bottom: 1px solid #f0f0f0;
+                line-height: 1.5;
+            }
+            .sp-related a:last-child { border-bottom: none; }
+            .sp-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
+            .sp-related a:hover { color: var(--black); }
+        }
+        @media (max-width: 480px) {
+            .footer-tools-grid { grid-template-columns: 1fr; }
+        }
+
+        /* まとめブロック */
+        .summary-block {
+            background: var(--white);
+            border: var(--border);
+            border-radius: 20px;
+            padding: 2rem 2rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            box-shadow: var(--shadow);
+        }
+        .summary-lead {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--black);
+            line-height: 1.7;
+            margin: 0 0 1.6rem !important;
+            padding-bottom: 1.4rem;
+            border-bottom: 2px dashed #e0e0e0;
+        }
+        .summary-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            counter-reset: summary-counter;
+        }
+        .summary-list li {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f2f2f2;
+            counter-increment: summary-counter;
+        }
+        .summary-list li:last-child { border-bottom: none; }
+        .summary-list li::before {
+            content: "0" counter(summary-counter);
+            font-size: 0.7rem;
+            font-weight: 900;
+            background: var(--accent-color);
+            color: var(--black);
+            border-radius: 6px;
+            min-width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            letter-spacing: 0.02em;
+            margin-top: 0.15rem;
+            font-family: var(--font-main);
+        }
+        .summary-list li div { flex: 1; }
+        .summary-list li strong {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 0.25rem;
+            line-height: 1.45;
+        }
+        .summary-list li p {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0 !important;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a href="../index.html" class="site-logo">
+            <span class="logo-main">クリエイターのお道具箱</span>
+            <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
+        </a>
+    </div>
+</header>
+
+<nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="../index.html">ホーム</a>
+    <span>›</span>
+    <a href="../articles/">記事一覧</a>
+    <span>›</span>
+    印刷入稿前チェックリスト
+</nav>
+
+<div class="main-container">
+
+    <article class="article-body">
+
+        <header class="article-header">
+            <p class="article-category">印刷・冊子制作</p>
+            <h1 class="article-title">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</h1>
+            <div class="article-meta">
+                <span>2026年3月31日</span>
+            </div>
+        </header>
+
+        <nav class="toc-box" aria-label="目次">
+            <h2>目次</h2>
+            <ol class="toc-list">
+                <li><a href="#intro">入稿ミスのほとんどは「確認不足」じゃなく「手順がない」こと</a></li>
+                <li><a href="#color">チェック1：カラーモードはCMYKになっているか</a></li>
+                <li><a href="#cmyk-values">チェック2：使っている色のCMYK数値は正しいか</a></li>
+                <li><a href="#resolution">チェック3：画像の解像度は300dpi以上あるか</a></li>
+                <li><a href="#bleed">チェック4：塗り足しとトンボは設定されているか</a></li>
+                <li><a href="#font">チェック5：フォントはアウトライン化されているか</a></li>
+                <li><a href="#final">入稿前の最終確認リスト</a></li>
+                <li><a href="#summary">まとめ</a></li>
+            </ol>
+        </nav>
+
+        <div class="article-content">
+
+            <p>「データ送ったあとに気づいた……」。入稿ミスはいつも、送ったあとに発覚する。これ、あるあるすぎて笑えない話です。</p>
+            <p>
+                初稿を仕上げる集中力と、入稿前の確認作業は、頭の使い方がまったく違います。制作の興奮が残ったまま「よし送ろう」と勢いで入稿すると、<span class="marker">カラーモードがRGBのまま、フォントが残ったまま</span>という事態が起きやすい。
+            </p>
+            <p>
+                この記事では、印刷入稿前に確認しておきたい5つのポイントを、現場目線でまとめました。「なぜ必要か」もセットで書いているので、チェック作業が"意味のある確認"になります。
+            </p>
+
+            <h2 id="intro">入稿ミスのほとんどは「確認不足」じゃなく「手順がない」こと</h2>
+
+            <p>
+                入稿ミスを繰り返すデザイナーは、注意力が足りないわけじゃないと思っています。単純に、<span class="marker">確認の「型」を持っていない</span>だけです。
+            </p>
+            <p>
+                パイロットが離陸前にチェックリストを読み上げるように、デザイナーも入稿前のルーティンを持つと、ミスがぐっと減ります。特にIllustratorを使い始めて間もない頃は、設定項目が多くて見落としが出やすい。
+            </p>
+
+            <div class="accent-box">
+                <p>入稿前の確認は「丁寧さ」の問題じゃなく、<span class="marker">手順を仕組みとして持っているかどうか</span>の問題。</p>
+            </div>
+
+            <p>
+                確認すべき項目は大きく5つ。カラーモード・CMYK数値・解像度・塗り足しとトンボ・フォントのアウトライン化です。順番に見ていきましょう。
+            </p>
+
+            <h2 id="color">チェック1：カラーモードはCMYKになっているか</h2>
+
+            <p>
+                印刷でいちばん多いトラブルのひとつが、<span class="marker">RGBのまま入稿してしまうこと</span>です。モニターで見ると鮮やかなオレンジや青が、印刷後にくすんで届く——この原因のほとんどがカラーモードの問題です。
+            </p>
+            <p>
+                モニターはRGB（光の三原色）で色を表現しますが、印刷はCMYK（インクの4色）で色を再現します。この2つは色の作り方がそもそも異なるため、RGBの鮮やかな色をそのまま印刷しようとすると、インクで表現できる範囲を超えてしまい、変換時に色がくすんでしまうのです。
+            </p>
+
+            <h3>Illustratorでの確認方法</h3>
+            <p>
+                メニューバーの「ファイル」→「ドキュメントのカラーモード」で確認できます。「CMYK カラー」と表示されていればOK。「RGB カラー」になっていたら、そのまま選択してCMYKに切り替えます。
+            </p>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>Illustratorの新規ドキュメントはデフォルトがRGBになっていることが多いです。印刷物を作るときは、<strong>新規作成の段階でCMYKを選ぶ</strong>のが一番確実。後から変換すると色が大きく変わることがあるので、後処理より最初の設定が大切です。</p>
+            </div>
+
+            <p>
+                RGBとCMYKの違いや、色がくすむ詳しい仕組みについては、こちらの記事でも解説しています。<br>
+                ・<a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a><br>
+                ・<a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+            </p>
+
+            <h2 id="cmyk-values">チェック2：使っている色のCMYK数値は正しいか</h2>
+
+            <p>
+                カラーモードをCMYKに切り替えても、<span class="marker">色の数値が意図したものになっているか</span>は別の話です。特にRGBモードで制作してからCMYKに変換した場合、数値が小数点を含む中途半端な値になっていることがよくあります。
+            </p>
+            <p>
+                たとえば「C:45.2% M:0.3% Y:12.7% K:0%」のような値は、印刷所の環境によって丸め処理が入り、意図しない色になる可能性があります。<span class="marker">数値はすべて整数に丸めておく</span>のが無難です。
+            </p>
+
+            <h3>リッチブラックに注意</h3>
+            <p>
+                もうひとつ見落としやすいのが<span class="marker">リッチブラック</span>です。RGBの黒（R:0 G:0 B:0）をCMYKに変換すると、K（ブラック）100%ではなく「C:75% M:68% Y:67% K:90%」のような4色の掛け合わせになることがあります。
+            </p>
+            <p>
+                4色を重ねた黒は見た目に深みが出ますが、印刷では<span class="marker">インクの盛りすぎ・乾燥不良・わずかな見当ズレ</span>が起きるリスクがあります。テキストや細い線の黒は、<strong>K:100%のシンプルな黒（スミベタ）</strong>を使うのが基本です。
+            </p>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>Illustratorの「ウィンドウ」→「スウォッチ」パネルで色を管理すると、数値の確認と変更がスムーズです。スウォッチに登録した色をダブルクリックすれば数値を直接編集でき、同じ色を使っている全オブジェクトへ一括反映できます。RGB→CMYK変換後は必ずスウォッチを開いて数値を確認する習慣をつけましょう。</p>
+            </div>
+
+            <h2 id="resolution">チェック3：画像の解像度は300dpi以上あるか</h2>
+
+            <p>
+                写真や画像を配置している場合、<span class="marker">解像度が足りないとぼやけた仕上がりになります</span>。これも、モニターではきれいに見えているのに印刷するとガサガサ……という典型的なトラブルです。
+            </p>
+            <p>
+                Webや画面用の画像は72〜96dpiで作られていることが多く、そのまま印刷データに使うと解像度不足になります。印刷物に使う画像は原則として<span class="marker">解像度300dpi以上</span>が必要です。チラシや冊子など通常の印刷物は300dpiを基準に考えましょう。
+            </p>
+
+            <h3>Illustratorで配置画像の解像度を確認する</h3>
+            <p>
+                配置している画像を選択した状態で「ウィンドウ」→「ドキュメント情報」を開くと、リンク画像の情報が確認できます。「リンク」パネルからも各画像の実効解像度を確認できます。
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>解像度</th>
+                        <th>用途</th>
+                        <th>印刷への適性</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>72〜96dpi</td>
+                        <td>Web・モニター表示用</td>
+                        <td>印刷には不向き。ぼやける</td>
+                    </tr>
+                    <tr>
+                        <td>150dpi</td>
+                        <td>新聞・低品質印刷</td>
+                        <td>用途によっては可。商業印刷には不足</td>
+                    </tr>
+                    <tr>
+                        <td>300dpi</td>
+                        <td>チラシ・冊子・名刺など</td>
+                        <td>商業印刷の標準。これ以上を目安に</td>
+                    </tr>
+                    <tr>
+                        <td>350〜400dpi</td>
+                        <td>高品質印刷・写真集など</td>
+                        <td>より精細な仕上がりが求められる場合</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>「拡大配置」には注意が必要です。元の画像が300dpiでも、Illustrator上で原寸の2倍に拡大配置すると、実質的な解像度は150dpiに落ちます。<strong>配置後のサイズでも解像度が確保されているか</strong>まで確認しましょう。</p>
+            </div>
+
+            <h2 id="bleed">チェック4：塗り足しとトンボは設定されているか</h2>
+
+            <p>
+                「塗り足し」と「トンボ」は、印刷物特有の設定です。これを知らないまま入稿すると、仕上がりに白いフチが入ったり、データを修正して再入稿になったりします。
+            </p>
+
+            <h3>塗り足しとは</h3>
+            <p>
+                印刷物は、大きな紙に印刷してから断裁（カット）して仕上げます。このとき、断裁のズレを考慮して<span class="marker">仕上がりサイズよりも外側に3mm分、デザインを延長しておく</span>のが「塗り足し」です。背景に色を敷いているデザインで塗り足しを忘れると、わずかな断裁ズレで端に白い部分が見えてしまいます。
+            </p>
+
+            <h3>トンボとは</h3>
+            <p>
+                トンボ（トリムマーク）は、<span class="marker">どこで断裁するかを示す目印</span>です。印刷所はトンボを基準に紙を切るので、これがないと正しいサイズに仕上げられません。Illustratorでは「効果」→「トリムマーク」、またはアートボードに対して「オブジェクト」→「トリムマークを作成」で設置できます。PDFで書き出す場合は、書き出し設定の「トンボと裁ち落とし」にチェックを入れることを忘れずに。
+            </p>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>Illustratorのドキュメント設定で「裁ち落とし」を3mmに設定しておくと、アートボード外に3mmの塗り足しエリアが表示されます。背景の色やテクスチャをこのエリアまで伸ばす習慣をつけると、塗り足し忘れがなくなります。</p>
+            </div>
+
+            <h2 id="font">チェック5：フォントはアウトライン化されているか</h2>
+
+            <p>
+                フォントのアウトライン化も、入稿の定番チェック項目です。アウトライン化とは、<span class="marker">文字データをパスデータ（図形）に変換すること</span>。これをやっておかないと、印刷所の環境でフォントが表示されなかったり、別のフォントに化けてしまう可能性があります。
+            </p>
+
+            <h3>アウトライン化の手順（Illustrator）</h3>
+            <p>
+                すべてのオブジェクトを選択（Command+A）→「書式」→「アウトラインを作成」（Command+Shift+O）で変換できます。必ず<span class="marker">アウトライン化前のファイルをバックアップ</span>しておきましょう。アウトライン化すると文字の編集ができなくなるため、後から修正が必要になった場合に元データが必要になります。
+            </p>
+
+            <div class="callout">
+                <p class="callout-label">現場のコツ</p>
+                <p>「書式」→「フォントを検索」で未アウトラインの文字が残っていないか確認できます。入稿用ファイルは必ず別名保存してからアウトライン化するのが安全です。元ファイルを上書きしてしまうと、後から修正できなくなります。</p>
+            </div>
+
+            <h2 id="final">入稿前の最終確認リスト</h2>
+
+            <p>
+                上の5項目を確認したら、最後に全体を目視でもう一度確認します。データの設定だけでなく、<span class="marker">デザイン自体の確認も入稿前に必須</span>です。印刷は後から修正できないので、この一手間が仕上がりの差になります。
+            </p>
+
+            <ul class="check-list">
+                <li>
+                    <strong>カラーモードがCMYKになっている</strong>
+                    ファイル → ドキュメントのカラーモードで確認。RGBのままになっていないか。
+                </li>
+                <li>
+                    <strong>CMYK数値が整数になっている・リッチブラックになっていない</strong>
+                    スウォッチパネルで各色の数値を確認。小数点は整数に丸める。テキストや細線の黒はK:100%のスミベタになっているか。
+                </li>
+                <li>
+                    <strong>配置画像の解像度が300dpi以上ある</strong>
+                    リンクパネルで各画像の実効解像度を確認。拡大配置による解像度落ちにも注意。
+                </li>
+                <li>
+                    <strong>塗り足しが3mm以上設定されている</strong>
+                    背景色やテクスチャがアートボード外3mmまで伸びているか確認。
+                </li>
+                <li>
+                    <strong>トンボが設定されている</strong>
+                    PDF書き出し時に「トンボと裁ち落とし」にチェックが入っているか確認。
+                </li>
+                <li>
+                    <strong>すべてのフォントがアウトライン化されている</strong>
+                    書式 → フォントを検索で残りがないか確認。
+                </li>
+                <li>
+                    <strong>誤字・脱字がない</strong>
+                    住所・電話番号・URL・固有名詞は特に念入りに。声に出して読むと見つけやすい。
+                </li>
+                <li>
+                    <strong>テキストが仕上がり線の内側に収まっている</strong>
+                    安全圏（仕上がり線から内側3mm以上）に重要な文字が入っているか確認。
+                </li>
+                <li>
+                    <strong>リンク画像が埋め込み済み、またはフォルダにまとまっている</strong>
+                    リンク切れのままPDFにすると画像が表示されない。埋め込むかリンク管理を確認。
+                </li>
+            </ul>
+
+            <div class="callout">
+                <p class="callout-label">NOTE</p>
+                <p>ここで紹介した内容はあくまで一般的な目安です。<strong>入稿仕様は印刷物の種類や印刷所によって異なります</strong>。入稿前には必ず各印刷会社のガイドラインを確認してください。多くの印刷会社は自社のデータ作成ガイドやチェックリストを公開しているので、はじめて利用する印刷所では特に目を通しておくと安心です。</p>
+            </div>
+
+            <div class="accent-box">
+                <p>印刷後に「やっぱり直したい」はできない。<span class="marker">送る前の5分が、仕上がりと信頼を守る。</span></p>
+            </div>
+
+            <h2 id="summary">まとめ</h2>
+
+            <div class="summary-block">
+                <p class="summary-lead">入稿ミスは注意力ではなく「手順」で防ぐ。5項目の確認を習慣にするだけで、入稿トラブルの大半は避けられる。</p>
+                <ol class="summary-list">
+                    <li>
+                        <div>
+                            <strong>カラーモードはCMYK・数値は整数で</strong>
+                            <p>制作開始前にCMYKを選ぶのが最善。変換後はスウォッチで数値を確認し、リッチブラックに注意。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>解像度は300dpi以上・拡大配置に注意</strong>
+                            <p>Web素材をそのまま使わない。配置後の実効解像度まで確認するのが現場の基本。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>塗り足し3mm・トンボは忘れずに</strong>
+                            <p>断裁ズレを見越した設定。背景色を使うデザインでは特に必須。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>フォントのアウトライン化はバックアップとセットで</strong>
+                            <p>元ファイルを残してから変換。アウトライン後は文字編集ができなくなる。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>印刷所ごとの仕様確認も忘れずに</strong>
+                            <p>ここで紹介した項目は共通の目安。各社のガイドラインが最終的な基準になる。</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            <p>
+                入稿前の確認は「面倒な作業」ではなく、制作物の品質を守る最後のひと手間です。最初は時間がかかっても、習慣になれば5分もかかりません。そして——入稿は何度やっても緊張するものです。でも、入稿した数だけ確実に経験値が積み上がっていく。ミスも含めて、それが全部現場で覚えることです。自分なりのチェックリストを育てながら、一緒に強くなっていきましょう。
+            </p>
+
+            <div class="author-box">
+                <div class="author-avatar" aria-hidden="true">jun</div>
+                <div>
+                    <p class="author-name">jun</p>
+                    <p class="author-bio">グラフィックデザイナー歴8年。印刷・広告・パッケージを中心に活動。制作現場で感じた「ちょっとした不便」を解消するツールを作り、このサイトで公開しています。</p>
+                </div>
+            </div>
+
+            <div class="sp-related">
+                <p class="sp-related-label">関連記事</p>
+                <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
+                <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+                <a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+            </div>
+
+        </div>
+    </article>
+
+    <aside class="sidebar">
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">このページのツール</p>
+            <a href="../tools/rgb-cmyk-converter.html" class="sidebar-tool-card">
+                <span class="sidebar-tool-icon">🎨</span>
+                <span class="sidebar-tool-body">
+                    <span class="sidebar-tool-name">RGB / CMYK変換ツール</span>
+                    <span class="sidebar-tool-note">無料 · ブラウザで完結</span>
+                </span>
+                <span class="sidebar-tool-arrow">→</span>
+            </a>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">人気記事</p>
+            <ol class="sidebar-ranking">
+    <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
+    <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
+    <li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+    <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
+    <li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
+</ol>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">カテゴリ</p>
+            <ul class="sidebar-categories">
+                <li><a href="#">印刷・冊子制作 <span>12</span></a></li>
+                <li><a href="#">デザイン基礎 <span>8</span></a></li>
+                <li><a href="#">Illustrator <span>6</span></a></li>
+                <li><a href="#">SNS・Web <span>5</span></a></li>
+                <li><a href="#">ツールの使い方 <span>4</span></a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="sidebar-label">関連記事</p>
+            <div class="sidebar-related">
+    <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーがわかりやすく解説</a>
+    <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
+    <a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+</div>
+        </div>
+
+    </aside>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-tools">
+            <h3>ツールを探す</h3>
+            <div class="footer-tools-grid">
+                <a href="../tools/page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
+                <a href="../tools/imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
+                <a href="../tools/color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
+                <a href="../tools/character-count.html" class="footer-link-item">文字数カウントツール</a>
+                <a href="../tools/golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
+                <a href="../tools/rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
+                <a href="../tools/layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
+                <a href="../tools/sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
+                <a href="../tools/illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <h3>サイトメニュー</h3>
+            <a href="../index.html" class="footer-link-item">ホーム</a>
+            <a href="../about.html" class="footer-link-item">About</a>
+            <a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
+            <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
+            <a href="../contact.html" class="footer-link-item">Contact</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
