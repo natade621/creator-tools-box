@@ -205,31 +205,6 @@
         }
         .accent-box p { margin: 0; color: var(--black); font-size: 0.95rem; font-weight: 700; line-height: 1.8; }
 
-        .list-summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin: 2rem 0 2.5rem;
-        }
-        .list-summary-card {
-            background: var(--white);
-            border: var(--border);
-            border-radius: 16px;
-            padding: 1.2rem 1rem;
-            box-shadow: var(--shadow);
-            text-align: center;
-        }
-        .list-summary-card strong {
-            display: block;
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 0.2rem;
-        }
-        .list-summary-card span {
-            font-size: 0.82rem;
-            color: #666;
-        }
-
         .article-link-list {
             list-style: none;
             padding: 0;
@@ -390,6 +365,8 @@
         .sidebar-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
 
         footer {
+            position: relative;
+            z-index: 2;
             margin-top: 8rem;
             padding: 5rem 2rem 3rem;
             background: var(--white);
@@ -422,6 +399,7 @@
             padding: 0.2rem 0;
         }
         .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
+        .site-logo, .breadcrumb a, .footer-link-item { position: relative; z-index: 3; pointer-events: auto; }
         .footer-bottom {
             text-align: center;
             padding-top: 3rem;
@@ -496,7 +474,7 @@
             <p class="article-category">記事一覧</p>
             <h1 class="article-title">記事一覧</h1>
             <div class="article-meta">
-                <span>全10記事</span>
+                <span>全30記事</span>
                 <span>最終更新：2026年4月1日</span>
             </div>
         </header>
@@ -505,106 +483,72 @@
 
         <div class="article-content">
 
-            <p>クリエイターのお道具箱内の記事を、内容の近さと読み進めやすさで整理しました。<span class="marker">まず土台を押さえたい人は「デザイン基礎」から、印刷のトラブルや色の扱いで困っている人は「印刷・色管理」から</span>読むと流れがつかみやすいです。</p>
-
-            <p>内容の近さで整理しているので、気になるテーマからそのまま読めます。基礎を固めたい人は「デザイン基礎」、印刷まわりの悩みがある人は「印刷・色管理」、冊子制作や進行の流れを見たい人は「冊子・進行管理」からどうぞ。</p>
+            <p>クリエイターのお道具箱内の記事を、テーマごとに30本へ整理し直しました。<span class="marker">基礎から学びたいなら「デザイン基礎」、印刷や入稿の不安を減らしたいなら「印刷・色管理・入稿」から</span>読むと流れをつかみやすいです。</p>
 
             <h2 id="basic">デザイン基礎</h2>
-            <p>配色・比率・解像度など、制作物の見た目や判断の土台になる記事をまとめています。</p>
+            <p>制作の判断軸になる、解像度・比率・色の基本を押さえる記事をまとめています。</p>
             <ul class="article-link-list">
-                <li class="article-link-item">
-                    <a href="what-is-dpi.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">dpiって何？解像度の意味と印刷・Web向け設定を現役デザイナーが解説</span>
-                            <span class="article-link-date">2026年4月1日</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="article-link-item">
-                    <a href="what-is-golden-ratio.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">なんかおしゃれに見える理由は黄金比だった｜意味と使い方をデザイナーが解説</span>
-                            <span class="article-link-date">2026年4月1日</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="article-link-item">
-                    <a href="how-to-choose-color-palette.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール</span>
-                            <span class="article-link-date">2026年4月1日</span>
-                        </div>
-                    </a>
-                </li>
+                <li class="article-link-item"><a href="design-file-formats.html"><div class="article-link-top"><span class="article-link-title">JPEGとPNGとPDFって何が違う？デザインで使うデータ形式を整理する</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="escape-from-dasai-design.html"><div class="article-link-top"><span class="article-link-title">「なんかダサい」を卒業したい人へ。デザインがダサく見える5つの原因と対処法</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="what-is-dpi.html"><div class="article-link-top"><span class="article-link-title">dpiって何？解像度の意味と印刷・Webでの考え方を現役デザイナーが解説</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="what-is-golden-ratio.html"><div class="article-link-top"><span class="article-link-title">なんかおしゃれに見える理由は黄金比だった｜意味と使い方をデザイナーが解説</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="what-is-grid-system.html"><div class="article-link-top"><span class="article-link-title">グリッドシステムとは？デザインが整って見える「見えないルール」の正体</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="what-is-rgb-cmyk.html"><div class="article-link-top"><span class="article-link-title">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</span><span class="article-link-date">2026年4月1日</span></div></a></li>
             </ul>
 
-            <h2 id="color-print">印刷・色管理</h2>
-            <p>印刷したら色が変わる、入稿で差し戻される、といった実務の困りごとに直結する記事をまとめています。</p>
+            <h2 id="layout-color-type">レイアウト・配色・文字組み</h2>
+            <p>余白、配色、フォントなど、見た目の印象を整える実践記事をまとめています。</p>
             <ul class="article-link-list">
-                <li class="article-link-item">
-                    <a href="what-is-rgb-cmyk.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</span>
-                            <span class="article-link-date">2026年3月31日</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="article-link-item">
-                    <a href="print-prepress-checklist.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</span>
-                            <span class="article-link-date">2026年3月31日</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="article-link-item">
-                    <a href="print-color-dull-cause.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</span>
-                            <span class="article-link-date">2026年3月31日</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="article-link-item">
-                    <a href="hex-to-cmyk.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</span>
-                            <span class="article-link-date">2026年3月31日</span>
-                        </div>
-                    </a>
-                </li>
+                <li class="article-link-item"><a href="design-margin-principles.html"><div class="article-link-top"><span class="article-link-title">余白の取り方がわからない人へ。デザインで余白を正しく使うための5つの原則</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="how-to-choose-color-palette.html"><div class="article-link-top"><span class="article-link-title">「配色って何から決めればいい？」迷わなくなる考え方とよく使うルール</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="how-to-choose-fonts.html"><div class="article-link-top"><span class="article-link-title">フォント選びで印象は変わる。失敗しない選び方とよく使う定番フォント</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="readable-font-size.html"><div class="article-link-top"><span class="article-link-title">読みやすい文字サイズって何pt？媒体別の基準と決め方を解説</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="tone-color-unity.html"><div class="article-link-top"><span class="article-link-title">「なんかまとまりがない」を解決する、トーン配色の統一方法</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="why-whitespace-matters.html"><div class="article-link-top"><span class="article-link-title">余白ってなんのためにある？デザインで「空白」が大事な理由を初心者向けに解説</span><span class="article-link-date">2026年4月1日</span></div></a></li>
             </ul>
 
-            <h2 id="book-production">冊子・進行管理</h2>
-            <p>冊子づくりや制作進行に関する記事をまとめています。実制作の流れに近い順番で並べています。</p>
+            <h2 id="print-prepress">印刷・色管理・入稿</h2>
+            <p>印刷時の色変化、用紙選び、入稿前確認など、実務トラブルを防ぐ記事をまとめています。</p>
             <ul class="article-link-list">
-                <li class="article-link-item">
-                    <a href="what-is-daiwari.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">台割とは？冊子制作で必ず必要なページ構成の基本</span>
-                            <span class="article-link-date">2026年3月30日</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="article-link-item">
-                    <a href="what-is-imposition.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</span>
-                            <span class="article-link-date">2026年3月31日</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="article-link-item">
-                    <a href="schedule-reverse-planning.html">
-                        <div class="article-link-top">
-                            <span class="article-link-title">なぜ制作スケジュールは必ず崩れるのか？逆算思考で組む進行管理の基本</span>
-                            <span class="article-link-date">2026年4月1日</span>
-                        </div>
-                    </a>
-                </li>
+                <li class="article-link-item"><a href="cmyk-color-sense.html"><div class="article-link-top"><span class="article-link-title">CMYKの数値、見ただけで色わかる？印刷色の感覚を鍛える方法</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="coat-paper-vs-matte-paper.html"><div class="article-link-top"><span class="article-link-title">コート紙vsマット紙：質感・発色・用途の違いを現場目線で解説</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="how-to-choose-paper-weight.html"><div class="article-link-top"><span class="article-link-title">「薄すぎ・厚すぎ」で後悔しない。紙の厚さ（坪量）選びの基本</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="print-color-dull-cause.html"><div class="article-link-top"><span class="article-link-title">印刷したら色がくすんだ…原因と対策をデザイナーが解説</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="print-order-spec-checklist.html"><div class="article-link-top"><span class="article-link-title">印刷所への発注で失敗しないために。デザイナーが伝えるべき仕様の全リスト</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="print-prepress-checklist.html"><div class="article-link-top"><span class="article-link-title">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</span><span class="article-link-date">2026年3月31日</span></div></a></li>
+                <li class="article-link-item"><a href="rgb-to-cmyk-how-to.html"><div class="article-link-top"><span class="article-link-title">RGB→CMYKの変換方法｜Illustratorとツールで確実に変換する</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="what-is-bleed-and-trim-marks.html"><div class="article-link-top"><span class="article-link-title">「白いふちが出た」は防げる。塗りたしとトンボの基本を現場目線で解説</span><span class="article-link-date">2026年4月1日</span></div></a></li>
             </ul>
 
-            
+            <h2 id="book-production">冊子制作・進行管理</h2>
+            <p>製本、面付け、台割、進行設計など、冊子づくりの流れを押さえる記事をまとめています。</p>
+            <ul class="article-link-list">
+                <li class="article-link-item"><a href="bookbinding-types-guide.html"><div class="article-link-top"><span class="article-link-title">中綴じ・無線綴じ・平綴じ——冊子の綴じ方3種類と選び方</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="imposition-page-order-trouble.html"><div class="article-link-top"><span class="article-link-title">「ページ順がおかしい」は面付けミスかも。印刷トラブルを防ぐ確認手順</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="schedule-reverse-planning.html"><div class="article-link-top"><span class="article-link-title">なぜ制作スケジュールは必ず崩れるのか？逆算思考で組む進行管理の基本</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="what-is-daiwari.html"><div class="article-link-top"><span class="article-link-title">台割とは？冊子制作で必ず必要なページ構成の基本</span><span class="article-link-date">2026年3月30日</span></div></a></li>
+                <li class="article-link-item"><a href="what-is-imposition.html"><div class="article-link-top"><span class="article-link-title">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</span><span class="article-link-date">2026年3月31日</span></div></a></li>
+            </ul>
+
+            <h2 id="illustrator">Illustrator</h2>
+            <p>Illustratorの操作に慣れたい人向けに、ショートカットとスウォッチ運用の記事をまとめています。</p>
+            <ul class="article-link-list">
+                <li class="article-link-item"><a href="illustrator-shortcut-guide.html"><div class="article-link-top"><span class="article-link-title">イラレのショートカット、どこから覚える？作業速度が3倍変わる優先順位と覚え方</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="illustrator-swatches-tips.html"><div class="article-link-top"><span class="article-link-title">Illustratorのスウォッチ、ちゃんと使えてる？実務で役立つ活用術まとめ</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+            </ul>
+
+            <h2 id="sns-web">SNS・Web</h2>
+            <p>SNS投稿や画面表示で起きやすいトラブルを、実務目線で整理した記事です。</p>
+            <ul class="article-link-list">
+                <li class="article-link-item"><a href="sns-image-cropped-fix.html"><div class="article-link-top"><span class="article-link-title">SNS投稿で画像が切れる3つの原因と、二度と失敗しない対処法</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+            </ul>
+
+            <h2 id="business">仕事術・見積もり</h2>
+            <p>見積もりや予算交渉など、制作の前後で役立つ進め方をまとめています。</p>
+            <ul class="article-link-list">
+                <li class="article-link-item"><a href="design-estimate-tips.html"><div class="article-link-top"><span class="article-link-title">クライアントに「高い」と言われないために。納得される見積もりの作り方</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+                <li class="article-link-item"><a href="reverse-estimate-guide.html"><div class="article-link-top"><span class="article-link-title">「予算〇〇万円で」と言われたとき——逆算見積もりの考え方と使い方</span><span class="article-link-date">2026年4月1日</span></div></a></li>
+            </ul>
 
         </div>
     </article>
@@ -618,7 +562,7 @@
             <ol class="sidebar-ranking">
                 <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
                 <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
-                <li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+                <li><a href="rgb-to-cmyk-how-to.html">RGB→CMYKの変換方法｜Illustratorとツールで確実に変換する</a></li>
                 <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
                 <li><a href="what-is-imposition.html">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</a></li>
             </ol>
@@ -627,9 +571,13 @@
         <div class="sidebar-card">
             <p class="sidebar-label">カテゴリ</p>
             <ul class="sidebar-categories">
-                <li><a href="index.html#basic">デザイン基礎 <span>3</span></a></li>
-                <li><a href="index.html#color-print">印刷・色管理 <span>4</span></a></li>
-                <li><a href="index.html#book-production">冊子・進行管理 <span>3</span></a></li>
+                <li><a href="index.html#basic">デザイン基礎 <span>6</span></a></li>
+                <li><a href="index.html#layout-color-type">レイアウト・配色・文字組み <span>6</span></a></li>
+                <li><a href="index.html#print-prepress">印刷・色管理・入稿 <span>8</span></a></li>
+                <li><a href="index.html#book-production">冊子制作・進行管理 <span>5</span></a></li>
+                <li><a href="index.html#illustrator">Illustrator <span>2</span></a></li>
+                <li><a href="index.html#sns-web">SNS・Web <span>1</span></a></li>
+                <li><a href="index.html#business">仕事術・見積もり <span>2</span></a></li>
             </ul>
         </div>
 
@@ -638,7 +586,7 @@
             <div class="sidebar-related">
                 <a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a>
                 <a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a>
-                <a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a>
+                <a href="rgb-to-cmyk-how-to.html">RGB→CMYKの変換方法｜Illustratorとツールで確実に変換する</a>
             </div>
         </div>
 
@@ -656,12 +604,12 @@
 <a class="footer-link-item" href="../tools/px-mm-converter.html">ピクセル ↔ mm 変換ツール</a>
 <a class="footer-link-item" href="../tools/imposition-simulator.html">面付けシミュレーター</a>
 <a class="footer-link-item" href="../tools/color-palette-generator.html">カラーパレット生成ツール</a>
-<a class="footer-link-item" href="../tools/character-count.html">文字数カウントツール</a>
-<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">黄金比率計算ツール</a>
-<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYK変換ツール</a>
+<a class="footer-link-item" href="../tools/character-count.html">文字数カウンター</a>
+<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">比率計算ツール</a>
+<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYKカラー変換ツール</a>
 <a class="footer-link-item" href="../tools/schedule-deadline-calculator.html">納期・スケジュール計算メーカー</a>
-<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算ツール</a>
-<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズメーカー</a>
+<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算・グリッドメーカー</a>
+<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズ変換ツール</a>
 <a class="footer-link-item" href="../tools/sns-preview-tool-complete.html">SNSプレビューツール</a>
 <a class="footer-link-item" href="../tools/illustrator-shortcut-quiz.html">Illustratorショートカットクイズ</a>
 <a class="footer-link-item" href="../tools/cmyk-color-quiz.html">CMYK/RGB色当てクイズ</a>
@@ -669,12 +617,13 @@
         </div>
         <div class="footer-links">
             <h3>サイトメニュー</h3>
-            <a href="../index.html" class="footer-link-item">Home</a>
-            <a href="../about.html" class="footer-link-item">About</a>
-                            <a href="../articles/index.html" class="footer-link-item">Blog</a>
-<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
-            <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
-            <a href="../contact.html" class="footer-link-item">Contact</a>
+            <a href="../index.html" class="footer-link-item">ホーム</a>
+            <a href="../about.html" class="footer-link-item">このサイトについて</a>
+            <a href="../articles/index.html" class="footer-link-item">記事一覧</a>
+            <a href="../sitemap.xml" class="footer-link-item">サイトマップ</a>
+            <a href="../privacy.html" class="footer-link-item">プライバシーポリシー</a>
+            <a href="../disclaimer.html" class="footer-link-item">免責事項</a>
+            <a href="../contact.html" class="footer-link-item">お問い合わせ</a>
         </div>
     </div>
     <div class="footer-bottom">

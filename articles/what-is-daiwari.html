@@ -507,6 +507,8 @@
 
         /* フッター */
         footer {
+            position: relative;
+            z-index: 2;
             margin-top: 8rem;
             padding: 5rem 2rem 3rem;
             background: var(--white);
@@ -539,6 +541,7 @@
             padding: 0.2rem 0;
         }
         .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
+        .site-logo, .breadcrumb a, .footer-link-item { position: relative; z-index: 3; pointer-events: auto; }
         .footer-bottom {
             text-align: center;
             padding-top: 3rem;
@@ -690,7 +693,7 @@
 <nav aria-label="パンくずリスト" class="breadcrumb">
 <a href="../index.html">ホーム</a>
 <span>›</span>
-<a href="../articles/">記事一覧</a>
+<a href="../articles/index.html">記事一覧</a>
 <span>›</span>
     台割とは？
 </nav>
@@ -931,7 +934,7 @@
 <ol class="sidebar-ranking">
 <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
 <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
-<li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+<li><a href="rgb-to-cmyk-how-to.html">RGB→CMYKの変換方法｜Illustratorとツールで確実に変換する</a></li>
 <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
 <li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
 </ol>
@@ -939,9 +942,9 @@
 <div class="sidebar-card">
 <p class="sidebar-label">関連記事</p>
 <div class="sidebar-related">
-<a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a>
-<a href="print-prepress-checklist.html">印刷入稿前チェックリスト——現場で使える確認項目まとめ</a>
-<a href="schedule-reverse-planning.html">冊子制作のスケジュール逆算計画</a>
+<a href="what-is-imposition.html">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</a>
+<a href="bookbinding-types-guide.html">中綴じ・無線綴じ・平綴じ——冊子の綴じ方3種類と選び方</a>
+<a href="schedule-reverse-planning.html">なぜ制作スケジュールは必ず崩れるのか？逆算思考で組む進行管理の基本</a>
 </div>
 </div>
 <div class="sidebar-card">
@@ -964,7 +967,7 @@
 <ol class="sidebar-ranking">
 <li><a href="what-is-rgb-cmyk.html">RGBとCMYKの違いとは？デザイナーが図解でわかりやすく解説</a></li>
 <li><a href="print-color-dull-cause.html">印刷したら色がくすんだ…原因はRGB→CMYKの変換にあった</a></li>
-<li><a href="hex-to-cmyk.html">HEXコードをCMYKに変換する方法｜計算式と無料ツールで即解決</a></li>
+<li><a href="rgb-to-cmyk-how-to.html">RGB→CMYKの変換方法｜Illustratorとツールで確実に変換する</a></li>
 <li><a href="what-is-daiwari.html">台割とは？冊子制作で必ず必要なページ構成の基本</a></li>
 <li><a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a></li>
 </ol>
@@ -972,52 +975,62 @@
 <!-- カテゴリ -->
 <div class="sidebar-card">
 <p class="sidebar-label">カテゴリ</p>
-<ul class="sidebar-categories"><li><a href="../articles/index.html#basic">デザイン基礎<span>3</span></a></li><li><a href="../articles/index.html#color-print">印刷・色管理<span>4</span></a></li><li><a href="../articles/index.html#book-production">冊子・進行管理<span>3</span></a></li></ul>
+<ul class="sidebar-categories">
+                <li><a href="../articles/index.html#basic">デザイン基礎 <span>6</span></a></li>
+                <li><a href="../articles/index.html#layout-color-type">レイアウト・配色・文字組み <span>6</span></a></li>
+                <li><a href="../articles/index.html#print-prepress">印刷・色管理・入稿 <span>8</span></a></li>
+                <li><a href="../articles/index.html#book-production">冊子制作・進行管理 <span>5</span></a></li>
+                <li><a href="../articles/index.html#illustrator">Illustrator <span>2</span></a></li>
+                <li><a href="../articles/index.html#sns-web">SNS・Web <span>1</span></a></li>
+                <li><a href="../articles/index.html#business">仕事術・見積もり <span>2</span></a></li>
+            </ul>
 </div>
 <!-- 関連記事 -->
 <div class="sidebar-card">
 <p class="sidebar-label">関連記事</p>
 <div class="sidebar-related">
-<a href="what-is-imposition.html">面付けとは？印刷の仕組みをデザイナーが解説</a>
-<a href="print-prepress-checklist.html">印刷入稿前チェックリスト——現場で使える確認項目まとめ</a>
-<a href="schedule-reverse-planning.html">冊子制作のスケジュール逆算計画</a>
+<a href="what-is-imposition.html">面付けって何？冊子印刷で必ず知っておきたい基礎と確認のコツ</a>
+<a href="bookbinding-types-guide.html">中綴じ・無線綴じ・平綴じ——冊子の綴じ方3種類と選び方</a>
+<a href="schedule-reverse-planning.html">なぜ制作スケジュールは必ず崩れるのか？逆算思考で組む進行管理の基本</a>
 </div>
 </div>
 </aside>
 </div><!-- /.main-container -->
 <footer>
-<div class="footer-content">
-<div class="footer-tools">
-<h3>ツールを探す</h3>
-<div class="footer-tools-grid">
+    <div class="footer-content">
+        <div class="footer-tools">
+            <h3>ツールを探す</h3>
+            <div class="footer-tools-grid">
 <a class="footer-link-item" href="../tools/page-plan-editor.html">台割作成ツール</a>
 <a class="footer-link-item" href="../tools/paper-size-reference.html">サイズ早見表ツール</a>
 <a class="footer-link-item" href="../tools/px-mm-converter.html">ピクセル ↔ mm 変換ツール</a>
 <a class="footer-link-item" href="../tools/imposition-simulator.html">面付けシミュレーター</a>
 <a class="footer-link-item" href="../tools/color-palette-generator.html">カラーパレット生成ツール</a>
-<a class="footer-link-item" href="../tools/character-count.html">文字数カウントツール</a>
-<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">黄金比率計算ツール</a>
-<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYK変換ツール</a>
+<a class="footer-link-item" href="../tools/character-count.html">文字数カウンター</a>
+<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">比率計算ツール</a>
+<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYKカラー変換ツール</a>
 <a class="footer-link-item" href="../tools/schedule-deadline-calculator.html">納期・スケジュール計算メーカー</a>
-<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算ツール</a>
-<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズメーカー</a>
+<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算・グリッドメーカー</a>
+<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズ変換ツール</a>
 <a class="footer-link-item" href="../tools/sns-preview-tool-complete.html">SNSプレビューツール</a>
 <a class="footer-link-item" href="../tools/illustrator-shortcut-quiz.html">Illustratorショートカットクイズ</a>
 <a class="footer-link-item" href="../tools/cmyk-color-quiz.html">CMYK/RGB色当てクイズ</a>
 </div>
-</div>
-<div class="footer-links">
-<h3>サイトメニュー</h3>
-<a class="footer-link-item" href="../index.html">Home</a>
-<a class="footer-link-item" href="../about.html">About</a>
-<a class="footer-link-item" href="../privacy.html">Privacy Policy</a>
-<a class="footer-link-item" href="../disclaimer.html">Disclaimer</a>
-<a class="footer-link-item" href="../contact.html">Contact</a>
-</div>
-</div>
-<div class="footer-bottom">
-<p class="copyright">© <span id="year"></span> Creator Tools Box</p>
-</div>
+        </div>
+        <div class="footer-links">
+            <h3>サイトメニュー</h3>
+            <a href="../index.html" class="footer-link-item">ホーム</a>
+            <a href="../about.html" class="footer-link-item">このサイトについて</a>
+            <a href="../articles/index.html" class="footer-link-item">記事一覧</a>
+            <a href="../sitemap.xml" class="footer-link-item">サイトマップ</a>
+            <a href="../privacy.html" class="footer-link-item">プライバシーポリシー</a>
+            <a href="../disclaimer.html" class="footer-link-item">免責事項</a>
+            <a href="../contact.html" class="footer-link-item">お問い合わせ</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+    </div>
 </footer>
 <script>
     document.getElementById('year').textContent = new Date().getFullYear();
