@@ -222,7 +222,7 @@ body {
   color: var(--gray-500);
   line-height: 1.8;
   margin: 0;
-  max-width: 520px;
+  max-width: 720px;
 }
 
 .tool-header-badge {
@@ -701,235 +701,1094 @@ footer {
 ============================================================ */
 
 
-/* 旧ツール固有スタイル */
-@media (max-width: 768px) {
-            .main-container { margin: 2rem auto; }
-}
-@media (max-width: 480px) {
-            .footer-tools-grid { grid-template-columns: 1fr; }
-}
-/* 印刷用スタイル */
-        @media print {
-            .no-print, .site-header, .tool-header, footer, .tool-guide, .controls-area, .btn-group, .modal-overlay, .table-actions {
-                display: none !important;
-            }
-.card-container {
-                border: none !important;
-                border-radius: 0 !important;
-                box-shadow: none !important;
-            }
-table {
-                width: 100% !important;
-                border: 1px solid #000 !important;
-                font-size: 10pt !important;
-            }
-th, td {
-                border: 1px solid #000 !important;
-                padding: 6pt !important;
-            }
-textarea {
-                border: none !important;
-                overflow: visible !important;
-                height: auto !important;
-                background: transparent !important;
-            }
-.print-only {
-                display: block !important;
-            }
-}
-.print-only {
-            display: none;
-        }
-.hidden {
-            display: none !important;
-        }
-.card-container {
-            background: #fff;
-            border: var(--border);
-            border-radius: var(--radius);
-        }
-.btn-outline {
-            border: var(--border);
-            padding: 0.6rem 1.2rem;
-            border-radius: 12px;
-            font-weight: 800;
-            transition: 0.2s;
-            background: #fff;
-        }
-.btn-outline:hover {
-            background: var(--black);
-            color: var(--white);
-        }
+/* ---- 残存クラス互換 ---- */
+.print-only { display: none; }
+.hidden { display: none !important; }
+.card-container { background: var(--white); border: var(--border); border-radius: var(--radius); }
 .custom-select-ui {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.5rem center;
-            background-size: 1.2em;
-            padding-right: 2rem;
-        }
-.signature-boundary {
-            border-bottom: 2px solid #333 !important;
-        }
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.2em;
+  padding-right: 2rem;
+}
+.signature-boundary { border-bottom: 2px solid #333 !important; }
 .book-page {
-            aspect-ratio: 1 / 1.414;
-            background: white;
-            border: 2px solid #333;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            padding: 1rem;
-            position: relative;
-        }
-.book-page-num {
-            position: absolute;
-            bottom: 5px;
-            font-weight: 900;
-            font-size: 0.7rem;
-        }
+  aspect-ratio: 1 / 1.414;
+  background: white;
+  border: 2px solid #333;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  position: relative;
+}
+.book-page-num { position: absolute; bottom: 5px; font-weight: 900; font-size: 0.7rem; }
 .dragging { opacity: 0.5; background: #f0f0f0; }
-.drag-over-row { border-top: 4px solid var(--accent-color) !important; }
+.drag-over-row { border-top: 4px solid var(--accent) !important; }
 .drag-handle { cursor: grab; color: #ccc; }
-.brand-yellow { background-color: var(--accent-color); }
+.brand-yellow { background-color: var(--accent); }
 .custom-scrollbar::-webkit-scrollbar { width: 6px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-.auto-expand {
-            overflow: hidden;
-            resize: none;
-            min-height: 2.5rem;
-        }
-/* モーダル基本スタイル */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            background: rgba(51, 51, 51, 0.8);
-            backdrop-filter: blur(4px);
-        }
+.auto-expand { overflow: hidden; resize: none; min-height: 2.5rem; }
+.related-tool-item + .related-tool-item { margin-top: 32px; }
+.related-tool-link, .related-tool-link:visited {
+  display: inline-block; font-size: 1.1rem; font-weight: 700;
+  text-decoration: underline; text-underline-offset: 0.12em; color: #111;
+}
+.related-tool-link:hover { opacity: 0.75; }
+.related-tool-item p { margin: 10px 0 0; line-height: 1.8; }
+
+/* ---- モーダル ---- */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  background: rgba(51,51,51,0.8);
+  backdrop-filter: blur(4px);
+}
 .modal-content {
-            background: white;
-            border-radius: 40px;
-            border: 4px solid #333;
-            box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-            padding: 2.5rem;
-            position: relative;
-        }
-.related-tool-item + .related-tool-item {
-    margin-top: 32px;
-  }
-.related-tool-link,
-  .related-tool-link:visited {
-    display: inline-block;
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.12em;
-    color: #111;
-  }
-.related-tool-link:hover {
-    opacity: 0.75;
-  }
-.related-tool-item p {
-    margin: 10px 0 0;
-    line-height: 1.8;
-  }
+  background: white;
+  border-radius: var(--radius);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  width: 100%; max-width: 500px;
+  padding: 2.5rem;
+  position: relative;
+}
+
+/* ============================================================
+   ツールUI統合デザインシステム（tui-）
+   方針: ネオブルータル調（黒太枠・黄色アクセント）を維持しつつ
+        参考画像の均一な余白感・アンダーラインタブ・ゆったりした行間を採用
+============================================================ */
+
+/* ── コントロール全体ラッパー ── */
+.tui-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  border-bottom: var(--border);
+  margin-bottom: 2rem;
+}
+
+/* ── タブ: アンダーライン式 ── */
+.tui-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border-bottom: var(--border);
+}
+.tui-tab {
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 0.65rem 1.5rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1.5px;
+  background: transparent;
+  color: var(--gray-500);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tui-tab:hover { color: var(--black); }
+.tui-tab--active, .tui-tab.active {
+  color: var(--black);
+  border-bottom-color: var(--black);
+}
+
+/* ── ツールバー ── */
+.tui-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.1rem 1.5rem;
+  background: var(--bg);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+}
+.tui-toolbar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.tui-toolbar-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  line-height: 1;
+}
+.tui-toolbar-divider {
+  width: 1.5px;
+  height: 2.75rem;
+  background: var(--gray-200);
+  flex-shrink: 0;
+}
+.tui-toolbar-actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-left: auto;
+}
+
+/* ── セレクト ── */
+.tui-select {
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 800;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+/* ── カウンター ── */
+.tui-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+.tui-counter-btn {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: var(--border);
+  background: var(--white);
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.tui-counter-btn:hover {
+  background: var(--accent);
+  box-shadow: 3px 3px 0 var(--black);
+  transform: translate(-1px, -1px);
+}
+.tui-counter-val {
+  font-size: 1.6rem;
+  font-weight: 800;
+  min-width: 2.75rem;
+  text-align: center;
+  line-height: 1;
+}
+
+/* ── テーブル操作ボタン行 ── */
+.tui-table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.625rem;
+  margin-bottom: 0.875rem;
+}
+
+/* ── リセットボタン ── */
+.tui-btn-danger {
+  background: var(--white) !important;
+  color: #b00 !important;
+  border-color: #b00 !important;
+  box-shadow: 3px 3px 0 #b00 !important;
+}
+.tui-btn-danger:hover {
+  background: #b00 !important;
+  color: var(--white) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0 #b00 !important;
+}
+
+/* ── テーブルラッパー ── */
+.tui-table-wrap { margin-bottom: 4rem; }
+
+/* ── 折丁切り替えボタン ── */
+.tui-sig-btns {
+  display: flex;
+  gap: 0.25rem;
+}
+.tui-sig-btn {
+  font-family: var(--font);
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, box-shadow 0.12s;
+}
+.tui-sig-btn:hover { background: var(--bg); color: var(--black); }
+.tui-sig-btn--active {
+  background: var(--black);
+  color: var(--white);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+}
+
+/* ── 行削除ボタン（×テキストのみ、丸なし） ── */
+.tbl-td-page {
+  width: 2rem;
+  min-width: 2rem;
+  text-align: center;
+  border-right: 1.5px solid var(--gray-200);
+  position: relative;
+  padding: 0.875rem 0.25rem;
+}
+.tbl-page-num {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  display: block;
+  transition: opacity 0.15s;
+}
+.tbl-row:hover .tbl-page-num { opacity: 0.3; }
+.tbl-row-del {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: none;
+  color: var(--gray-500);
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  padding: 0;
+  letter-spacing: 0;
+}
+.tbl-row:hover .tbl-row-del { opacity: 1; }
+.tbl-row-del:hover { color: #b00; }
+
+/* ── 列ヘッダー削除（×テキストのみ） ── */
+.tbl-th-del {
+  border: none;
+  background: none;
+  padding: 0 0 0 0.15rem;
+  cursor: pointer;
+  color: var(--gray-200);
+  opacity: 0;
+  font-size: 0.6rem;
+  font-weight: 800;
+  transition: color 0.15s, opacity 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.tbl-th-col:hover .tbl-th-del { opacity: 1; }
+.tbl-th-del:hover { color: #b00; }
+
+/* ── ドラッグ表現（線のみ、丸・背景変化なし） ── */
+.tbl-row.dragging { opacity: 0.35; }
+.tbl-row.drag-over-row > td:first-child { box-shadow: inset 0 3px 0 var(--black); }
+.tbl-row.drag-over-row > td { box-shadow: inset 0 3px 0 var(--black); }
+.drag-over-col { box-shadow: inset 3px 0 0 var(--black) !important; }
+
+/* ── グリップアイコン（常時薄く、ホバーで強調） ── */
+.tbl-grip-icon {
+  color: var(--gray-200);
+  font-size: 0.75rem;
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s;
+  display: inline-block;
+  cursor: grab;
+}
+.tbl-row:hover .tbl-grip-icon { opacity: 1; color: var(--gray-500); }
+
+/* ── btn サイズ統一 ── */
+.btn {
+  font-size: 0.82rem;
+  padding: 0.6rem 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn.btn-ghost { background: var(--white); }
+
+/* ── テーブル行・セル余白の改善 ── */
+#flatplanTable thead th {
+  padding: 0.75rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--bg);
+  border-bottom: var(--border);
+}
+#flatplanTable tbody td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1.5px solid var(--gray-200);
+}
+#flatplanTable tbody tr:last-child td { border-bottom: none; }
+#flatplanTable tbody tr:hover td { background: #fafaf8; }
+
+/* ── テーブル新クラス ── */
+
+/* ヘッダー共通 */
+.tbl-th {
+  background: var(--bg);
+  border-bottom: var(--border);
+  padding: 0 0.75rem;
+  height: 3rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  white-space: nowrap;
+  vertical-align: middle;
+  position: relative;
+}
+.tbl-th-grip { width: 1.75rem; padding: 0 0.25rem; white-space: nowrap; }
+.tbl-th-page { width: 2.25rem; text-align: center; border-right: 1.5px solid var(--gray-200); white-space: nowrap; }
+.tbl-th-col { cursor: move; border-left: 1.5px solid var(--gray-200); overflow: hidden; }
+.tbl-th-col:hover { background: #ececea; }
+.tbl-th-narrow { width: 160px; }
+.tbl-th-add { display: none; }
+
+/* ヘッダー内レイアウト */
+.tbl-th-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+}
+.tbl-col-drag-icon {
+  color: var(--gray-200);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  cursor: move;
+  transition: color 0.15s;
+}
+.tbl-th-col:hover .tbl-col-drag-icon { color: var(--gray-500); }
+.tbl-th-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 100%;
+  font-family: var(--font);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  cursor: pointer;
+}
+.tbl-th-input:focus { color: var(--black); cursor: text; }
+.tbl-th-del {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--gray-200);
+  opacity: 0;
+  transition: color 0.15s, opacity 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.tbl-th-col:hover .tbl-th-del { opacity: 1; }
+.tbl-th-del:hover { color: #b00; }
+
+/* 列追加ボタン */
+.tbl-add-col-btn {
+  background: none;
+  border: 1.5px dashed var(--gray-200);
+  border-radius: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--gray-200);
+  font-size: 0.7rem;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  margin: auto;
+}
+.tbl-add-col-btn:hover {
+  color: var(--black);
+  border-color: var(--black);
+  background: var(--accent);
+}
+
+/* ボディ行 */
+.tbl-row { transition: background 0.1s; }
+.tbl-row:hover .tbl-grip-icon { opacity: 1; }
+
+/* セル共通 */
+.tbl-td {
+  padding: 0.875rem 0.875rem;
+  border-bottom: 1.5px solid var(--gray-200);
+  vertical-align: middle;
+}
+.tbl-row:last-child .tbl-td { border-bottom: none; }
+.tbl-row:hover .tbl-td { background: #fafaf8; }
+
+/* グリップ列 */
+.tbl-td-grip {
+  width: 1.75rem;
+  text-align: center;
+  padding: 0 0.25rem;
+  cursor: grab;
+}
+.tbl-grip-icon {
+  color: var(--gray-200);
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  display: inline-block;
+  cursor: grab;
+}
+.tbl-row:hover .tbl-grip-icon { opacity: 1; color: var(--gray-500); }
+
+/* ページ番号列 */
+.tbl-td-page {
+  width: 3rem;
+  min-width: 3rem;
+  text-align: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  border-right: 1.5px solid var(--gray-200);
+}
+
+/* データセル */
+.tbl-td-cell {
+  min-width: 160px;
+  border-left: 1.5px solid var(--gray-200);
+  padding: 0.625rem 0.75rem;
+}
+
+/* テキストエリア */
+.tbl-textarea {
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.88rem;
+  font-weight: 700;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  resize: none;
+  min-height: 2.25rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  line-height: 1.6;
+}
+.tbl-textarea:hover { border-color: #aaa; }
+.tbl-textarea:focus {
+  border-color: var(--black);
+  box-shadow: 2px 2px 0 var(--black);
+}
+
+/* セレクト */
+.tbl-select {
+  width: 100%;
+  padding: 0.45rem 2rem 0.45rem 0.625rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.82rem;
+  font-weight: 800;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231a1a1a'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1em;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.tbl-select:hover { border-color: #aaa; }
+.tbl-select:focus {
+  border-color: var(--black);
+  box-shadow: 2px 2px 0 var(--black);
+}
+.tbl-select--empty { color: var(--gray-500); }
+
+/* ---- テーブル列幅 ---- */
+#flatplanTable { width: 100%; min-width: 100%; table-layout: fixed; }
+#flatplanTable th, #flatplanTable td { vertical-align: middle; }
+#flatplanTable textarea { white-space: pre-wrap; word-break: break-all; width: 100%; }
+#flatplanTable select { min-width: 0; width: 100%; }
+
+/* ============================================================
+   モーダル共通デザイン（mdl-）
+============================================================ */
+.mdl {
+  background: var(--white);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+.mdl--wide { max-width: 520px; }
+
+.mdl-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: var(--border);
+  flex-shrink: 0;
+}
+.mdl-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  background: var(--bg);
+  border: var(--border);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+.mdl-title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+  flex: 1;
+}
+.mdl-close {
+  border: none;
+  background: none;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--gray-500);
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color 0.15s;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.mdl-close:hover { color: var(--black); }
+
+.mdl-body {
+  padding: 1.25rem 1.5rem;
+  flex: 1;
+  overflow: hidden;
+}
+.mdl-body--scroll { overflow-y: auto; }
+.mdl-desc {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  margin: 0 0 1rem;
+}
+
+/* リスト形式アイテム */
+.mdl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+.mdl-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  border: var(--border);
+  background: var(--white);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font);
+  transition: background 0.12s, box-shadow 0.12s, transform 0.1s;
+  width: 100%;
+}
+.mdl-item:hover {
+  background: var(--bg);
+  box-shadow: 3px 3px 0 var(--black);
+  transform: translate(-1px, -1px);
+}
+.mdl-item-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+.mdl-item:hover .mdl-item-icon {
+  background: var(--black);
+  color: var(--white);
+}
+.mdl-item-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.mdl-item-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--black);
+  display: block;
+}
+.mdl-item-desc {
+  font-size: 0.7rem;
+  color: var(--gray-500);
+  display: block;
+}
+.mdl-item-arrow {
+  color: var(--gray-200);
+  font-size: 0.75rem;
+  transition: color 0.12s, transform 0.12s;
+  flex-shrink: 0;
+}
+.mdl-item:hover .mdl-item-arrow { color: var(--black); transform: translateX(2px); }
+
+/* フッター */
+.mdl-footer {
+  padding: 1rem 1.5rem;
+  border-top: var(--border);
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.mdl-cancel {
+  border: none;
+  background: none;
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--gray-500);
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  transition: color 0.15s;
+}
+.mdl-cancel:hover { color: var(--black); }
+
+/* 設定セクション */
+.mdl-section {
+  margin-bottom: 1.5rem;
+}
+.mdl-section:last-child { margin-bottom: 0; }
+.mdl-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: var(--border);
+}
+
+/* タグリスト */
+.mdl-tag-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 0.625rem;
+}
+.mdl-tag-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+}
+.mdl-tag-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--black);
+  padding: 0;
+}
+.mdl-tag-del {
+  border: none;
+  background: none;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--gray-500);
+  cursor: pointer;
+  padding: 0 0.1rem;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+.mdl-tag-del:hover { color: #b00; }
+
+/* 追加ボタン */
+.mdl-add-btn {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1.5px dashed var(--gray-200);
+  border-radius: var(--radius);
+  background: none;
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.mdl-add-btn:hover { border-color: var(--black); color: var(--black); background: var(--bg); }
+
+/* 入力行 */
+.mdl-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.mdl-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 700;
+  outline: none;
+  background: var(--white);
+  transition: box-shadow 0.15s;
+}
+.mdl-input:focus { box-shadow: 2px 2px 0 var(--black); }
+.mdl-input-btn {
+  padding: 0.5rem 1rem;
+  border: var(--border);
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 800;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: box-shadow 0.12s, transform 0.1s;
+}
+.mdl-input-btn:hover { box-shadow: 2px 2px 0 rgba(0,0,0,0.3); transform: translate(-1px,-1px); }
+
+/* ---- 印刷 ---- */
+@media print {
+  .no-print, .site-header, .tool-header, footer, .tui-controls, .modal-overlay { display: none !important; }
+  .card-container { border: none !important; border-radius: 0 !important; box-shadow: none !important; }
+  table { width: 100% !important; border: 1px solid #000 !important; font-size: 10pt !important; }
+  th, td { border: 1px solid #000 !important; padding: 6pt !important; }
+  textarea { border: none !important; overflow: visible !important; height: auto !important; background: transparent !important; }
+  .print-only { display: block !important; }
+}
+
+/* ============================================================
+   見開き形式ビュー（spread-）
+============================================================ */
+.spread-view {
+  padding: 2rem 0 5rem;
+}
+.spread-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+}
+.spread-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.spread-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.spread-row--single { max-width: 220px; }
+.spread-row--double { max-width: 520px; flex-direction: row; justify-content: center; }
+.spread-sig-sep {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0 0.25rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+.spread-sig-sep::before,
+.spread-sig-sep::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray-200);
+}
+
+/* 見開きページカード */
+.sp-page {
+  aspect-ratio: 1 / 1.414;
+  width: 220px;
+  background: var(--white);
+  border: var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 0.875rem;
+  position: relative;
+  transition: box-shadow 0.15s;
+}
+.sp-page:hover { box-shadow: var(--shadow); }
+.sp-page--left { border-right: none; }
+.sp-page--right { border-left: 1px solid var(--gray-200); }
+.sp-page--single { /* 表紙・背表紙は単体 */ }
+
+.sp-page-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.sp-page-num {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--gray-500);
+}
+.sp-page-status {
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+  background: var(--bg);
+  color: var(--gray-500);
+  border: 1px solid var(--gray-200);
+  letter-spacing: 0.05em;
+}
+.sp-page-title {
+  flex: 1;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--black);
+  overflow: hidden;
+}
+.sp-page-empty { color: var(--gray-200); font-weight: 400; }
+.sp-page-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+}
+.sp-page-staff {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--gray-500);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.sp-page-folio {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--black);
+}
+
+/* ============================================================
+   完成プレビュービュー（flip-）
+============================================================ */
+.flip-view {
+  padding: 2rem 0 4rem;
+}
+.flip-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.flip-stage-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--bg);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  padding: 2.5rem 3rem;
+  min-width: 0;
+}
+.flip-book-viewer {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: var(--white);
+  border: var(--border);
+  box-shadow: var(--shadow);
+}
+.flip-nav-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: var(--border);
+  background: var(--white);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.flip-nav-btn:hover:not(:disabled) {
+  background: var(--accent);
+  box-shadow: var(--shadow);
+  transform: translate(-1px, -1px);
+}
+.flip-nav-btn:disabled { opacity: 0.25; cursor: default; }
+.flip-indicator {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: var(--accent);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* フリップページカード */
+.fp-page {
+  aspect-ratio: 1 / 1.414;
+  width: clamp(120px, 22vw, 200px);
+  padding: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--white);
+}
+.fp-page--left { border-right: 1px solid var(--gray-200); }
+.fp-page--right { /* 右ページ */ }
+.fp-page--blank { background: var(--bg); }
+.fp-page-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.fp-page-num {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--gray-500);
+}
+.fp-page-status {
+  font-size: 0.5rem;
+  font-weight: 800;
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  background: var(--bg);
+  color: var(--gray-500);
+  border: 1px solid var(--gray-200);
+}
+.fp-page-title {
+  flex: 1;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--black);
+  overflow: hidden;
+}
+.fp-page-empty { color: var(--gray-200); font-weight: 400; }
+.fp-page-staff {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--gray-500);
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.fp-page-folio {
+  position: absolute;
+  bottom: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: var(--black);
+}
+.fp-page--left .fp-page-folio { left: 0.75rem; }
+.fp-page--right .fp-page-folio { right: 0.75rem; }
+
+/* ---- スマホ対応 ---- */
 @media (max-width: 768px) {
-  .controls-area { gap: 1rem; }
-  .view-switcher {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: 100%;
-  }
-  .view-switcher .view-switch-btn {
-    width: 100%;
-  }
-  .plan-toolbar {
-    width: 100%;
-    padding: 1rem;
-    gap: 1rem;
-    border-radius: 1.25rem;
-    align-items: stretch;
-  }
-  .plan-toolbar .h-10.w-0\\.5 {
-    display: none;
-  }
-  .plan-toolbar-actions,
-  .table-actions {
-    width: 100%;
+  .tui-controls { gap: 1rem; padding: 1.5rem 0; }
+  .tui-tabs { gap: 0; }
+  .tui-tab { padding: 0.55rem 1rem; font-size: 0.8rem; }
+  .tui-toolbar {
     flex-direction: column;
+    align-items: stretch;
+    gap: 0.875rem;
+    padding: 1rem;
   }
-  .plan-toolbar-actions .btn-outline,
-  .table-actions .btn-outline {
-    width: 100%;
-    justify-content: center;
+  .tui-toolbar-divider { width: 100%; height: 1.5px; }
+  .tui-toolbar-group {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
-  #tableView {
-    margin-top: 2rem;
-    margin-bottom: 3rem;
-  }
-  #spreadView {
-    padding-left: 0;
-    padding-right: 0;
-    padding-bottom: 3rem;
-  }
-  #spreadGrid {
-    gap: 1.5rem;
-  }
-  #flipView {
-    min-height: auto;
-    padding: 1.25rem 0.75rem;
-    margin-bottom: 3rem;
-  }
-  .flip-stage {
-    gap: 0.75rem;
-  }
-  .flip-stage button {
-    width: 2.75rem;
-    height: 2.75rem;
-    flex-shrink: 0;
-  }
-  .book-viewer {
-    width: 100%;
-    min-width: 0 !important;
-    max-width: min(100%, 500px);
-    padding: 0.75rem;
-    overflow: auto;
-  }
-  .flip-page-indicator {
-    width: 100%;
-    max-width: 100%;
-    padding: 0.875rem 1rem;
-    text-align: center;
-  }
-  .modal-overlay {
-    padding: 0.75rem;
-  }
-  .modal-content {
-    border-radius: 24px;
-    padding: 1.5rem 1rem;
-  }
+  .tui-toolbar-actions { margin-left: 0; justify-content: stretch; }
+  .tui-toolbar-actions .btn { flex: 1; justify-content: center; }
+  .tui-table-actions { justify-content: stretch; flex-direction: column; }
+  .tui-table-actions .btn { width: 100%; justify-content: center; }
+  .card-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  /* 見開き */
+  .sp-page { width: 160px; }
+  .spread-row--double { max-width: 380px; }
+  /* プレビュー */
+  .flip-stage { gap: 0.75rem; }
+  .flip-stage-inner { padding: 1.5rem 1rem; }
+  .flip-nav-btn { width: 2.5rem; height: 2.5rem; font-size: 0.85rem; }
 }
 
 @media (max-width: 480px) {
-  .plan-toolbar {
-    padding: 0.875rem;
-  }
-  .plan-toolbar-actions {
-    gap: 0.75rem;
-  }
-  .flip-stage {
-    gap: 0.5rem;
-  }
-  .book-viewer {
-    padding: 0.5rem;
-  }
+  .tui-tab { font-size: 0.75rem; padding: 0.45rem 0.75rem; }
+  #flatplanTable select { min-width: 100px; font-size: 0.8rem; }
+  .sp-page { width: 130px; }
+  .spread-row--double { max-width: 300px; }
+  .fp-page { width: clamp(100px, 38vw, 150px); }
+  .flip-stage-inner { padding: 1.25rem 0.75rem; }
 }
 </style>
 </head>
@@ -971,10 +1830,7 @@ textarea {
       <div>
         <span class="tool-cat-label">印刷ツール</span>
         <h1 class="tool-title">台割作成ツール</h1>
-        <p class="tool-lead">
-          パンフレットや冊子の台割（ページ構成）を直感的に作成・管理できるツール。<br>
-                    ページ内容や進行状況、担当者を整理しながら台割を作成できます。
-        </p>
+        <p class="tool-lead">パンフレットや冊子の台割（ページ構成）を直感的に作成・管理できるツール。ページ内容や進行状況、担当者を整理しながら台割を作成できます。</p>
       </div>
       <span class="tool-header-badge">Free / No install</span>
     </div>
@@ -997,61 +1853,59 @@ textarea {
     </div>
 
     <div class="tool-ui">
-                    
-                    <div class="controls-area flex flex-col gap-6 no-print">
-                        <div class="flex flex-col items-center gap-6 border-slate-100 pt-6">
-                            <div class="view-switcher flex bg-slate-100 p-1.5 rounded-2xl flex-wrap justify-center">
-                                <button onclick="switchView('table')" id="tab-table" class="view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all bg-white shadow-sm border border-slate-200">
-                                    表形式
-                                </button>
-                                <button onclick="switchView('spread')" id="tab-spread" class="view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700">
-                                    見開き形式
-                                </button>
-                                <button onclick="switchView('flip')" id="tab-flip" class="view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700">
-                                    完成プレビュー
-                                </button>
-                            </div>
 
-                            <div class="plan-toolbar flex flex-wrap items-center justify-center gap-6 bg-slate-50 px-8 py-4 rounded-[2rem] border-2 border-slate-900">
-                                <div class="flex flex-col items-start">
-                                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">折丁</span>
-                                    <select id="signatureSelect" onchange="updateSignature(this.value)" class="custom-select-ui bg-transparent font-black text-lg border-none focus:ring-0 cursor-pointer">
-                                        <option value="4">4P</option>
-                                        <option value="8" selected>8P</option>
-                                        <option value="16">16P</option>
-                                    </select>
+                    <div class="tui-controls no-print">
+
+                        <!-- ビュー切り替えタブ -->
+                        <div class="tui-tabs">
+                            <button onclick="switchView('table')" id="tab-table" class="tui-tab tui-tab--active">表形式</button>
+                            <button onclick="switchView('spread')" id="tab-spread" class="tui-tab">見開き形式</button>
+                            <button onclick="switchView('flip')" id="tab-flip" class="tui-tab">完成プレビュー</button>
+                        </div>
+
+                        <!-- 設定バー -->
+                        <div class="tui-toolbar">
+                            <div class="tui-toolbar-group">
+                                <span class="tui-toolbar-label">折丁</span>
+                                <div class="tui-sig-btns">
+                                    <button onclick="updateSignature('4')" id="sig-4" class="tui-sig-btn">4P</button>
+                                    <button onclick="updateSignature('8')" id="sig-8" class="tui-sig-btn tui-sig-btn--active">8P</button>
+                                    <button onclick="updateSignature('16')" id="sig-16" class="tui-sig-btn">16P</button>
                                 </div>
-                                <div class="h-10 w-0.5 bg-slate-200"></div>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">合計ページ</span>
-                                    <div class="flex items-center gap-5">
-                                        <button onclick="changePageCountBySignature(-1)" class="w-8 h-8 rounded-full border-2 border-slate-900 flex items-center justify-center font-black hover:bg-white active:bg-slate-200 transition-all">－</button>
-                                        <span id="pageCountDisplay" class="font-black text-2xl w-10 text-center">16</span>
-                                        <button onclick="changePageCountBySignature(1)" class="w-8 h-8 rounded-full border-2 border-slate-900 flex items-center justify-center font-black hover:bg-white active:bg-slate-200 transition-all">＋</button>
-                                    </div>
+                                <select id="signatureSelect" onchange="updateSignature(this.value)" class="tui-select custom-select-ui" style="display:none"></select>
+                            </div>
+                            <div class="tui-toolbar-divider"></div>
+                            <div class="tui-toolbar-group">
+                                <span class="tui-toolbar-label">合計ページ</span>
+                                <div class="tui-counter">
+                                    <button onclick="changePageCountBySignature(-1)" class="tui-counter-btn">－</button>
+                                    <span id="pageCountDisplay" class="tui-counter-val">16</span>
+                                    <button onclick="changePageCountBySignature(1)" class="tui-counter-btn">＋</button>
                                 </div>
-                                <div class="h-10 w-0.5 bg-slate-200"></div>
-                                <div class="plan-toolbar-actions flex gap-2">
-                                    <button onclick="openAddColModal()" class="btn-outline flex items-center gap-2 text-xs uppercase tracking-tighter">
-                                        <i class="fa-solid fa-plus"></i> 項目追加
-                                    </button>
-                                    <button onclick="openSettingsModal()" class="btn-outline flex items-center gap-2 text-xs uppercase tracking-tighter">
-                                        <i class="fa-solid fa-gear"></i> 設定
-                                    </button>
-                                </div>
+                            </div>
+                            <div class="tui-toolbar-divider"></div>
+                            <div class="tui-toolbar-group tui-toolbar-actions">
+                                <button onclick="openAddColModal()" class="btn btn-ghost">
+                                    <i class="fa-solid fa-plus"></i> 項目追加
+                                </button>
+                                <button onclick="openSettingsModal()" class="btn btn-ghost">
+                                    <i class="fa-solid fa-gear"></i> 設定
+                                </button>
                             </div>
                         </div>
-                    </div>
 
-                    <div id="tableView" class="mt-10 mb-20">
-                        <div class="table-actions flex justify-end gap-2 mb-4 no-print">
-                            <button onclick="openDataManagementModal()" class="btn-outline text-xs flex items-center gap-2 brand-yellow shadow-sm py-2 px-4">
+                        <!-- テーブル操作ボタン -->
+                        <div class="tui-table-actions">
+                            <button onclick="openDataManagementModal()" class="btn">
                                 <i class="fa-solid fa-cloud-arrow-up"></i> データ管理・書き出し
                             </button>
-                            <button onclick="confirmReset()" class="btn-outline text-xs flex items-center gap-2 text-red-500 border-red-500 hover:bg-red-500 hover:text-white py-2 px-4">
+                            <button onclick="confirmReset()" class="btn tui-btn-danger">
                                 <i class="fa-solid fa-trash-can"></i> リセット
                             </button>
                         </div>
+                    </div>
+
+                    <div id="tableView" class="tui-table-wrap">
                         
                         <div class="card-container overflow-hidden">
                             <div class="overflow-x-auto">
@@ -1065,114 +1919,149 @@ textarea {
                         </div>
                     </div>
 
-                    <div id="spreadView" class="hidden pb-20 px-4 md:px-0 no-print">
-                        <div id="spreadGrid" class="grid grid-cols-1 md:grid-cols-2 gap-12"></div>
+                    <div id="spreadView" class="hidden spread-view no-print">
+                        <div id="spreadGrid" class="spread-grid"></div>
                     </div>
 
-                    <div id="flipView" class="hidden flex flex-col items-center justify-center py-10 min-h-[500px] card-container mb-20 bg-slate-50 no-print">
-                        <div class="flip-stage flex items-center gap-6 sm:gap-12 mb-8 w-full justify-center">
-                            <button onclick="flipPrev()" class="w-12 h-12 rounded-full border-2 border-slate-900 flex items-center justify-center hover:bg-white transition-all disabled:opacity-20" id="flipPrevBtn">
-                                <i class="fa-solid fa-chevron-left text-xl"></i>
+                    <div id="flipView" class="hidden flip-view no-print">
+                        <div class="flip-stage">
+                            <button onclick="flipPrev()" class="flip-nav-btn" id="flipPrevBtn" aria-label="前の見開き">
+                                <i class="fa-solid fa-arrow-left"></i>
                             </button>
-                            <div id="bookViewer" class="book-viewer flex items-center justify-center gap-0 bg-white p-4 border-2 border-slate-900 shadow-xl min-w-[300px] sm:min-w-[500px]"></div>
-                            <button onclick="flipNext()" class="w-12 h-12 rounded-full border-2 border-slate-900 flex items-center justify-center hover:bg-white transition-all disabled:opacity-20" id="flipNextBtn">
-                                <i class="fa-solid fa-chevron-right text-xl"></i>
+                            <div class="flip-stage-inner">
+                                <div id="bookViewer" class="flip-book-viewer"></div>
+                                <div class="flip-indicator" id="flipPageIndicator"></div>
+                            </div>
+                            <button onclick="flipNext()" class="flip-nav-btn" id="flipNextBtn" aria-label="次の見開き">
+                                <i class="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
-                        <div class="flip-page-indicator text-xs font-black tracking-widest text-slate-900 brand-yellow border-2 border-slate-900 px-8 py-3 rounded-full shadow-md" id="flipPageIndicator"></div>
                     </div>
 
                     <div id="dataManagementModal" class="modal-overlay hidden">
-                        <div class="modal-content">
-                            <h3 class="text-2xl font-black mb-4 text-center uppercase tracking-tight">データ管理・書き出し</h3>
-                            <p class="text-[11px] text-slate-400 font-bold mb-8 text-center leading-relaxed">
-                                保存形式を選択してください。<br>再編集するにはJSON形式を推奨します。
-                            </p>
-                            
-                            <div class="grid grid-cols-1 gap-3">
-                                <button onclick="exportJSON(); closeDataManagementModal();" class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all group">
-                                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
-                                        <i class="fa-solid fa-file-code text-slate-500 group-hover:text-white"></i>
-                                    </div>
-                                    <div class="text-left">
-                                        <span class="block font-black text-sm text-slate-800">保存データを書き出す (JSON)</span>
-                                        <span class="block text-[9px] text-slate-400 font-bold">再編集・バックアップ用ファイル</span>
-                                    </div>
-                                </button>
-                                <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all group cursor-pointer">
-                                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
-                                        <i class="fa-solid fa-file-import text-slate-500 group-hover:text-white"></i>
-                                    </div>
-                                    <div class="text-left">
-                                        <span class="block font-black text-sm text-slate-800">保存データを読み込む</span>
-                                        <span class="block text-[9px] text-slate-400 font-bold">JSONファイルから内容を復元します</span>
-                                    </div>
-                                    <input type="file" class="hidden" accept=".json" onchange="importJSON(event); closeDataManagementModal();">
-                                </label>
-                                <button onclick="exportCSV(); closeDataManagementModal();" class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all group">
-                                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
-                                        <i class="fa-solid fa-file-csv text-slate-500 group-hover:text-white"></i>
-                                    </div>
-                                    <div class="text-left">
-                                        <span class="block font-black text-sm text-slate-800">CSVを書き出す</span>
-                                        <span class="block text-[9px] text-slate-400 font-bold">Excelやスプレッドシート用ファイル</span>
-                                    </div>
-                                </button>
-                                <button onclick="printPDF(); closeDataManagementModal();" class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all group">
-                                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
-                                        <i class="fa-solid fa-file-pdf text-slate-500 group-hover:text-white"></i>
-                                    </div>
-                                    <div class="text-left">
-                                        <span class="block font-black text-sm text-slate-800">PDFで保存する</span>
-                                        <span class="block text-[9px] text-slate-400 font-bold">印刷・共有・確認用レイアウト</span>
-                                    </div>
-                                </button>
+                        <div class="mdl">
+                            <div class="mdl-header">
+                                <span class="mdl-label">Data</span>
+                                <h3 class="mdl-title">データ管理・書き出し</h3>
+                                <button onclick="closeDataManagementModal()" class="mdl-close" title="閉じる">✕</button>
                             </div>
-                            <button onclick="closeDataManagementModal()" class="w-full mt-6 py-3 text-slate-400 font-black text-xs uppercase tracking-widest hover:text-slate-900 transition-colors">キャンセル</button>
+                            <div class="mdl-body">
+                                <div class="mdl-list">
+                                    <button onclick="exportJSON(); closeDataManagementModal();" class="mdl-item">
+                                        <span class="mdl-item-icon"><i class="fa-solid fa-file-code"></i></span>
+                                        <span class="mdl-item-text">
+                                            <span class="mdl-item-name">JSONで書き出す</span>
+                                            <span class="mdl-item-desc">再編集・バックアップ用</span>
+                                        </span>
+                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                                    </button>
+                                    <label class="mdl-item" style="cursor:pointer">
+                                        <span class="mdl-item-icon"><i class="fa-solid fa-file-import"></i></span>
+                                        <span class="mdl-item-text">
+                                            <span class="mdl-item-name">JSONを読み込む</span>
+                                            <span class="mdl-item-desc">バックアップから復元</span>
+                                        </span>
+                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                                        <input type="file" class="hidden" accept=".json" onchange="importJSON(event); closeDataManagementModal();">
+                                    </label>
+                                    <button onclick="exportCSV(); closeDataManagementModal();" class="mdl-item">
+                                        <span class="mdl-item-icon"><i class="fa-solid fa-file-csv"></i></span>
+                                        <span class="mdl-item-text">
+                                            <span class="mdl-item-name">CSVで書き出す</span>
+                                            <span class="mdl-item-desc">Excel・スプレッドシート用</span>
+                                        </span>
+                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                                    </button>
+                                    <button onclick="printPDF(); closeDataManagementModal();" class="mdl-item">
+                                        <span class="mdl-item-icon"><i class="fa-solid fa-file-pdf"></i></span>
+                                        <span class="mdl-item-text">
+                                            <span class="mdl-item-name">PDFで保存する</span>
+                                            <span class="mdl-item-desc">印刷・共有・確認用</span>
+                                        </span>
+                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mdl-footer">
+                                <button onclick="closeDataManagementModal()" class="mdl-cancel">キャンセル</button>
+                            </div>
                         </div>
                     </div>
 
                     <div id="addColModal" class="modal-overlay hidden">
-                        <div class="modal-content">
-                            <h3 class="text-2xl font-black mb-8 text-center uppercase tracking-tight">項目の追加</h3>
-                            <div class="space-y-4">
-                                <button onclick="addColumn('text'); closeAddColModal();" class="w-full text-left p-5 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all flex justify-between items-center group">
-                                    <div><span class="block font-black text-lg text-slate-800">テキスト入力</span></div>
-                                    <i class="fa-solid fa-chevron-right text-slate-200 group-hover:text-slate-900"></i>
-                                </button>
-                                <button onclick="addColumn('staff'); closeAddColModal();" class="w-full text-left p-5 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all flex justify-between items-center group">
-                                    <div><span class="block font-black text-lg text-slate-800">担当者選択</span></div>
-                                    <i class="fa-solid fa-chevron-right text-slate-200 group-hover:text-slate-900"></i>
-                                </button>
-                                <button onclick="addColumn('status'); closeAddColModal();" class="w-full text-left p-5 rounded-2xl border-2 border-slate-100 hover:border-slate-900 hover:bg-slate-50 transition-all flex justify-between items-center group">
-                                    <div><span class="block font-black text-lg text-slate-800">進行状況選択</span></div>
-                                    <i class="fa-solid fa-chevron-right text-slate-200 group-hover:text-slate-900"></i>
-                                </button>
-                                <button onclick="closeAddColModal()" class="w-full mt-6 py-2 text-slate-300 font-black text-xs uppercase tracking-widest hover:text-slate-900">キャンセル</button>
+                        <div class="mdl">
+                            <div class="mdl-header">
+                                <span class="mdl-label">Column</span>
+                                <h3 class="mdl-title">項目を追加</h3>
+                                <button onclick="closeAddColModal()" class="mdl-close" title="閉じる">✕</button>
+                            </div>
+                            <div class="mdl-body">
+                                <p class="mdl-desc">追加する項目の種類を選んでください</p>
+                                <div class="mdl-list">
+                                    <button onclick="addColumn('text'); closeAddColModal();" class="mdl-item">
+                                        <span class="mdl-item-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                                        <span class="mdl-item-text">
+                                            <span class="mdl-item-name">テキスト入力</span>
+                                            <span class="mdl-item-desc">自由記述欄を追加</span>
+                                        </span>
+                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                                    </button>
+                                    <button onclick="addColumn('staff'); closeAddColModal();" class="mdl-item">
+                                        <span class="mdl-item-icon"><i class="fa-solid fa-user"></i></span>
+                                        <span class="mdl-item-text">
+                                            <span class="mdl-item-name">担当者</span>
+                                            <span class="mdl-item-desc">メンバーを選択する列を追加</span>
+                                        </span>
+                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                                    </button>
+                                    <button onclick="addColumn('status'); closeAddColModal();" class="mdl-item">
+                                        <span class="mdl-item-icon"><i class="fa-solid fa-list-check"></i></span>
+                                        <span class="mdl-item-text">
+                                            <span class="mdl-item-name">進行状況</span>
+                                            <span class="mdl-item-desc">ステータスを選択する列を追加</span>
+                                        </span>
+                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mdl-footer">
+                                <button onclick="closeAddColModal()" class="mdl-cancel">キャンセル</button>
                             </div>
                         </div>
                     </div>
 
                     <div id="settingsModal" class="modal-overlay hidden">
-                        <div class="modal-content max-h-[90vh] flex flex-col">
-                            <h3 class="text-2xl font-black mb-6 text-center uppercase tracking-tight">ツール設定</h3>
-                            <div class="overflow-y-auto pr-2 custom-scrollbar flex-1">
-                                <div class="mb-10">
-                                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">進行状況の選択肢</label>
-                                    <div id="statusSettingsList" class="space-y-2 mb-3"></div>
-                                    <button onclick="addStatusOption()" class="w-full py-2 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 font-bold text-xs hover:border-slate-900 hover:text-slate-900 transition-all">+ 選択肢を追加</button>
+                        <div class="mdl mdl--wide">
+                            <div class="mdl-header">
+                                <span class="mdl-label">Settings</span>
+                                <h3 class="mdl-title">ツール設定</h3>
+                                <button onclick="closeSettingsModal()" class="mdl-close" title="閉じる">✕</button>
+                            </div>
+                            <div class="mdl-body mdl-body--scroll custom-scrollbar">
+                                <div class="mdl-section">
+                                    <div class="mdl-section-header">
+                                        <i class="fa-solid fa-list-check"></i>
+                                        <span>進行状況の選択肢</span>
+                                    </div>
+                                    <div id="statusSettingsList" class="mdl-tag-list"></div>
+                                    <button onclick="addStatusOption()" class="mdl-add-btn">
+                                        <i class="fa-solid fa-plus"></i> 選択肢を追加
+                                    </button>
                                 </div>
-                                <div class="mb-10">
-                                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">メンバー（担当者リスト）</label>
-                                    <div id="staffListContainer" class="space-y-2 mb-3"></div>
-                                    <div class="flex gap-2">
-                                        <input type="text" id="newStaffName" placeholder="氏名を入力..." class="flex-1 px-4 py-2 border-2 border-slate-200 rounded-xl font-bold focus:border-slate-900 outline-none text-sm bg-slate-50">
-                                        <button onclick="addStaffMember()" class="px-4 py-2 bg-slate-900 text-white rounded-xl font-bold hover:bg-black transition-all text-xs">追加</button>
+                                <div class="mdl-section">
+                                    <div class="mdl-section-header">
+                                        <i class="fa-solid fa-users"></i>
+                                        <span>担当者リスト</span>
+                                    </div>
+                                    <div id="staffListContainer" class="mdl-tag-list"></div>
+                                    <div class="mdl-input-row">
+                                        <input type="text" id="newStaffName" placeholder="氏名を入力…" class="mdl-input">
+                                        <button onclick="addStaffMember()" class="mdl-input-btn">追加</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="pt-6 border-t border-slate-100 mt-auto">
-                                <button onclick="closeSettingsModal()" class="w-full py-4 brand-yellow border-2 border-slate-900 rounded-2xl font-black text-sm uppercase tracking-widest hover:brightness-95 transition-all">保存して閉じる</button>
+                            <div class="mdl-footer">
+                                <button onclick="closeSettingsModal()" class="btn">保存して閉じる</button>
                             </div>
                         </div>
                     </div>
@@ -1282,6 +2171,9 @@ textarea {
                         function updateUI() {
                             document.getElementById('pageCountDisplay').textContent = state.pageCount;
                             document.getElementById('signatureSelect').value = state.signature;
+                            document.querySelectorAll('.tui-sig-btn').forEach(b => {
+                                b.classList.toggle('tui-sig-btn--active', b.id === 'sig-' + state.signature);
+                            });
                             renderTable();
                             if (!document.getElementById('spreadView').classList.contains('hidden')) renderSpread();
                             if (!document.getElementById('flipView').classList.contains('hidden')) renderFlip();
@@ -1306,6 +2198,11 @@ textarea {
                                 state.pageCount = Math.ceil(state.pageCount / state.signature) * state.signature;
                                 syncPages();
                             }
+                            // 折丁ボタンのactive同期
+                            document.querySelectorAll('.tui-sig-btn').forEach(b => {
+                                b.classList.toggle('tui-sig-btn--active', b.id === 'sig-' + state.signature);
+                            });
+                            document.getElementById('signatureSelect').value = val;
                             autoSave();
                             updateUI();
                         }
@@ -1313,42 +2210,44 @@ textarea {
                         function renderTable() {
                             const header = document.getElementById('tableHeader');
                             header.innerHTML = `
-                                <th class="p-4 w-10 no-print"></th>
-                                <th class="p-4 font-black text-xs uppercase tracking-wider w-12 text-center bg-slate-50">P</th>
+                                <th class="tbl-th tbl-th-grip no-print" title="ドラッグで行を並べ替え">
+                                    <i class="fa-solid fa-grip-vertical" style="color:var(--gray-200);font-size:0.7rem;"></i>
+                                </th>
+                                <th class="tbl-th tbl-th-page">P</th>
                             `;
-                            
+
                             state.columns.forEach((col, idx) => {
                                 const th = document.createElement('th');
-                                const widthClass = (col.type === 'staff' || col.type === 'status') ? 'w-[155px] min-w-[155px]' : '';
-                                th.className = `p-4 font-black text-xs uppercase tracking-wider cursor-move hover:bg-slate-100 transition-colors bg-slate-50 border-x border-slate-200 relative group/th ${widthClass}`;
+                                const isNarrow = (col.type === 'staff' || col.type === 'status');
+                                th.className = `tbl-th tbl-th-col${isNarrow ? ' tbl-th-narrow' : ' tbl-th-text'}`;
                                 th.draggable = true;
                                 th.dataset.colIdx = idx;
                                 th.addEventListener('dragstart', handleColDragStart);
                                 th.addEventListener('dragover', handleColDragOver);
+                                th.addEventListener('dragleave', handleColDragLeave);
                                 th.addEventListener('drop', handleColDrop);
-
                                 th.innerHTML = `
-                                    <div class="flex items-center gap-2">
-                                        <input type="text" value="${col.label}" 
+                                    <div class="tbl-th-inner">
+                                        <i class="fa-solid fa-grip-dots-vertical tbl-col-drag-icon no-print" title="ドラッグで列を並べ替え"></i>
+                                        <input type="text" value="${col.label}"
                                             onfocus="this.dataset.old=this.value"
                                             onchange="if(this.value!==this.dataset.old){pushHistory(); updateColumnLabel(${idx}, this.value);}"
-                                            class="bg-transparent border-none p-0 focus:ring-0 w-full font-black text-[11px] uppercase tracking-wider no-print">
+                                            class="tbl-th-input no-print"
+                                            title="クリックで列名を編集">
                                         <span class="print-only">${col.label}</span>
-                                        <button onclick="pushHistory(); removeColumn(${idx});" class="opacity-0 group-hover/th:opacity-100 text-slate-300 hover:text-red-500 transition-opacity no-print">
-                                            <i class="fa-solid fa-circle-xmark"></i>
-                                        </button>
+                                        <button onclick="pushHistory(); removeColumn(${idx});" class="tbl-th-del no-print" title="この列を削除">✕</button>
                                     </div>
                                 `;
                                 header.appendChild(th);
                             });
-                            header.innerHTML += `<th class="p-4 w-10 bg-slate-50 no-print"></th>`;
+                            // 列追加ボタンは項目追加ボタンのみ（右端列なし）
 
                             const body = document.getElementById('tableBody');
                             body.innerHTML = '';
 
                             state.pages.forEach((pageData, idx) => {
                                 const row = document.createElement('tr');
-                                row.className = "group transition-all";
+                                row.className = "tbl-row";
                                 row.draggable = true;
                                 row.dataset.rowIdx = idx;
                                 const isSigEnd = (idx + 1) % state.signature === 0 && idx !== state.pages.length - 1;
@@ -1359,37 +2258,44 @@ textarea {
                                 row.addEventListener('drop', handleRowDrop);
 
                                 let html = `
-                                    <td class="p-4 text-center no-print"><i class="fa-solid fa-grip-vertical drag-handle"></i></td>
-                                    <td class="p-4 text-center font-black text-slate-400 text-sm align-top pt-5">${idx + 1}</td>
+                                    <td class="tbl-td tbl-td-grip no-print">
+                                        <span class="tbl-grip-icon" title="ドラッグで行を並べ替え">
+                                            <i class="fa-solid fa-grip-vertical"></i>
+                                        </span>
+                                    </td>
+                                    <td class="tbl-td tbl-td-page">
+                                        <span class="tbl-page-num">${idx + 1}</span>
+                                    </td>
                                 `;
-                                
+
                                 state.columns.forEach(col => {
                                     const val = pageData.values[col.id] || '';
-                                    html += `<td class="p-2 border-x border-slate-100 align-top">`;
+                                    html += `<td class="tbl-td tbl-td-cell">`;
                                     if (col.type === 'text') {
-                                        html += `<textarea rows="1" 
+                                        html += `<textarea rows="1"
                                             onfocus="this.dataset.old=this.value"
-                                            oninput="autoResize(this); updatePageValueDirect(${idx}, '${col.id}', this.value)" 
+                                            oninput="autoResize(this); updatePageValueDirect(${idx}, '${col.id}', this.value)"
                                             onchange="if(this.value!==this.dataset.old){pushHistory(); autoSave();}"
                                             onkeydown="handleKeyNav(event, ${idx}, '${col.id}')"
                                             data-idx="${idx}" data-key="${col.id}"
-                                            class="auto-expand w-full px-3 py-2 border-2 border-transparent focus:border-slate-900 focus:bg-white bg-slate-50/50 rounded-lg font-bold text-sm transition-all" placeholder="...">${val}</textarea>`;
+                                            class="auto-expand tbl-textarea" placeholder="内容を入力…">${val}</textarea>`;
                                     } else if (col.type === 'status' || col.type === 'staff') {
                                         const options = col.type === 'status' ? state.statusOptions : state.staffMembers;
-                                        html += `<select 
+                                        const isEmpty = !val;
+                                        html += `<select
                                             onfocus="this.dataset.old=this.value"
-                                            onchange="pushHistory(); updatePageValue(${idx}, '${col.id}', this.value)" 
+                                            onchange="pushHistory(); updatePageValue(${idx}, '${col.id}', this.value)"
                                             onkeydown="handleKeyNav(event, ${idx}, '${col.id}')"
                                             data-idx="${idx}" data-key="${col.id}"
-                                            class="w-full px-1 py-2 bg-slate-50/50 border-2 border-transparent focus:border-slate-900 rounded-lg font-black text-xs cursor-pointer no-print">
-                                            ${col.type === 'status' ? '<option value="">-</option>' : ''}
+                                            class="tbl-select${isEmpty ? ' tbl-select--empty' : ''} no-print">
+                                            ${col.type === 'status' ? '<option value="">― 未設定</option>' : ''}
                                             ${options.map(s => `<option value="${s}" ${val === s ? 'selected' : ''}>${s}</option>`).join('')}
                                         </select>
                                         <div class="print-only text-xs font-bold">${val || '-'}</div>`;
                                     }
                                     html += `</td>`;
                                 });
-                                html += `<td class="p-4 no-print"></td>`;
+                                // 行末の空白列なし
                                 row.innerHTML = html;
                                 body.appendChild(row);
                             });
@@ -1474,58 +2380,123 @@ textarea {
                         function switchView(view) {
                             ['table', 'spread', 'flip'].forEach(v => {
                                 document.getElementById(v + 'View').classList.add('hidden');
-                                document.getElementById('tab-' + v).className = "view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700";
+                                const tab = document.getElementById('tab-' + v);
+                                tab.className = 'tui-tab';
                             });
                             document.getElementById(view + 'View').classList.remove('hidden');
-                            document.getElementById('tab-' + view).className = "view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all bg-white shadow-sm border border-slate-200 text-slate-900";
+                            const activeTab = document.getElementById('tab-' + view);
+                            activeTab.className = 'tui-tab tui-tab--active';
                             if (view === 'table') renderTable(); if (view === 'spread') renderSpread(); if (view === 'flip') renderFlip();
                         }
 
                         // --- Graphics ---
-                        function createPageEl(pageData, pos = '') {
-                            const borderClass = pos === 'left' ? 'border-r-0 rounded-l-lg' : (pos === 'right' ? 'border-l-[1px] rounded-r-lg' : 'rounded-lg');
-                            const title = pageData.values.title || pageData.values[state.columns[0]?.id] || '';
-                            const formattedTitle = title.replace(/\n/g, '<br>');
-                            return `<div class="book-page ${borderClass} w-32 sm:w-44"><div class="text-[10px] font-black uppercase text-slate-300 mb-1">P.${pageData.page}</div><div class="text-[11px] font-bold leading-tight text-slate-700 h-12 overflow-hidden text-ellipsis">${formattedTitle || '<span class="text-slate-100">-</span>'}</div><div class="book-page-num ${pos === 'left' ? 'left-2' : 'right-2'} text-slate-900">${pageData.page}</div></div>`;
+                        function getPageDisplayData(pageData) {
+                            // 全カラムからデータを取り出してページカードに表示する情報を組み立てる
+                            const titleCol = state.columns.find(c => c.type === 'text');
+                            const staffCol = state.columns.find(c => c.type === 'staff');
+                            const statusCol = state.columns.find(c => c.type === 'status');
+                            const title = titleCol ? (pageData.values[titleCol.id] || '') : '';
+                            const staff = staffCol ? (pageData.values[staffCol.id] || '') : '';
+                            const status = statusCol ? (pageData.values[statusCol.id] || '') : '';
+                            // 進行状況に応じた色
+                            const statusColors = {
+                                '完了': { bg: '#1a1a1a', text: '#fff' },
+                                '作業中': { bg: '#ffde00', text: '#1a1a1a' },
+                                '校正中': { bg: '#a0c4ff', text: '#1a1a1a' },
+                                'レビュー待ち': { bg: '#ffd6a5', text: '#1a1a1a' },
+                            };
+                            const sc = statusColors[status] || null;
+                            return { title, staff, status, sc };
                         }
-                        function renderSpread() {
-                            const grid = document.getElementById('spreadGrid'); grid.innerHTML = '';
-                            
-                            // 表紙（1ページ目）のコンテナ：mt-24で位置を下げ、mb-24で次の中面との間隔を確保
-                            const p1Div = document.createElement('div'); 
-                            p1Div.className = "flex justify-center col-span-1 md:col-span-2 mt-24 mb-24"; 
-                            p1Div.innerHTML = createPageEl(state.pages[0]); 
-                            grid.appendChild(p1Div);
 
-                            // 中面
+                        function createSpreadPageEl(pageData, pos) {
+                            const { title, staff, status, sc } = getPageDisplayData(pageData);
+                            const isLeft = pos === 'left';
+                            const statusBadge = status ? `<span class="sp-page-status" style="${sc ? `background:${sc.bg};color:${sc.text};` : ''}">${status}</span>` : '';
+                            const staffBadge = staff ? `<div class="sp-page-staff"><i class="fa-solid fa-user"></i> ${staff}</div>` : '';
+                            return `
+                                <div class="sp-page sp-page--${pos}">
+                                    <div class="sp-page-header">
+                                        <span class="sp-page-num">P.${pageData.page}</span>
+                                        ${statusBadge}
+                                    </div>
+                                    <div class="sp-page-title">${title || '<span class="sp-page-empty">未記入</span>'}</div>
+                                    <div class="sp-page-footer">${staffBadge}<span class="sp-page-folio">${pageData.page}</span></div>
+                                </div>`;
+                        }
+
+                        function createFlipPageEl(pageData, pos) {
+                            if (!pageData) return `<div class="fp-page fp-page--blank fp-page--${pos}"></div>`;
+                            const { title, staff, status, sc } = getPageDisplayData(pageData);
+                            const statusBadge = status ? `<span class="fp-page-status" style="${sc ? `background:${sc.bg};color:${sc.text};` : ''}">${status}</span>` : '';
+                            return `
+                                <div class="fp-page fp-page--${pos}">
+                                    <div class="fp-page-header">
+                                        <span class="fp-page-num">P.${pageData.page}</span>
+                                        ${statusBadge}
+                                    </div>
+                                    <div class="fp-page-title">${title || '<span class="fp-page-empty">未記入</span>'}</div>
+                                    ${staff ? `<div class="fp-page-staff"><i class="fa-solid fa-user"></i> ${staff}</div>` : ''}
+                                    <span class="fp-page-folio">${pageData.page}</span>
+                                </div>`;
+                        }
+
+                        function renderSpread() {
+                            const grid = document.getElementById('spreadGrid');
+                            grid.innerHTML = '';
+
+                            // 表紙（1ページ目）
+                            const coverWrap = document.createElement('div');
+                            coverWrap.className = 'spread-row spread-row--single';
+                            coverWrap.innerHTML = `<div class="spread-label">表紙</div>` + createSpreadPageEl(state.pages[0], 'single');
+                            grid.appendChild(coverWrap);
+
+                            // 中面（見開き）
+                            let sigCount = 0;
                             for (let i = 1; i < state.pages.length - 1; i += 2) {
-                                const spreadDiv = document.createElement('div'); 
-                                spreadDiv.className = "flex justify-center gap-0 col-span-1 md:col-span-2"; 
-                                spreadDiv.innerHTML = createPageEl(state.pages[i], 'left') + createPageEl(state.pages[i+1], 'right'); 
-                                grid.appendChild(spreadDiv);
+                                sigCount++;
+                                const isSigStart = (i - 1) % state.signature === 0 && i > 1;
+                                if (isSigStart) {
+                                    const sep = document.createElement('div');
+                                    sep.className = 'spread-sig-sep';
+                                    sep.innerHTML = `<span>折丁 ${Math.ceil(i / state.signature)}</span>`;
+                                    grid.appendChild(sep);
+                                }
+                                const spreadRow = document.createElement('div');
+                                spreadRow.className = 'spread-row spread-row--double';
+                                const rightPage = state.pages[i + 1];
+                                spreadRow.innerHTML = createSpreadPageEl(state.pages[i], 'left') + (rightPage ? createSpreadPageEl(rightPage, 'right') : '');
+                                grid.appendChild(spreadRow);
                             }
 
                             // 背表紙（最終ページ）
-                            if (state.pages.length > 1) { 
-                                const lastDiv = document.createElement('div'); 
-                                lastDiv.className = "flex justify-center col-span-1 md:col-span-2 mt-24 mb-16"; 
-                                lastDiv.innerHTML = createPageEl(state.pages[state.pages.length - 1]); 
-                                grid.appendChild(lastDiv); 
+                            if (state.pages.length > 1) {
+                                const backWrap = document.createElement('div');
+                                backWrap.className = 'spread-row spread-row--single';
+                                backWrap.innerHTML = `<div class="spread-label">背表紙</div>` + createSpreadPageEl(state.pages[state.pages.length - 1], 'single');
+                                grid.appendChild(backWrap);
                             }
                         }
+
                         function renderFlip() {
-                            const viewer = document.getElementById('bookViewer'); const spreads = [[null, state.pages[0]]];
-                            for(let i=1; i < state.pages.length -1; i+=2) spreads.push([state.pages[i], state.pages[i+1]]);
-                            spreads.push([state.pages[state.pages.length-1], null]);
+                            const viewer = document.getElementById('bookViewer');
+                            const spreads = [[null, state.pages[0]]];
+                            for (let i = 1; i < state.pages.length - 1; i += 2) spreads.push([state.pages[i], state.pages[i + 1]]);
+                            spreads.push([state.pages[state.pages.length - 1], null]);
                             if (state.currentFlip >= spreads.length) state.currentFlip = spreads.length - 1;
-                            const current = spreads[state.currentFlip]; viewer.innerHTML = '';
-                            viewer.innerHTML += current[0] ? createPageEl(current[0], 'left') : `<div class="w-32 sm:w-44 aspect-[1/1.414]"></div>`;
-                            viewer.innerHTML += current[1] ? createPageEl(current[1], 'right') : `<div class="w-32 sm:w-44 aspect-[1/1.414]"></div>`;
-                            document.getElementById('flipPageIndicator').textContent = `${state.currentFlip + 1} / ${spreads.length} 見開き`;
-                            document.getElementById('flipPrevBtn').disabled = state.currentFlip === 0; document.getElementById('flipNextBtn').disabled = state.currentFlip === spreads.length - 1;
+                            const current = spreads[state.currentFlip];
+                            viewer.innerHTML = createFlipPageEl(current[0], 'left') + createFlipPageEl(current[1], 'right');
+                            const indicator = document.getElementById('flipPageIndicator');
+                            const spread = current[0] || current[1];
+                            const pNums = [current[0]?.page, current[1]?.page].filter(Boolean);
+                            indicator.textContent = pNums.length === 2
+                                ? `P.${pNums[0]} – P.${pNums[1]}　${state.currentFlip + 1} / ${spreads.length} 見開き`
+                                : `P.${pNums[0]}　${state.currentFlip + 1} / ${spreads.length} 見開き`;
+                            document.getElementById('flipPrevBtn').disabled = state.currentFlip === 0;
+                            document.getElementById('flipNextBtn').disabled = state.currentFlip === spreads.length - 1;
                         }
-                        function flipPrev() { if(state.currentFlip > 0) { state.currentFlip--; renderFlip(); } }
-                        function flipNext() { if(state.currentFlip < state.pages.length) { state.currentFlip++; renderFlip(); } }
+                        function flipPrev() { if (state.currentFlip > 0) { state.currentFlip--; renderFlip(); } }
+                        function flipNext() { if (state.currentFlip < state.pages.length) { state.currentFlip++; renderFlip(); } }
 
                         // --- Modals ---
                         function openDataManagementModal() { document.getElementById('dataManagementModal').classList.remove('hidden'); }
@@ -1537,28 +2508,37 @@ textarea {
 
                         function renderStatusSettings() {
                             const container = document.getElementById('statusSettingsList');
-                            container.innerHTML = state.statusOptions.map((s, i) => `<div class="flex items-center gap-2 p-2 bg-slate-50 rounded-xl border-2 border-slate-100 group/item"><input type="text" value="${s}" onchange="pushHistory(); state.statusOptions[${i}]=this.value; autoSave();" class="flex-1 px-3 py-1 bg-transparent border-none rounded-lg font-bold text-sm focus:bg-white outline-none"><button onclick="pushHistory(); state.statusOptions.splice(${i},1); autoSave(); renderStatusSettings();" class="text-slate-300 hover:text-red-500 pr-2 transition-colors"><i class="fa-solid fa-circle-xmark"></i></button></div>`).join('');
+                            container.innerHTML = state.statusOptions.map((s, i) => `
+                                <div class="mdl-tag-item">
+                                    <input type="text" value="${s}" onchange="pushHistory(); state.statusOptions[${i}]=this.value; autoSave();" class="mdl-tag-input">
+                                    <button onclick="pushHistory(); state.statusOptions.splice(${i},1); autoSave(); renderStatusSettings();" class="mdl-tag-del" title="削除">✕</button>
+                                </div>`).join('');
                         }
                         function addStatusOption() { pushHistory(); state.statusOptions.push("新規ステータス"); autoSave(); renderStatusSettings(); }
                         function renderStaffList() {
                             const container = document.getElementById('staffListContainer');
-                            container.innerHTML = state.staffMembers.map((s, i) => `<div class="flex items-center justify-between p-2 bg-slate-50 rounded-xl border-2 border-slate-100 group/item"><input type="text" value="${s}" onchange="pushHistory(); state.staffMembers[${i}]=this.value; autoSave();" class="flex-1 px-3 py-1 bg-transparent border-none rounded-lg font-bold text-sm focus:bg-white outline-none">${i > 0 ? `<button onclick="pushHistory(); state.staffMembers.splice(${i},1); autoSave(); renderStaffList();" class="text-slate-300 hover:text-red-500 pr-2 transition-colors"><i class="fa-solid fa-circle-xmark"></i></button>` : '<span class="w-8"></span>'}</div>`).join('');
+                            container.innerHTML = state.staffMembers.map((s, i) => `
+                                <div class="mdl-tag-item">
+                                    <input type="text" value="${s}" onchange="pushHistory(); state.staffMembers[${i}]=this.value; autoSave();" class="mdl-tag-input" ${i===0 ? 'readonly style="opacity:0.5"' : ''}>
+                                    ${i > 0 ? `<button onclick="pushHistory(); state.staffMembers.splice(${i},1); autoSave(); renderStaffList();" class="mdl-tag-del" title="削除">✕</button>` : '<span class="mdl-tag-del" style="visibility:hidden">✕</span>'}
+                                </div>`).join('');
                         }
                         function addStaffMember() { const name = document.getElementById('newStaffName').value.trim(); if (name) { pushHistory(); state.staffMembers.push(name); document.getElementById('newStaffName').value = ''; autoSave(); renderStaffList(); } }
 
                         // --- DnD ---
                         function handleRowDragStart(e) { state.draggedRowIdx = parseInt(this.dataset.rowIdx); this.classList.add('dragging'); }
-                        function handleRowDragOver(e) { e.preventDefault(); this.classList.add('drag-over-row'); }
+                        function handleRowDragOver(e) { e.preventDefault(); document.querySelectorAll('.drag-over-row').forEach(el => el.classList.remove('drag-over-row')); this.classList.add('drag-over-row'); }
                         function handleRowDragLeave(e) { this.classList.remove('drag-over-row'); }
                         function handleRowDrop(e) {
                             this.classList.remove('drag-over-row'); const targetIdx = parseInt(this.dataset.rowIdx); if (state.draggedRowIdx === targetIdx) return;
                             pushHistory(); const item = state.pages.splice(state.draggedRowIdx, 1)[0]; state.pages.splice(targetIdx, 0, item);
                             state.pages.forEach((p, i) => p.page = i + 1); autoSave(); renderTable();
                         }
-                        function handleColDragStart(e) { state.draggedColIdx = parseInt(this.dataset.colIdx); }
-                        function handleColDragOver(e) { e.preventDefault(); }
+                        function handleColDragStart(e) { state.draggedColIdx = parseInt(this.dataset.colIdx); this.style.opacity = '0.5'; }
+                        function handleColDragOver(e) { e.preventDefault(); document.querySelectorAll('.drag-over-col').forEach(el => el.classList.remove('drag-over-col')); this.classList.add('drag-over-col'); }
+                        function handleColDragLeave(e) { this.classList.remove('drag-over-col'); }
                         function handleColDrop(e) {
-                            const targetIdx = parseInt(this.dataset.colIdx); if (state.draggedColIdx === targetIdx) return;
+                            this.classList.remove('drag-over-col'); const targetIdx = parseInt(this.dataset.colIdx); if (state.draggedColIdx === targetIdx) return;
                             pushHistory(); const col = state.columns.splice(state.draggedColIdx, 1)[0]; state.columns.splice(targetIdx, 0, col); autoSave(); renderTable();
                         }
                         init();
