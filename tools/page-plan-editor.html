@@ -634,9 +634,32 @@ footer {
 
 /* ---- MOBILE ---- */
 @media (max-width: 768px) {
+  body { padding: 0.75rem; }
+  .container { box-shadow: 3px 3px 0px var(--black); }
+  .site-header,
+  .breadcrumb,
+  .tool-header,
+  .tool-body,
+  .guide-section,
+  .related-tools-section,
+  .contact-section,
+  .footer-brand,
+  .footer-inner,
+  .footer-bottom {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
   .header-nav { display: none; }
   .tool-header-inner { grid-template-columns: 1fr; }
-  .tool-header-badge { align-self: auto; display: inline-block; width: fit-content; }
+  .tool-header-badge {
+    align-self: flex-start;
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    white-space: normal;
+  }
+  .tool-title { font-size: clamp(1.4rem, 7vw, 1.9rem); }
+  .tool-lead { max-width: none; }
   .guide-section {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -646,8 +669,30 @@ footer {
 }
 
 @media (max-width: 480px) {
+  body { padding: 0.5rem; }
+  .site-header,
+  .breadcrumb,
+  .tool-header,
+  .tool-body,
+  .guide-section,
+  .related-tools-section,
+  .contact-section,
+  .footer-brand,
+  .footer-inner,
+  .footer-bottom {
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+  }
+  .site-logo { font-size: 0.86rem; }
+  .site-logo-sub { font-size: 0.62rem; }
+  .breadcrumb { font-size: 0.68rem; }
   .related-tools-grid { grid-template-columns: 1fr; }
-  .footer-categories { grid-template-columns: 1fr 1fr; }
+  .footer-categories { grid-template-columns: 1fr; gap: 1.25rem; }
+  .tool-input,
+  .tool-select,
+  .tool-textarea,
+  .btn,
+  .btn-ghost { width: 100%; }
 }
 
 /* ============================================================
@@ -795,6 +840,97 @@ textarea {
     margin: 10px 0 0;
     line-height: 1.8;
   }
+@media (max-width: 768px) {
+  .controls-area { gap: 1rem; }
+  .view-switcher {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  .view-switcher .view-switch-btn {
+    width: 100%;
+  }
+  .plan-toolbar {
+    width: 100%;
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 1.25rem;
+    align-items: stretch;
+  }
+  .plan-toolbar .h-10.w-0\\.5 {
+    display: none;
+  }
+  .plan-toolbar-actions,
+  .table-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .plan-toolbar-actions .btn-outline,
+  .table-actions .btn-outline {
+    width: 100%;
+    justify-content: center;
+  }
+  #tableView {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+  #spreadView {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 3rem;
+  }
+  #spreadGrid {
+    gap: 1.5rem;
+  }
+  #flipView {
+    min-height: auto;
+    padding: 1.25rem 0.75rem;
+    margin-bottom: 3rem;
+  }
+  .flip-stage {
+    gap: 0.75rem;
+  }
+  .flip-stage button {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+  }
+  .book-viewer {
+    width: 100%;
+    min-width: 0 !important;
+    max-width: min(100%, 500px);
+    padding: 0.75rem;
+    overflow: auto;
+  }
+  .flip-page-indicator {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.875rem 1rem;
+    text-align: center;
+  }
+  .modal-overlay {
+    padding: 0.75rem;
+  }
+  .modal-content {
+    border-radius: 24px;
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .plan-toolbar {
+    padding: 0.875rem;
+  }
+  .plan-toolbar-actions {
+    gap: 0.75rem;
+  }
+  .flip-stage {
+    gap: 0.5rem;
+  }
+  .book-viewer {
+    padding: 0.5rem;
+  }
+}
 </style>
 </head>
 <body>
@@ -864,19 +1000,19 @@ textarea {
                     
                     <div class="controls-area flex flex-col gap-6 no-print">
                         <div class="flex flex-col items-center gap-6 border-slate-100 pt-6">
-                            <div class="flex bg-slate-100 p-1.5 rounded-2xl flex-wrap justify-center">
-                                <button onclick="switchView('table')" id="tab-table" class="px-8 py-3 rounded-xl text-xs font-black transition-all bg-white shadow-sm border border-slate-200">
+                            <div class="view-switcher flex bg-slate-100 p-1.5 rounded-2xl flex-wrap justify-center">
+                                <button onclick="switchView('table')" id="tab-table" class="view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all bg-white shadow-sm border border-slate-200">
                                     表形式
                                 </button>
-                                <button onclick="switchView('spread')" id="tab-spread" class="px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700">
+                                <button onclick="switchView('spread')" id="tab-spread" class="view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700">
                                     見開き形式
                                 </button>
-                                <button onclick="switchView('flip')" id="tab-flip" class="px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700">
+                                <button onclick="switchView('flip')" id="tab-flip" class="view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700">
                                     完成プレビュー
                                 </button>
                             </div>
 
-                            <div class="flex flex-wrap items-center justify-center gap-6 bg-slate-50 px-8 py-4 rounded-[2rem] border-2 border-slate-900">
+                            <div class="plan-toolbar flex flex-wrap items-center justify-center gap-6 bg-slate-50 px-8 py-4 rounded-[2rem] border-2 border-slate-900">
                                 <div class="flex flex-col items-start">
                                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">折丁</span>
                                     <select id="signatureSelect" onchange="updateSignature(this.value)" class="custom-select-ui bg-transparent font-black text-lg border-none focus:ring-0 cursor-pointer">
@@ -895,7 +1031,7 @@ textarea {
                                     </div>
                                 </div>
                                 <div class="h-10 w-0.5 bg-slate-200"></div>
-                                <div class="flex gap-2">
+                                <div class="plan-toolbar-actions flex gap-2">
                                     <button onclick="openAddColModal()" class="btn-outline flex items-center gap-2 text-xs uppercase tracking-tighter">
                                         <i class="fa-solid fa-plus"></i> 項目追加
                                     </button>
@@ -934,16 +1070,16 @@ textarea {
                     </div>
 
                     <div id="flipView" class="hidden flex flex-col items-center justify-center py-10 min-h-[500px] card-container mb-20 bg-slate-50 no-print">
-                        <div class="flex items-center gap-6 sm:gap-12 mb-8 w-full justify-center">
+                        <div class="flip-stage flex items-center gap-6 sm:gap-12 mb-8 w-full justify-center">
                             <button onclick="flipPrev()" class="w-12 h-12 rounded-full border-2 border-slate-900 flex items-center justify-center hover:bg-white transition-all disabled:opacity-20" id="flipPrevBtn">
                                 <i class="fa-solid fa-chevron-left text-xl"></i>
                             </button>
-                            <div id="bookViewer" class="flex items-center justify-center gap-0 bg-white p-4 border-2 border-slate-900 shadow-xl min-w-[300px] sm:min-w-[500px]"></div>
+                            <div id="bookViewer" class="book-viewer flex items-center justify-center gap-0 bg-white p-4 border-2 border-slate-900 shadow-xl min-w-[300px] sm:min-w-[500px]"></div>
                             <button onclick="flipNext()" class="w-12 h-12 rounded-full border-2 border-slate-900 flex items-center justify-center hover:bg-white transition-all disabled:opacity-20" id="flipNextBtn">
                                 <i class="fa-solid fa-chevron-right text-xl"></i>
                             </button>
                         </div>
-                        <div class="text-xs font-black tracking-widest text-slate-900 brand-yellow border-2 border-slate-900 px-8 py-3 rounded-full shadow-md" id="flipPageIndicator"></div>
+                        <div class="flip-page-indicator text-xs font-black tracking-widest text-slate-900 brand-yellow border-2 border-slate-900 px-8 py-3 rounded-full shadow-md" id="flipPageIndicator"></div>
                     </div>
 
                     <div id="dataManagementModal" class="modal-overlay hidden">
@@ -1338,10 +1474,10 @@ textarea {
                         function switchView(view) {
                             ['table', 'spread', 'flip'].forEach(v => {
                                 document.getElementById(v + 'View').classList.add('hidden');
-                                document.getElementById('tab-' + v).className = "px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700";
+                                document.getElementById('tab-' + v).className = "view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all text-slate-400 hover:text-slate-700";
                             });
                             document.getElementById(view + 'View').classList.remove('hidden');
-                            document.getElementById('tab-' + view).className = "px-8 py-3 rounded-xl text-xs font-black transition-all bg-white shadow-sm border border-slate-200 text-slate-900";
+                            document.getElementById('tab-' + view).className = "view-switch-btn px-8 py-3 rounded-xl text-xs font-black transition-all bg-white shadow-sm border border-slate-200 text-slate-900";
                             if (view === 'table') renderTable(); if (view === 'spread') renderSpread(); if (view === 'flip') renderFlip();
                         }
 
