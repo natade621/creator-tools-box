@@ -1,310 +1,989 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-268FL8JVBG"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-268FL8JVBG');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    <meta name="color-scheme" content="only light">
-
-    <!-- ============================================================
-    【ここを編集①】SEO META
-    - title      : 記事タイトル（28〜32文字目安）＋｜クリエイターのお道具箱
-    - description: 記事の要約（100〜120文字目安）
-    - canonical  : 実際のURL（ファイル名だけ変える）
-    - og:title   : titleと同じでOK（｜以降を省いてもよい）
-    ============================================================ -->
-    <title>「白いふちが出た」は防げる。塗りたしとトンボの基本を現場目線で解説｜クリエイターのお道具箱</title>
-    <meta name="description" content="印刷で「白いふちが出た」「ズレた」を防ぐための塗りたし・トンボの基礎知識。設定方法からよくあるミスまで、現場デザイナーが実務目線でわかりやすく解説します。">
-    <link rel="canonical" href="https://creator-tools-box.com/articles/what-is-bleed-and-trim-marks.html">
-    <meta property="og:title" content="「白いふちが出た」は防げる。塗りたしとトンボの基本を現場目線で解説">
-    <meta property="og:description" content="印刷で「白いふちが出た」「ズレた」を防ぐための塗りたし・トンボの基礎知識。設定方法からよくあるミスまで、現場デザイナーが実務目線でわかりやすく解説します。">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://creator-tools-box.com/articles/what-is-bleed-and-trim-marks.html">
-    <meta property="og:site_name" content="クリエイターのお道具箱">
-
-    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
-
-    <style>
-        /* ============================================================
-           ⚠️ CSS はここから footer まで変更不要
-           記事固有のスタイルが必要な場合はこのブロックの末尾に追記する
-        ============================================================ */
-        :root {
-            --bg-color: #fcfcfc;
-            --accent-color: #ffde00;
-            --black: #333;
-            --white: #fff;
-            --border: 2px solid #333;
-            --shadow: 4px 4px 0px 0px #333;
-            --radius: 20px;
-            --font-main: "Line Seed JP", sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color) !important;
-            color: var(--black) !important;
-            font-family: var(--font-main);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            box-sizing: border-box;
-            letter-spacing: 0.02em;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ヘッダー */
-        .site-header { background: var(--white); border-bottom: var(--border); padding: 1.2rem 2rem; position: relative; z-index: 100; }
-        .header-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; }
-        .site-logo { text-decoration: none; color: var(--black); display: flex; flex-direction: column; line-height: 1.2; }
-        .logo-main { font-size: 1.3rem; font-weight: 800; }
-        .logo-sub { font-size: 0.75rem; font-weight: 400; color: #777; margin-top: 4px; }
-
-        /* パンくず */
-        .breadcrumb { max-width: 860px; margin: 1.5rem auto 0; padding: 0 1.5rem; font-size: 0.8rem; color: #999; }
-        .breadcrumb a { color: #999; text-decoration: none; }
-        .breadcrumb a:hover { text-decoration: underline; color: var(--black); }
-        .breadcrumb span { margin: 0 0.4rem; }
-
-        /* メインレイアウト */
-        .main-container { max-width: 860px; margin: 2rem auto 6rem; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 260px; gap: 3rem; align-items: start; }
-
-        /* 記事ヘッダー */
-        .article-header { margin-bottom: 2.5rem; }
-        .article-category { display: inline-block; background: var(--black); color: var(--white); font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1rem; letter-spacing: 0.05em; }
-        .article-title { font-size: 2rem; font-weight: 800; line-height: 1.35; margin: 0 0 1.2rem; }
-        .article-meta { font-size: 0.82rem; color: #888; display: flex; gap: 1.2rem; flex-wrap: wrap; }
-
-        /* 目次 */
-        .toc-box { background: var(--white); border: var(--border); border-radius: 16px; padding: 1.5rem 2rem; margin-bottom: 3rem; }
-        .toc-box h2 { font-size: 0.9rem; font-weight: 800; margin: 0 0 1rem; letter-spacing: 0.05em; color: #555; }
-        .toc-list { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
-        .toc-list li { counter-increment: toc; padding: 0.4rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.88rem; }
-        .toc-list li:last-child { border-bottom: none; }
-        .toc-list a { text-decoration: none; color: var(--black); display: flex; gap: 0.6rem; align-items: baseline; }
-        .toc-list a::before { content: counter(toc); background: var(--accent-color); font-size: 0.7rem; font-weight: 800; width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .toc-list a:hover { text-decoration: underline; }
-
-        /* 本文 */
-        .article-content h2 { font-size: 1.4rem; font-weight: 800; margin: 3rem 0 1.2rem; padding-left: 1rem; border-left: 6px solid var(--accent-color); line-height: 1.3; }
-        .article-content h3 { font-size: 1.1rem; font-weight: 800; margin: 2rem 0 0.8rem; }
-        .article-content p { line-height: 1.95; margin-bottom: 1.4rem; color: #444; font-size: 0.97rem; }
-        .article-content strong { color: var(--black); font-weight: 800; }
-
-        /* ── パーツ ── */
-
-        /* コールアウト（補足・現場のコツ）— グレー左ボーダー */
-        .callout { background: #f4f4f4; border-left: 4px solid #d0d0d0; border-radius: 0 10px 10px 0; padding: 1.1rem 1.5rem; margin: 2rem 0; }
-        .callout-label { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; color: #888; margin-bottom: 0.4rem; text-transform: uppercase; }
-        .callout p { margin: 0; color: #555; font-size: 0.93rem; line-height: 1.8; }
-
-        /* アクセントボックス（重要な一文）— 黄色左ボーダー */
-        .accent-box { background: #fffbe6; border-left: 4px solid var(--accent-color); border-radius: 0 10px 10px 0; padding: 1.1rem 1.5rem; margin: 2rem 0; }
-        .accent-box p { margin: 0; color: var(--black); font-size: 0.95rem; font-weight: 700; line-height: 1.8; }
-
-        /* 黄色マーカー（インライン強調）*/
-        .marker { background: linear-gradient(transparent 75%, #ffde00 75%); font-weight: 700; padding: 0 0.1em; }
-
-        /* チェックリスト */
-        .check-list { list-style: none; padding: 0; margin: 0.5rem 0 1.5rem; display: flex; flex-direction: column; gap: 0; }
-        .check-list li { position: relative; font-size: 0.94rem; color: #333; line-height: 1.7; padding: 0.75rem 0 0.75rem 2.6rem; border-bottom: 1px solid #f0f0f0; }
-        .check-list li:last-child { border-bottom: none; }
-        .check-list li::before { content: "✓"; position: absolute; left: 0; top: 0.8rem; font-weight: 900; font-size: 0.8rem; color: #333; background: var(--accent-color); width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; line-height: 1; }
-        .check-list li strong { font-weight: 800; display: block; margin-bottom: 0.15rem; color: #222; }
-
-        /* 比較テーブル */
-        .compare-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0 2rem; font-size: 0.9rem; }
-        .compare-table th { background: var(--black); color: var(--white); padding: 0.8rem 1rem; font-weight: 700; text-align: left; }
-        .compare-table th:first-child { border-radius: 8px 0 0 0; }
-        .compare-table th:last-child { border-radius: 0 8px 0 0; }
-        .compare-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #eee; color: #444; vertical-align: top; line-height: 1.7; }
-        .compare-table tr:last-child td { border-bottom: none; }
-        .compare-table tr:nth-child(even) td { background: #f4f4f4; }
-        .compare-table tbody { background: #fafafa; }
-
-        /* バッジ */
-        .badge { display: inline-block; background: var(--accent-color); font-size: 0.72rem; font-weight: 800; padding: 0.1rem 0.5rem; border-radius: 4px; margin-left: 0.4rem; vertical-align: middle; }
-
-        /* まとめブロック */
-        .summary-block { background: var(--white); border: var(--border); border-radius: 20px; padding: 2rem 2rem 1.5rem; margin: 1.5rem 0 2rem; box-shadow: var(--shadow); }
-        .summary-lead { font-size: 1rem; font-weight: 800; color: var(--black); line-height: 1.7; margin: 0 0 1.6rem !important; padding-bottom: 1.4rem; border-bottom: 2px dashed #e0e0e0; }
-        .summary-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; counter-reset: summary-counter; }
-        .summary-list li { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid #f2f2f2; counter-increment: summary-counter; }
-        .summary-list li:last-child { border-bottom: none; }
-        .summary-list li::before { content: "0" counter(summary-counter); font-size: 0.7rem; font-weight: 900; background: var(--accent-color); color: var(--black); border-radius: 6px; min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.15rem; font-family: var(--font-main); }
-        .summary-list li div { flex: 1; }
-        .summary-list li strong { display: block; font-size: 0.95rem; font-weight: 800; color: var(--black); margin-bottom: 0.25rem; line-height: 1.45; }
-        .summary-list li p { font-size: 0.85rem; color: #666; margin: 0 !important; line-height: 1.7; }
-
-        /* ツールCTAバナー */
-        .tool-cta { background: var(--white); border: var(--border); border-radius: 20px; padding: 2rem; margin: 3rem 0; box-shadow: var(--shadow); text-align: center; }
-        .tool-cta-label { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; color: #888; margin-bottom: 0.6rem; }
-        .tool-cta h3 { font-size: 1.2rem; font-weight: 800; margin: 0 0 0.6rem; }
-        .tool-cta p { font-size: 0.88rem; color: #666; margin: 0 0 1.2rem; }
-        .btn { background: var(--accent-color); border: var(--border); padding: 0.9rem 2.5rem; border-radius: 50px; font-weight: 800; font-size: 1rem; font-family: var(--font-main); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; color: var(--black); text-decoration: none; display: inline-block; }
-        .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-
-        /* 著者ボックス */
-        .author-box { display: flex; gap: 1rem; align-items: flex-start; padding: 1.5rem 0; border-top: 2px dashed #ddd; border-bottom: 2px dashed #ddd; margin: 3rem 0; }
-        .author-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--black); color: var(--white); font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .author-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.2rem; }
-        .author-bio { font-size: 0.83rem; color: #666; line-height: 1.7; }
-
-        /* スマホ用関連記事 */
-        .sp-related { display: none; }
-
-        /* ── サイドバー ── */
-        .sidebar { position: sticky; top: 2rem; display: flex; flex-direction: column; gap: 0; }
-        .sidebar-card { padding: 1.4rem 0; border-bottom: 1px solid #ebebeb; }
-        .sidebar-card:last-child { border-bottom: none; padding-bottom: 0; }
-        .sidebar-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; color: #bbb; text-transform: uppercase; margin: 0 0 0.8rem; }
-
-        /* ツールカード */
-        .sidebar-tool-card { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; background: #fff; border: 1.5px solid #e8e8e8; border-radius: 10px; padding: 0.7rem 0.85rem; margin-bottom: 0.5rem; transition: border-color 0.15s, box-shadow 0.15s; }
-        .sidebar-tool-card:last-child { margin-bottom: 0; }
-        .sidebar-tool-card:hover { border-color: var(--accent-color); box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
-        .sidebar-tool-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1; }
-        .sidebar-tool-body { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; }
-        .sidebar-tool-name { font-size: 0.85rem; font-weight: 700; color: var(--black); line-height: 1.3; }
-        .sidebar-tool-note { font-size: 0.72rem; color: #aaa; }
-        .sidebar-tool-arrow { font-size: 0.85rem; color: #ccc; flex-shrink: 0; }
-        .sidebar-tool-card:hover .sidebar-tool-arrow { color: var(--black); }
-
-        /* 人気記事ランキング */
-        .sidebar-ranking { list-style: none; padding: 0; margin: 0; counter-reset: rank; display: flex; flex-direction: column; }
-        .sidebar-ranking li { counter-increment: rank; display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.55rem 0; border-bottom: 1px solid #f5f5f5; }
-        .sidebar-ranking li:last-child { border-bottom: none; }
-        .sidebar-ranking li::before { content: counter(rank); font-size: 0.68rem; font-weight: 900; color: var(--black); border-radius: 4px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
-        .sidebar-ranking li:nth-child(1)::before { background: #ffde00; }
-        .sidebar-ranking li:nth-child(2)::before { background: #e8e8e8; }
-        .sidebar-ranking li:nth-child(3)::before { background: #f0c97a; }
-        .sidebar-ranking li:nth-child(4)::before,
-        .sidebar-ranking li:nth-child(5)::before { background: #f0f0f0; }
-        .sidebar-ranking a { font-size: 0.82rem; font-weight: 500; color: #444; text-decoration: none; line-height: 1.5; transition: color 0.15s; }
-        .sidebar-ranking a:hover { color: var(--black); text-decoration: underline; }
-
-        /* カテゴリ */
-        .sidebar-categories { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.15rem; }
-        .sidebar-categories li a { display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #555; font-size: 0.85rem; padding: 0.45rem 0.6rem; border-radius: 6px; transition: background 0.12s, color 0.12s; }
-        .sidebar-categories li a:hover { background: #f5f5f5; color: var(--black); }
-        .sidebar-categories li a span { font-size: 0.72rem; color: #bbb; font-weight: 500; }
-
-        /* 関連記事 */
-        .sidebar-related a { display: block; text-decoration: none; color: #555; font-size: 0.83rem; padding: 0.45rem 0; border-bottom: 1px solid #f0f0f0; line-height: 1.5; transition: color 0.15s; }
-        .sidebar-related a:last-child { border-bottom: none; }
-        .sidebar-related a:hover { color: var(--black); text-decoration: underline; }
-        .sidebar-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
-
-        /* フッター */
-        footer {
-            position: relative;
-            z-index: 2;
-            margin-top: 8rem;
-            padding: 5rem 2rem 3rem;
-            background: var(--white);
-            border-top: var(--border);
-        }
-        .footer-content { max-width: 1000px; margin: 0 auto 4rem; display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
-        .footer-tools h3, .footer-links h3 { font-size: 1rem; font-weight: 800; margin-bottom: 2rem; }
-        .footer-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-        .footer-link-item { display: block; text-decoration: none; color: #666; font-size: 0.9rem; transition: all 0.2s; padding: 0.2rem 0; }
-        .footer-link-item:hover { color: var(--black); padding-left: 5px; text-decoration: underline; }
-        .site-logo, .breadcrumb a, .footer-link-item { position: relative; z-index: 3; pointer-events: auto; }
-        .footer-bottom { text-align: center; padding-top: 3rem; border-top: 1px solid #eee; max-width: 1000px; margin: 0 auto; }
-        .copyright { font-size: 0.85rem; color: #aaa; letter-spacing: 0.05em; }
-
-        /* レスポンシブ */
-        @media (max-width: 768px) {
-            .main-container { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
-            .article-title { font-size: 1.6rem; }
-            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
-            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
-            .sp-related { display: block; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee; }
-            .sp-related-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: #aaa; margin: 0 0 0.8rem; }
-            .sp-related a { display: block; text-decoration: none; color: #555; font-size: 0.88rem; padding: 0.45rem 0; border-bottom: 1px solid #f0f0f0; line-height: 1.5; }
-            .sp-related a:last-child { border-bottom: none; }
-            .sp-related a::before { content: "─ "; color: #ddd; font-size: 0.8rem; }
-            .sp-related a:hover { color: var(--black); }
-        }
-        @media (max-width: 480px) {
-            .footer-tools-grid { grid-template-columns: 1fr; }
-        }
-        /* ============================================================
-           ↑ ここまでCSS変更不要
-           記事固有のスタイルが必要なら以下に追記する
-        ============================================================ */
-    </style>
-</head>
-<body>
-
-<header class="site-header">
-    <div class="header-inner">
-        <a href="../index.html" class="site-logo">
-            <span class="logo-main">クリエイターのお道具箱</span>
-            <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
-        </a>
-    </div>
-</header>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-268FL8JVBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-268FL8JVBG');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="only light">
 
 <!-- ============================================================
-【ここを編集②】パンくずリスト — 末尾を記事タイトル（短縮版）に
+【ここを編集①】SEO META
+- title      : 記事タイトル（28〜32文字目安）＋｜クリエイターのお道具箱
+- description: 記事の要約（100〜120文字目安）
+- canonical  : 実際のURL（ファイル名だけ変える）
 ============================================================ -->
-<nav class="breadcrumb" aria-label="パンくずリスト">
+<title>「白いふちが出た」は防げる。塗りたしとトンボの基本を現場目線で解説｜クリエイターのお道具箱</title>
+<meta name="description" content="印刷で「白いふちが出た」「ズレた」を防ぐための塗りたし・トンボの基礎知識。設定方法からよくあるミスまで、現場デザイナーが実務目線でわかりやすく解説します。">
+<link rel="canonical" href="https://creator-tools-box.com/articles/what-is-bleed-and-trim-marks.html">
+<meta property="og:title" content="「白いふちが出た」は防げる。塗りたしとトンボの基本を現場目線で解説">
+<meta property="og:description" content="印刷で「白いふちが出た」「ズレた」を防ぐための塗りたし・トンボの基礎知識。設定方法からよくあるミスまで、現場デザイナーが実務目線でわかりやすく解説します。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://creator-tools-box.com/articles/what-is-bleed-and-trim-marks.html">
+<meta property="og:site_name" content="クリエイターのお道具箱">
+<meta name="twitter:card" content="summary">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "「白いふちが出た」は防げる。塗りたしとトンボの基本を現場目線で解説",
+  "datePublished": "2026-04-01",
+  "dateModified": "2026-04-01",
+  "author": { "@type": "Person", "name": "jun" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "クリエイターのお道具箱",
+    "url": "https://creator-tools-box.com/"
+  },
+  "url": "https://creator-tools-box.com/articles/what-is-bleed-and-trim-marks.html"
+}
+</script>
+
+<link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+<style>
+/* ============================================================
+   ⚠️ CSS はここから footer まで変更不要
+   記事固有のスタイルが必要な場合は末尾（指定箇所）に追記する
+============================================================ */
+:root {
+  --bg: #f5f5f0;
+  --white: #ffffff;
+  --black: #1a1a1a;
+  --accent: #ffde00;
+  --gray-200: #ddddd6;
+  --gray-500: #888882;
+  --border: 1.5px solid #1a1a1a;
+  --shadow: 4px 4px 0px #1a1a1a;
+  --shadow-hover: 6px 6px 0px #1a1a1a;
+  --radius: 4px;
+  --font: "Line Seed JP", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--black);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  background: var(--white);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+/* ---- SITE HEADER ---- */
+.site-header {
+  padding: 1.1rem clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--white);
+}
+
+.site-logo {
+  text-decoration: none;
+  color: var(--black);
+  font-weight: 800;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  letter-spacing: -0.01em;
+}
+
+.site-logo-sub {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--gray-500);
+  display: block;
+  margin-top: 0.1rem;
+  letter-spacing: 0;
+}
+
+.header-nav {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.header-nav-link {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--gray-500);
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  border: 1.5px solid transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  letter-spacing: 0.04em;
+}
+
+.header-nav-link:hover,
+.header-nav-link.active {
+  color: var(--black);
+  border-color: var(--black);
+  background: var(--accent);
+}
+
+/* ---- BREADCRUMB ---- */
+.breadcrumb {
+  padding: 0.85rem clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  background: var(--bg);
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.breadcrumb a {
+  color: var(--gray-500);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.breadcrumb a:hover {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumb-sep {
+  color: var(--gray-200);
+}
+
+/* ---- MAIN LAYOUT ---- */
+.main-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 256px;
+  gap: 0;
+  align-items: start;
+}
+
+/* ---- ARTICLE ---- */
+.article-main {
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
+  border-right: var(--border);
+  min-width: 0;
+}
+
+/* 記事ヘッダー */
+.article-header {
+  margin-bottom: 2.5rem;
+}
+
+.article-category {
+  display: inline-block;
+  background: var(--black);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.article-title {
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.2rem;
+}
+
+.article-meta {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* 目次 */
+.toc-box {
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.toc-box-heading {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin: 0 0 1rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: toc;
+}
+
+.toc-list li {
+  counter-increment: toc;
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 0.85rem;
+}
+
+.toc-list li:last-child { border-bottom: none; }
+
+.toc-list a {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: var(--black);
+  transition: color 0.15s;
+}
+
+.toc-list a::before {
+  content: counter(toc, decimal-leading-zero);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--gray-500);
+  flex-shrink: 0;
+}
+
+.toc-list a:hover { color: var(--gray-500); text-decoration: underline; text-underline-offset: 3px; }
+
+/* 本文 */
+.article-content h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 3rem 0 1.2rem;
+  padding-left: 1rem;
+  border-left: 4px solid var(--accent);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.article-content h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 2rem 0 0.8rem;
+  letter-spacing: -0.01em;
+}
+
+.article-content p {
+  font-size: 0.92rem;
+  line-height: 1.95;
+  margin-bottom: 1.4rem;
+  color: #444;
+}
+
+.article-content strong {
+  color: var(--black);
+  font-weight: 800;
+}
+
+.article-content ul,
+.article-content ol {
+  font-size: 0.92rem;
+  color: #444;
+  line-height: 1.8;
+  margin-bottom: 1.4rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li { margin-bottom: 0.4rem; }
+
+/* パーツ */
+.callout {
+  background: #f4f4ee;
+  border-left: 4px solid var(--gray-200);
+  padding: 1.1rem 1.4rem;
+  margin: 2rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.callout-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.callout p { margin: 0; font-size: 0.88rem; color: #555; line-height: 1.85; }
+
+.accent-box {
+  background: #fffdf0;
+  border-left: 4px solid var(--accent);
+  padding: 1.1rem 1.4rem;
+  margin: 2rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.accent-box p { margin: 0; font-size: 0.92rem; font-weight: 700; color: var(--black); line-height: 1.8; }
+
+.marker { background: linear-gradient(transparent 70%, var(--accent) 70%); font-weight: 700; padding: 0 0.1em; }
+
+.check-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.check-list li {
+  position: relative;
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.7;
+  padding: 0.7rem 0 0.7rem 2.4rem;
+  border-bottom: 1px solid #f0f0ea;
+}
+
+.check-list li:last-child { border-bottom: none; }
+
+.check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  font-weight: 900;
+  font-size: 0.72rem;
+  color: var(--black);
+  background: var(--accent);
+  width: 17px;
+  height: 17px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.check-list li strong {
+  font-weight: 800;
+  display: block;
+  margin-bottom: 0.1rem;
+  color: #1a1a1a;
+}
+
+/* 比較テーブル */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0 2rem;
+  font-size: 0.88rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.compare-table th {
+  background: var(--black);
+  color: var(--white);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  text-align: left;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+
+.compare-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0ea;
+  color: #444;
+  vertical-align: top;
+  line-height: 1.7;
+}
+
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:nth-child(even) td { background: #fafaf8; }
+
+/* バッジ */
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.1rem 0.45rem;
+  border-radius: 2px;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+/* まとめブロック */
+.summary-block {
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  box-shadow: var(--shadow);
+}
+
+.summary-lead {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--black);
+  line-height: 1.65;
+  margin: 0 0 0.85rem !important;
+  padding-bottom: 0.85rem;
+  border-bottom: 1.5px dashed rgba(0,0,0,0.15);
+}
+
+.summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  counter-reset: summary-counter;
+}
+
+.summary-list li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  counter-increment: summary-counter;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.summary-list li:last-child { border-bottom: none; padding-bottom: 0; }
+
+.summary-list li::before {
+  content: counter(summary-counter, decimal-leading-zero);
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: var(--gray-500);
+  flex-shrink: 0;
+  font-family: var(--font);
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+.summary-list li div { flex: 1; }
+.summary-list li strong { font-size: 0.88rem; font-weight: 800; color: var(--black); }
+.summary-list li p { font-size: 0.82rem; color: var(--gray-500); margin: 0.1rem 0 0 !important; line-height: 1.6; }
+
+/* ツールCTA */
+.tool-cta {
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin: 3rem 0;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.tool-cta-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.tool-cta h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.tool-cta p {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  margin: 0 0 1.25rem;
+  line-height: 1.7;
+}
+
+.btn {
+  display: inline-block;
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--black);
+  background: var(--accent);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 0.7rem 1.8rem;
+  border-radius: var(--radius);
+  transition: transform 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* 著者ボックス */
+.author-box {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.5rem 0;
+  border-top: 1.5px dashed rgba(0,0,0,0.18);
+  border-bottom: 1.5px dashed rgba(0,0,0,0.18);
+  margin: 3rem 0;
+}
+
+.author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--black);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.author-name {
+  font-weight: 800;
+  font-size: 0.92rem;
+  margin: 0 0 0.2rem;
+}
+
+.author-bio {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* スマホ用関連記事 */
+.sp-related { display: none; }
+
+/* ---- SIDEBAR ---- */
+.article-sidebar {
+  padding: clamp(2rem, 4vw, 3rem) 1.5rem;
+  position: sticky;
+  top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sidebar-card {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #f0f0ea;
+}
+
+.sidebar-card:last-child { border-bottom: none; padding-bottom: 0; }
+
+.sidebar-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-200);
+  margin: 0 0 0.9rem;
+  display: block;
+}
+
+/* サイドバー：ツールカード */
+.sidebar-tool-card {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+  margin-bottom: 0.5rem;
+  transition: background 0.15s, box-shadow 0.12s, transform 0.12s;
+}
+
+.sidebar-tool-card:last-child { margin-bottom: 0; }
+
+.sidebar-tool-card:hover {
+  background: var(--accent);
+  box-shadow: 3px 3px 0px var(--black);
+  transform: translate(-1px, -1px);
+}
+
+.sidebar-tool-icon { font-size: 1rem; flex-shrink: 0; line-height: 1; }
+
+.sidebar-tool-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.sidebar-tool-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.3;
+}
+
+.sidebar-tool-note {
+  font-size: 0.68rem;
+  color: var(--gray-500);
+}
+
+.sidebar-tool-arrow { font-size: 0.8rem; color: var(--gray-500); flex-shrink: 0; }
+
+/* サイドバー：人気記事 */
+.sidebar-ranking {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: rank;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-ranking li {
+  counter-increment: rank;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0ea;
+}
+
+.sidebar-ranking li:last-child { border-bottom: none; }
+
+.sidebar-ranking li::before {
+  content: counter(rank);
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: var(--gray-500);
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+  min-width: 1em;
+  text-align: right;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+
+.sidebar-ranking li:nth-child(1)::before { color: var(--black); }
+.sidebar-ranking li:nth-child(2)::before { color: var(--black); }
+.sidebar-ranking li:nth-child(3)::before { color: var(--black); }
+
+.sidebar-ranking a {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #444;
+  text-decoration: none;
+  line-height: 1.5;
+  transition: color 0.15s;
+}
+
+.sidebar-ranking a:hover { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+
+/* サイドバー：カテゴリ */
+.sidebar-categories {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.sidebar-categories li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: #555;
+  font-size: 0.82rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 2px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.sidebar-categories li a:hover { background: var(--bg); color: var(--black); }
+
+.sidebar-categories li a span {
+  font-size: 0.68rem;
+  color: var(--gray-200);
+  font-weight: 700;
+}
+
+/* サイドバー：関連記事 */
+.sidebar-related a {
+  display: block;
+  text-decoration: none;
+  color: #555;
+  font-size: 0.8rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid #f0f0ea;
+  line-height: 1.5;
+  transition: color 0.15s;
+}
+
+.sidebar-related a:last-child { border-bottom: none; }
+
+.sidebar-related a::before { content: "─ "; color: var(--gray-200); font-size: 0.75rem; }
+
+.sidebar-related a:hover { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- FOOTER ---- */
+footer {
+  border-top: 3px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+
+.footer-brand {
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-brand-name {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  margin: 0 0 0.4rem;
+}
+
+.footer-brand-desc {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+  line-height: 1.7;
+  max-width: 36em;
+}
+
+.footer-brand-badge {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.footer-inner {
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 3rem;
+  align-items: start;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.footer-heading {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 1.25rem;
+}
+
+.footer-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.75rem 2rem;
+}
+
+.footer-category-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.footer-link {
+  display: block;
+  text-decoration: none;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.8rem;
+  padding: 0.2rem 0;
+  transition: color 0.15s;
+}
+
+.footer-link:hover { color: var(--accent); }
+
+.footer-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.footer-bottom {
+  padding: 1.1rem clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.08em;
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 768px) {
+  .header-nav { display: none; }
+  .main-wrapper { grid-template-columns: 1fr; }
+  .article-main { border-right: none; border-bottom: var(--border); }
+  .article-sidebar { display: none; }
+  .sp-related { display: block; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #f0f0ea; }
+  .sp-related-label { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-200); margin: 0 0 0.75rem; display: block; }
+  .sp-related a { display: block; text-decoration: none; color: #555; font-size: 0.85rem; padding: 0.45rem 0; border-bottom: 1px solid #f0f0ea; line-height: 1.5; }
+  .sp-related a:last-child { border-bottom: none; }
+  .sp-related a::before { content: "─ "; color: var(--gray-200); font-size: 0.75rem; }
+  .sp-related a:hover { color: var(--black); }
+  .article-title { font-size: 1.5rem; }
+  .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-brand { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .footer-categories { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================
+   ↑ ここまでCSS変更不要
+   記事固有のスタイルが必要なら以下に追記する
+============================================================ */
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- SITE HEADER -->
+  <header class="site-header">
+    <a href="../index.html" class="site-logo">
+      クリエイターのお道具箱
+      <span class="site-logo-sub">Creator Tools Box</span>
+    </a>
+    <nav id="site-nav" class="header-nav" aria-label="サイトメニュー">
+      <a href="../index.html" class="header-nav-link">ツール</a>
+      <a href="../articles/index.html" class="header-nav-link">記事</a>
+      <a href="../about.html" class="header-nav-link">About</a>
+      <a href="../contact.html" class="header-nav-link">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+  【ここを編集②】パンくずリスト — 末尾を記事タイトル（短縮版）に
+  ============================================================ -->
+  <nav class="breadcrumb" aria-label="パンくずリスト">
     <a href="../index.html">ホーム</a>
-    <span>›</span>
+    <span class="breadcrumb-sep">›</span>
     <a href="../articles/index.html">記事一覧</a>
-    <span>›</span>
-    「白いふちが出た」は防げる
-</nav>
+    <span class="breadcrumb-sep">›</span>
+    <span>「白いふちが出た」は防げる</span>
+  </nav>
 
-<div class="main-container">
+  <div class="main-wrapper">
 
-    <article class="article-body">
+    <article class="article-main">
 
-        <!-- ============================================================
-        【ここを編集③】記事ヘッダー
-        - article-category : カテゴリ名（例：印刷・冊子制作 / デザイン基礎 / SNS・Web / Illustrator）
-        - article-title    : 記事タイトル（h1）改行させない
-        ============================================================ -->
-        <header class="article-header">
-            <p class="article-category">印刷・入稿</p>
-            <h1 class="article-title">「白いふちが出た」は防げる。塗りたしとトンボの基本を現場目線で解説</h1>
-            <div class="article-meta">
-                <span>2026年4月1日</span>
-            </div>
-        </header>
+      <!-- ============================================================
+      【ここを編集③】記事ヘッダー
+      - article-category : カテゴリ名（印刷・製本 / デザイン基礎 / SNS・Web / Illustrator）
+      - article-title    : 記事タイトル（h1）
+      ============================================================ -->
+      <header class="article-header">
+        <p class="article-category">印刷・入稿</p>
+        <h1 class="article-title">「白いふちが出た」は防げる。塗りたしとトンボの基本を現場目線で解説</h1>
+        <div class="article-meta">
+          <span>2026年4月1日</span>
+        </div>
+      </header>
 
-        <!-- ============================================================
-        【ここを編集④】目次 — href="#xxx" の xxx は h2 の id と一致させる
-        ============================================================ -->
-        <nav class="toc-box" aria-label="目次">
-            <h2>目次</h2>
-            <ol class="toc-list">
-                <li><a href="#section1">塗りたしとは？</a></li>
+      <!-- ============================================================
+      【ここを編集④】目次 — href="#xxx" の xxx は h2 の id と一致させる
+      ============================================================ -->
+      <nav class="toc-box" aria-label="目次">
+        <p class="toc-box-heading">目次</p>
+        <ol class="toc-list"><li><a href="#section1">塗りたしとは？</a></li>
                 <li><a href="#section2">トンボとは？</a></li>
                 <li><a href="#section3">塗りたしとトンボの関係</a></li>
                 <li><a href="#section4">よくあるミス3つ</a></li>
-                <li><a href="#section5">まとめ</a></li>
-            </ol>
-        </nav>
+                <li><a href="#section5">まとめ</a></li></ol>
+      </nav>
 
-        <!-- ============================================================
-        【ここを編集⑤】記事本文
-        ============================================================ -->
+      <!-- ============================================================
+      【ここを編集⑤】記事本文
+      利用できる要素：
+        h2（左黄色ボーダー）、h3
+        p（本文）
+        .callout（グレー：補足・NOTE）
+        .accent-box（黄色：重要ポイント）
+        .marker（インライン黄色ハイライト）
+        .check-list（チェックリスト）
+        .compare-table（比較テーブル）
+        .badge（インラインバッジ）
+        .summary-block（まとめブロック）
+        .tool-cta（ツールCTAバナー）
+      ============================================================ -->
 
-        <div class="article-content">
-
-            <p>印刷したら端っこに白いふちが出てしまった、という経験はないですか。あれ、実は防げるミスです。原因のほとんどは「塗りたし」が足りないこと。そして塗りたしを正しく設定するには「トンボ」の理解がセットで必要になります。今回はこの2つをまとめて解説します。</p>
+      <div class="article-content">
+<p>印刷したら端っこに白いふちが出てしまった、という経験はないですか。あれ、実は防げるミスです。原因のほとんどは「塗りたし」が足りないこと。そして塗りたしを正しく設定するには「トンボ」の理解がセットで必要になります。今回はこの2つをまとめて解説します。</p>
 
             <h2 id="section1">塗りたしとは？</h2>
 
@@ -400,25 +1079,23 @@
             【ここを編集⑥】スマホ用関連記事（著者の直後・スマホのみ表示）
             ============================================================ -->
             <div class="sp-related">
-                <p class="sp-related-label">関連記事</p>
-                <a href="print-prepress-checklist.html">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</a>
+<span class="sp-related-label">関連記事</span>
+<a href="print-prepress-checklist.html">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</a>
                 <a href="print-order-spec-checklist.html">印刷所への発注で失敗しないために。デザイナーが伝えるべき仕様の全リスト</a>
                 <a href="how-to-choose-paper-weight.html">「薄すぎ・厚すぎ」で後悔しない。紙の厚さ（坪量）選びの基本</a>
-            </div>
-
         </div>
+      </div>
     </article>
 
     <!-- ============================================================
     【ここを編集⑦】サイドバー
-    - ツール     : 記事に関連するツールへのリンク（アイコン絵文字も変える）
-    - 人気記事   : 全記事共通で同じものを入れる
-    - カテゴリ   : 全記事共通で同じものを入れる（記事数は適宜更新）
+    - ツール     : 記事に関連するツールへのリンク
+    - 人気記事   : 全記事共通で同じものを使う
+    - カテゴリ   : 全記事共通（記事数は適宜更新）
     - 関連記事   : この記事に関連する記事へのリンク
     ============================================================ -->
-    <aside class="sidebar">
-
-        <!-- このページのツール -->
+    <aside class="article-sidebar">
+<!-- このページのツール -->
         <div class="sidebar-card">
             <p class="sidebar-label">このページのツール</p>
             <a href="../tools/layout-margin-calculator.html" class="sidebar-tool-card">
@@ -462,55 +1139,100 @@
             <p class="sidebar-label">関連記事</p>
             <div class="sidebar-related">
                 <a href="print-prepress-checklist.html">印刷入稿前チェックリスト｜現場デザイナーが必ず確認する5項目</a>
-                <a href="print-order-spec-checklist.html">印刷所への発注で失敗しないために。デザイナーが伝えるべき仕様の全リスト</a>
-                <a href="how-to-choose-paper-weight.html">「薄すぎ・厚すぎ」で後悔しない。紙の厚さ（坪量）選びの基本</a>
+<a href="print-order-spec-checklist.html">印刷所への発注で失敗しないために。デザイナーが伝えるべき仕様の全リスト</a>
+<a href="how-to-choose-paper-weight.html">「薄すぎ・厚すぎ」で後悔しない。紙の厚さ（坪量）選びの基本</a>
             </div>
         </div>
-
     </aside>
 
-</div>
+  </div><!-- /.main-wrapper -->
 
-<!-- フッター（変更不要） -->
-<footer>
-    <div class="footer-content">
-        <div class="footer-tools">
-            <h3>ツールを探す</h3>
-            <div class="footer-tools-grid">
-<a class="footer-link-item" href="../tools/page-plan-editor.html">台割作成ツール</a>
-<a class="footer-link-item" href="../tools/paper-size-reference.html">サイズ早見表ツール</a>
-<a class="footer-link-item" href="../tools/px-mm-converter.html">ピクセル ↔ mm 変換ツール</a>
-<a class="footer-link-item" href="../tools/imposition-simulator.html">面付けシミュレーター</a>
-<a class="footer-link-item" href="../tools/color-palette-generator.html">カラーパレット生成ツール</a>
-<a class="footer-link-item" href="../tools/character-count.html">文字数カウンター</a>
-<a class="footer-link-item" href="../tools/golden-ratio-calculator.html">比率計算ツール</a>
-<a class="footer-link-item" href="../tools/rgb-cmyk-converter.html">RGB / CMYKカラー変換ツール</a>
-<a class="footer-link-item" href="../tools/schedule-deadline-calculator.html">納期・スケジュール計算メーカー</a>
-<a class="footer-link-item" href="../tools/layout-margin-calculator.html">余白計算・グリッドメーカー</a>
-<a class="footer-link-item" href="../tools/sns-image-size-maker.html">SNS画像サイズ変換ツール</a>
-<a class="footer-link-item" href="../tools/sns-preview-tool-complete.html">SNSプレビューツール</a>
-<a class="footer-link-item" href="../tools/illustrator-shortcut-quiz.html">Illustratorショートカットクイズ</a>
-<a class="footer-link-item" href="../tools/cmyk-color-quiz.html">CMYK/RGB色当てクイズ</a>
-</div>
+  <!-- FOOTER（変更不要） -->
+  <footer>
+    <div class="footer-brand">
+      <div>
+        <p class="footer-brand-name">クリエイターのお道具箱</p>
+        <p class="footer-brand-desc">デザイナー・イラストレーター・ライターのための無料ブラウザツール集。インストール不要、登録不要でいますぐ使えます。</p>
+      </div>
+      <span class="footer-brand-badge">Free / No install</span>
+    </div>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-heading">ツールを探す</p>
+        <div id="footer-tools-list" class="footer-categories"></div>
+      </div>
+      <div>
+        <p class="footer-heading">サイトメニュー</p>
+        <div class="footer-nav-links">
+          <a href="../index.html" class="footer-link">Home</a>
+          <a href="../about.html" class="footer-link">About</a>
+          <a href="../articles/index.html" class="footer-link">Blog</a>
+          <a href="../privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="../disclaimer.html" class="footer-link">Disclaimer</a>
+          <a href="../contact.html" class="footer-link">Contact</a>
         </div>
-        <div class="footer-links">
-            <h3>サイトメニュー</h3>
-            <a href="../index.html" class="footer-link-item">ホーム</a>
-            <a href="../about.html" class="footer-link-item">このサイトについて</a>
-            <a href="../articles/index.html" class="footer-link-item">記事一覧</a>
-            <a href="../sitemap.xml" class="footer-link-item">サイトマップ</a>
-            <a href="../privacy.html" class="footer-link-item">プライバシーポリシー</a>
-            <a href="../disclaimer.html" class="footer-link-item">免責事項</a>
-            <a href="../contact.html" class="footer-link-item">お問い合わせ</a>
-        </div>
+      </div>
     </div>
     <div class="footer-bottom">
-        <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+      <span class="copyright">&copy; <span id="year"></span> Creator Tools Box</span>
     </div>
-</footer>
+  </footer>
+
+</div><!-- /.container -->
 
 <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+/* ============================================================
+   共通ツール定義（全ページ共通 — ここだけ更新すれば全ページに反映）
+   ※ 記事ページは tools/ が一階層上になるため prefix "../" を使う
+============================================================ */
+const TOOLS = [
+  { title:"台割作成ツール",                cat:"印刷ツール",         link:"../tools/page-plan-editor.html" },
+  { title:"面付けシミュレーター",           cat:"印刷ツール",         link:"../tools/imposition-simulator.html" },
+  { title:"RGB / CMYK 変換ツール",         cat:"印刷ツール",         link:"../tools/rgb-cmyk-converter.html" },
+  { title:"ピクセル ↔ mm 変換ツール",      cat:"印刷ツール",         link:"../tools/px-mm-converter.html" },
+  { title:"黄金比率計算ツール",             cat:"デザインツール",     link:"../tools/golden-ratio-calculator.html" },
+  { title:"カラーパレット生成ツール",       cat:"デザインツール",     link:"../tools/color-palette-generator.html" },
+  { title:"余白計算ツール",                 cat:"制作ツール",         link:"../tools/layout-margin-calculator.html" },
+  { title:"サイズ早見表ツール",             cat:"制作ツール",         link:"../tools/paper-size-reference.html" },
+  { title:"文字数カウントツール",           cat:"制作ツール",         link:"../tools/character-count.html" },
+  { title:"納期・スケジュール計算メーカー", cat:"制作ツール",         link:"../tools/schedule-deadline-calculator.html" },
+  { title:"SNS画像サイズメーカー",          cat:"SNSツール",          link:"../tools/sns-image-size-maker.html" },
+  { title:"SNSプレビューツール",             cat:"SNSツール",          link:"../tools/sns-preview-tool-complete.html" },
+  { title:"Illustratorショートカットクイズ",cat:"スキルアップ・診断", link:"../tools/illustrator-shortcut-quiz.html" },
+  { title:"CMYK/RGB 色当てクイズ",          cat:"スキルアップ・診断", link:"../tools/cmyk-color-quiz.html" },
+];
+
+/* ---- ① ナビ active 自動付与 ---- */
+document.querySelectorAll('#site-nav .header-nav-link').forEach(a => {
+  const href = a.getAttribute('href');
+  const path = location.pathname;
+  if (
+    (href === '../index.html'          && (path.endsWith('/') || path.endsWith('index.html'))) ||
+    (href === '../about.html'          && path.endsWith('about.html')) ||
+    (href === '../articles/index.html' && path.includes('/articles')) ||
+    (href === '../contact.html'        && path.endsWith('contact.html'))
+  ) {
+    a.classList.add('active');
+  }
+});
+
+/* ---- ② フッター：ツールリスト動的生成 ---- */
+(function renderFooterTools() {
+  const container = document.getElementById('footer-tools-list');
+  if (!container) return;
+  const categories = [...new Set(TOOLS.map(t => t.cat))];
+  container.innerHTML = categories.map(cat => {
+    const items = TOOLS.filter(t => t.cat === cat);
+    const label = cat.replace('ツール','').replace('・診断','');
+    return `<div>
+      <p class="footer-category-label">${label}</p>
+      ${items.map(t => `<a href="${t.link}" class="footer-link">${t.title}</a>`).join('')}
+    </div>`;
+  }).join('');
+})();
+
+/* ---- ③ その他 ---- */
+document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

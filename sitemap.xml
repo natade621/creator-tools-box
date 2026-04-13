@@ -1,43 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- トップ -->
   <url>
     <loc>https://creator-tools-box.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- ツール -->
   <url>
-    <loc>https://creator-tools-box.com/tools/page-plan-editor.html</loc>
+    <loc>https://creator-tools-box.com/about.html</loc>
   </url>
   <url>
-    <loc>https://creator-tools-box.com/tools/imposition-simulator.html</loc>
+    <loc>https://creator-tools-box.com/articles/</loc>
   </url>
   <url>
-    <loc>https://creator-tools-box.com/tools/color-palette-generator.html</loc>
+    <loc>https://creator-tools-box.com/articles/bookbinding-types-guide.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/cmyk-color-sense.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/coat-paper-vs-matte-paper.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/design-estimate-tips.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/design-file-formats.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/design-margin-principles.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/escape-from-dasai-design.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/hex-to-cmyk.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/how-to-choose-color-palette.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/how-to-choose-fonts.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/how-to-choose-paper-weight.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/illustrator-shortcut-guide.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/illustrator-swatches-tips.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/imposition-page-order-trouble.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/print-color-dull-cause.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/print-order-spec-checklist.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/print-prepress-checklist.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/readable-font-size.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/reverse-estimate-guide.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/rgb-to-cmyk-how-to.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/schedule-reverse-planning.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/sns-image-cropped-fix.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/tone-color-unity.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/what-is-bleed-and-trim-marks.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/what-is-daiwari.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/what-is-dpi.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/what-is-golden-ratio.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/what-is-grid-system.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/what-is-imposition.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/what-is-rgb-cmyk.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/articles/why-whitespace-matters.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/contact.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/disclaimer.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/privacy.html</loc>
   </url>
   <url>
     <loc>https://creator-tools-box.com/tools/character-count.html</loc>
   </url>
   <url>
+    <loc>https://creator-tools-box.com/tools/cmyk-color-quiz.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/color-palette-generator.html</loc>
+  </url>
+  <url>
     <loc>https://creator-tools-box.com/tools/golden-ratio-calculator.html</loc>
   </url>
   <url>
-    <loc>https://creator-tools-box.com/tools/sns-image-size-maker.html</loc>
+    <loc>https://creator-tools-box.com/tools/illustrator-shortcut-quiz.html</loc>
   </url>
   <url>
-    <loc>https://creator-tools-box.com/tools/rgb-cmyk-converter.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/tools/schedule-deadline-calculator.html</loc>
+    <loc>https://creator-tools-box.com/tools/imposition-simulator.html</loc>
   </url>
   <url>
     <loc>https://creator-tools-box.com/tools/layout-margin-calculator.html</loc>
   </url>
   <url>
-    <loc>https://creator-tools-box.com/tools/illustrator-shortcut-quiz.html</loc>
+    <loc>https://creator-tools-box.com/tools/page-plan-editor.html</loc>
   </url>
   <url>
     <loc>https://creator-tools-box.com/tools/paper-size-reference.html</loc>
@@ -46,59 +144,15 @@
     <loc>https://creator-tools-box.com/tools/px-mm-converter.html</loc>
   </url>
   <url>
+    <loc>https://creator-tools-box.com/tools/rgb-cmyk-converter.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/schedule-deadline-calculator.html</loc>
+  </url>
+  <url>
+    <loc>https://creator-tools-box.com/tools/sns-image-size-maker.html</loc>
+  </url>
+  <url>
     <loc>https://creator-tools-box.com/tools/sns-preview-tool-complete.html</loc>
   </url>
-  <url>
-    <loc>https://creator-tools-box.com/tools/cmyk-color-quiz.html</loc>
-  </url>
-
-  <!-- 固定ページ -->
-  <url>
-    <loc>https://creator-tools-box.com/about.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/privacy.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/disclaimer.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/contact.html</loc>
-  </url>
-
-  <!-- 記事 -->
-  <url>
-    <loc>https://creator-tools-box.com/articles/</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/how-to-choose-color-palette.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/what-is-dpi.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/what-is-rgb-cmyk.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/what-is-imposition.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/print-color-dull-cause.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/what-is-daiwari.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/what-is-golden-ratio.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/hex-to-cmyk.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/schedule-reverse-planning.html</loc>
-  </url>
-  <url>
-    <loc>https://creator-tools-box.com/articles/print-prepress-checklist.html</loc>
-  </url>
-
 </urlset>

@@ -1,648 +1,1197 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-268FL8JVBG"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-268FL8JVBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-268FL8JVBG');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
 
-      gtag('config', 'G-268FL8JVBG');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    
-    <!-- 
-    AI NOTE:
-    このファイルはツールページ共通テンプレートです。
-    編集してよい場所は次の3つのみです。
-    1. TOOL META (タイトルと概要)
-    2. TOOL UI (ツールの本体・ロジック)
-    3. TOOL GUIDE (解説文章)
-    それ以外のレイアウト、CSS、構造は変更しないでください。
-    -->
+<!--
+AI NOTE:
+このファイルはツールページ共通テンプレートです。
+編集してよい場所は以下のコメントで「【ここを編集】」と書かれた箇所のみです。
+それ以外のレイアウト、CSS、構造は変更しないでください。
+-->
 
-    <!-- ===== TOOL META START ===== -->
-    <title>SNSプレビュー｜投稿の見え方を事前確認｜クリエイターのお道具箱</title>
-    <meta name="description" content="SNS投稿の見え方を事前に確認できる無料ツール。X（Twitter）・Instagram・OGPカードの表示やトリミング、テキストの折り返しを再現。投稿前のミス防止やクライアント確認に最適。">
-    <!-- ===== TOOL META END ===== -->
-    
-    <!-- LINE Seed JP を読み込み -->
-    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
-    
-    <style>
-        :root {
-            --bg-color: #fcfcfc;    
-            --accent-color: #ffde00; 
-            --black: #333;          
-            --white: #fff;
-            --border: 2px solid #333;
-            --shadow: 4px 4px 0px 0px #333;
-            --radius: 20px;
-            --font-main: "Line Seed JP", sans-serif;
-        }
+<!-- ============================================================
+【ここを編集①】SEO META
+- title      : SNSプレビュー｜投稿の見え方を事前確認｜クリエイターのお道具箱
+- description: ツールの説明（80〜120文字目安）
+============================================================ -->
+<title>SNSプレビュー｜投稿の見え方を事前確認｜クリエイターのお道具箱</title>
+<meta name="description" content="SNS投稿の見え方を事前に確認できる無料ツール。X（Twitter）・Instagram・OGPカードの表示やトリミング、テキストの折り返しを再現。投稿前のミス防止やクライアント確認に最適。">
+<link rel="canonical" href="https://creator-tools-box.com/tools/sns-preview-tool-complete.html">
+<meta property="og:title" content="SNSプレビュー｜投稿の見え方を事前確認｜クリエイターのお道具箱">
+<meta property="og:description" content="SNS投稿の見え方を事前に確認できる無料ツール。X（Twitter）・Instagram・OGPカードの表示やトリミング、テキストの折り返しを再現。投稿前のミス防止やクライアント確認に最適。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://creator-tools-box.com/tools/sns-preview-tool-complete.html">
+<meta property="og:site_name" content="クリエイターのお道具箱">
+<meta name="twitter:card" content="summary">
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--black);
-            font-family: var(--font-main);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            box-sizing: border-box;
-            letter-spacing: 0.02em;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SNSプレビューツール",
+  "url": "https://creator-tools-box.com/tools/sns-preview-tool-complete.html",
+  "description": "SNS投稿の見え方を事前に確認できる無料ツール。X（Twitter）・Instagram・OGPカードの表示やトリミング、テキストの折り返しを再現。投稿前のミス防止やクライアント確認に最適。",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" }
+}
+</script>
 
-        /* ヘッダー：追従しない設定 */
-        .site-header {
-            background: var(--white);
-            border-bottom: var(--border);
-            padding: 1.2rem 2rem;
-            position: relative;
-            z-index: 100;
-        }
-        .header-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-        }
-        .site-logo {
-            text-decoration: none;
-            color: var(--black);
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-        }
-        .logo-main {
-            font-size: 1.3rem;
-            font-weight: 800;
-        }
-        .logo-sub {
-            font-size: 0.75rem;
-            font-weight: 400;
-            color: #777;
-            margin-top: 4px;
-        }
+<link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+<style>
+/* ============================================================
+   ⚠️ CSS はここから footer まで変更不要
+   ツール固有のスタイルが必要な場合は末尾（指定箇所）に追記する
+============================================================ */
+:root {
+  --bg: #f5f5f0;
+  --white: #ffffff;
+  --black: #1a1a1a;
+  --accent: #ffde00;
+  --gray-200: #ddddd6;
+  --gray-500: #888882;
+  --border: 1.5px solid #1a1a1a;
+  --shadow: 4px 4px 0px #1a1a1a;
+  --shadow-hover: 6px 6px 0px #1a1a1a;
+  --radius: 4px;
+  --font: "Line Seed JP", sans-serif;
+}
 
-        /* コンテナ */
-        .main-container {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1.5rem;
-        }
+*, *::before, *::after { box-sizing: border-box; }
 
-        /* ツールエリア（背景・枠線なし） */
-        .tool-card {
-            background: transparent; 
-            padding: 0;
-            margin-bottom: 5rem;
-        }
+body {
+  background: var(--bg);
+  color: var(--black);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: clamp(1rem, 4vw, 2.5rem);
+}
 
-        /* ツールメタ情報 */
-        .tool-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        .tool-header h1 {
-            font-size: 2.6rem;
-            font-weight: 800;
-            margin: 0 0 1.2rem 0;
-            display: inline-block;
-            position: relative;
-        }
-        .tool-header h1::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: var(--accent-color);
-            z-index: -1;
-            opacity: 0.6;
-        }
-        .tool-lead {
-            font-size: 1.1rem;
-            color: #555;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  background: var(--white);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
 
-        /* ツールUIエリア */
-        .tool-ui-wrapper {
-            margin-bottom: 3rem;
-            min-height: 200px;
-        }
+/* ---- SITE HEADER ---- */
+.site-header {
+  padding: 1.1rem clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--white);
+}
 
-        /* ツール内共通パーツのスタイル */
-        .tool-ui input, .tool-ui textarea, .tool-ui select {
-            width: 100%;
-            padding: 1rem;
-            border: var(--border);
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 1rem;
-            box-sizing: border-box;
-            margin-bottom: 1.2rem;
-            background: var(--white);
-        }
-        .tool-ui .btn {
-            background: var(--accent-color);
-            border: var(--border);
-            padding: 1rem 3rem;
-            border-radius: 50px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            text-align: center;
-            text-decoration: none;
-            color: var(--black);
-            font-size: 1.1rem;
-        }
-        .tool-ui .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-        .tool-result {
-            background: var(--white);
-            border: var(--border);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            margin-top: 2rem;
-            box-shadow: var(--shadow);
-        }
+.site-logo {
+  text-decoration: none;
+  color: var(--black);
+  font-weight: 800;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  letter-spacing: -0.01em;
+}
 
-        /* 注意書き - 横幅を制限して中央配置 */
-        .disclaimer {
-            font-size: 0.85rem;
-            color: #777;
-            padding: 1.5rem;
-            border-left: 4px solid var(--accent-color);
-            background: #f0f0f0;
-            margin-top: 5rem;
-            border-radius: 4px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+.site-logo-sub {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--gray-500);
+  display: block;
+  margin-top: 0.1rem;
+  letter-spacing: 0;
+}
 
-        /* ガイドセクション */
-        .tool-guide {
-            margin-top: 6rem;
-            padding: 3.5rem;
-            background: var(--white);
-            border: var(--border);
-            box-shadow: var(--shadow);
-            border-radius: var(--radius);
-        }
-        .tool-guide h2 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .tool-guide h2::before {
-            content: "💡";
-            font-size: 1.4rem;
-        }
-        .tool-guide p {
-            margin-bottom: 2rem;
-            color: #444;
-            line-height: 1.9;
-        }
+.header-nav {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
 
-        /* フッター */
-        footer {
-            margin-top: 8rem;
-            padding: 5rem 2rem 3rem;
-            background: var(--white);
-            border-top: var(--border);
-        }
-        .footer-content {
-            max-width: 1000px;
-            margin: 0 auto 4rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-        }
-        .footer-tools h3, .footer-links h3 {
-            font-size: 1rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            color: var(--black);
-        }
-        .footer-tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1rem;
-        }
-        .footer-link-item {
-            display: block;
-            text-decoration: none;
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            transition: all 0.2s;
-            padding: 0.2rem 0;
-        }
-        .footer-link-item:hover {
-            color: var(--black);
-            padding-left: 5px;
-            text-decoration: underline;
-        }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 3rem;
-            border-top: 1px solid #eee;
-        }
-        .copyright {
-            font-size: 0.85rem;
-            color: #aaa;
-            letter-spacing: 0.05em;
-        }
+.header-nav-link {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--gray-500);
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  border: 1.5px solid transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  letter-spacing: 0.04em;
+}
 
-        @media (max-width: 768px) {
-            .main-container { margin: 2rem auto; }
-            .tool-header h1 { font-size: 2rem; }
-            .tool-guide { padding: 2rem; }
-            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
-            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
-            .disclaimer { max-width: 100%; }
-        }
-        @media (max-width: 480px) {
-            .footer-tools-grid { grid-template-columns: 1fr; }
-        }
-/* SNS Preview Tool Layout */
+.header-nav-link:hover,
+.header-nav-link.active {
+  color: var(--black);
+  border-color: var(--black);
+  background: var(--accent);
+}
+
+/* ---- BREADCRUMB ---- */
+.breadcrumb {
+  padding: 0.85rem clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  background: var(--bg);
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.breadcrumb a {
+  color: var(--gray-500);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.breadcrumb a:hover {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumb-sep { color: var(--gray-200); }
+
+/* ---- TOOL HEADER ---- */
+.tool-header {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+}
+
+.tool-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tool-header-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.tool-cat-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.tool-title {
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.85rem;
+}
+
+.tool-lead {
+  font-size: clamp(0.85rem, 1.8vw, 0.92rem);
+  color: var(--gray-500);
+  line-height: 1.8;
+  margin: 0;
+  max-width: 520px;
+}
+
+.tool-header-badge {
+  flex-shrink: 0;
+  background: var(--accent);
+  border: var(--border);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---- TOOL BODY ---- */
+.tool-body {
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+}
+
+/* ---- ツールUI共通パーツ ---- */
+/* ラベル */
+.tool-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* インプット */
+.tool-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  transition: box-shadow 0.15s;
+  margin-bottom: 0.5rem;
+}
+
+.tool-input:focus {
+  box-shadow: 3px 3px 0px var(--black);
+}
+
+/* セレクト */
+.tool-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+/* テキストエリア */
+.tool-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  transition: box-shadow 0.15s;
+  margin-bottom: 0.5rem;
+}
+
+.tool-textarea:focus {
+  box-shadow: 3px 3px 0px var(--black);
+}
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--black);
+  background: var(--accent);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 0.7rem 1.8rem;
+  border-radius: var(--radius);
+  transition: transform 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-ghost {
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+/* 結果エリア */
+.tool-result {
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  margin-top: 1.5rem;
+}
+
+/* セパレーター */
+.tool-divider {
+  border: none;
+  border-top: 1.5px dashed rgba(0,0,0,0.15);
+  margin: 2rem 0;
+}
+
+/* 注意書き */
+.tool-note {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  border-left: 3px solid var(--gray-200);
+  padding-left: 0.9rem;
+  margin-top: 1.5rem;
+  line-height: 1.7;
+}
+
+/* ---- GUIDE SECTION ---- */
+.guide-section {
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.guide-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.guide-section-heading {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.guide-body h3 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.guide-body h3:first-child { margin-top: 0; }
+
+.guide-body p {
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.9;
+  margin-bottom: 1rem;
+}
+
+.guide-body p:last-child { margin-bottom: 0; }
+
+.guide-body ul,
+.guide-body ol {
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.8;
+  padding-left: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.guide-body li { margin-bottom: 0.3rem; }
+
+/* 関連ツール */
+.related-tools-section {
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  background: var(--bg);
+}
+
+.related-tools-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 1.25rem;
+}
+
+.related-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px;
+  border: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.related-tool-card {
+  display: block;
+  text-decoration: none;
+  color: var(--black);
+  background: var(--white);
+  padding: 1.25rem;
+  border-right: var(--border);
+  border-bottom: var(--border);
+  transition: background 0.15s;
+}
+
+.related-tool-card:hover { background: var(--accent); }
+
+.related-tool-cat {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.related-tool-card:hover .related-tool-cat { color: rgba(0,0,0,0.5); }
+
+.related-tool-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 0.3rem;
+}
+
+.related-tool-desc {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+
+.related-tool-card:hover .related-tool-desc { color: rgba(0,0,0,0.55); }
+
+/* ---- CONTACT ---- */
+.contact-section {
+  padding: clamp(3rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  background: var(--bg);
+  border-bottom: var(--border);
+}
+
+.contact-section h2 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.contact-section p {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ---- FOOTER ---- */
+footer {
+  border-top: 3px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+
+.footer-brand {
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-brand-name {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  margin: 0 0 0.4rem;
+}
+
+.footer-brand-desc {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+  line-height: 1.7;
+  max-width: 36em;
+}
+
+.footer-brand-badge {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.footer-inner {
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 3rem;
+  align-items: start;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.footer-heading {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 1.25rem;
+}
+
+.footer-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.75rem 2rem;
+}
+
+.footer-category-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.footer-link {
+  display: block;
+  text-decoration: none;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.8rem;
+  padding: 0.2rem 0;
+  transition: color 0.15s;
+}
+
+.footer-link:hover { color: var(--accent); }
+
+.footer-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.footer-bottom {
+  padding: 1.1rem clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.08em;
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 768px) {
+  .header-nav { display: none; }
+  .tool-header-inner { grid-template-columns: 1fr; }
+  .tool-header-badge { align-self: auto; display: inline-block; width: fit-content; }
+  .guide-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-brand { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .related-tools-grid { grid-template-columns: 1fr; }
+  .footer-categories { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================
+   ↑ ここまでCSS変更不要
+   ツール固有のスタイルが必要なら以下に追記する
+============================================================ */
+
+/* ---- SNS TOOL LAYOUT ---- */
 .sns-tool-layout {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 2rem;
-    align-items: start;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 2.5rem;
+  align-items: start;
 }
 
+/* ---- タブ（プラットフォーム選択）---- */
 .sns-tab-group {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  border-bottom: var(--border);
+  padding-bottom: 1.5rem;
 }
-
 .sns-tab-btn {
-    flex: 1;
-    padding: 10px;
-    border: 2px solid #333;
-    background: #fff;
-    border-radius: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: 0.2s;
+  flex: 1;
+  padding: 0.6rem 0.5rem;
+  border: var(--border);
+  background: var(--white);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+  color: var(--black);
 }
-
+.sns-tab-btn:hover {
+  background: var(--bg);
+}
 .sns-tab-btn.active {
-    background: #ffde00;
-    box-shadow: 3px 3px 0px #333;
-    transform: translate(-2px, -2px);
+  background: var(--accent);
+  box-shadow: var(--shadow);
+  transform: translate(-2px, -2px);
 }
 
+/* ---- 入力エリア ---- */
 .sns-label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 800;
-    margin-bottom: 8px;
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
 }
-
-.sns-drop-zone {
-    border: 2px dashed #ccc;
-    background: #f9f9f9;
-    padding: 40px 10px;
-    text-align: center;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    color: #888;
-    margin-bottom: 1.5rem;
-    transition: 0.2s;
+.sns-input-section textarea,
+.sns-input-section input[type="text"],
+.sns-input-section select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  transition: box-shadow 0.15s;
+  margin-bottom: 0.25rem;
+  box-sizing: border-box;
+  -webkit-appearance: none;
 }
-
-.sns-drop-zone.dragover {
-    border-color: #ffde00;
-    background: #fffdf0;
+.sns-input-section textarea {
+  resize: vertical;
+  min-height: 100px;
 }
-
+.sns-input-section textarea:focus,
+.sns-input-section input:focus {
+  box-shadow: 3px 3px 0px var(--black);
+}
 .sns-info-row {
-    text-align: right;
-    font-size: 0.75rem;
-    color: #777;
-    margin: -10px 0 15px;
+  text-align: right;
+  font-size: 0.72rem;
+  color: var(--gray-500);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.25rem;
+}
+.sns-drop-zone {
+  border: 1.5px dashed var(--gray-200);
+  background: var(--bg);
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  margin-bottom: 1.25rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.sns-drop-zone:hover {
+  border-color: var(--black);
+  background: #fffdf0;
+}
+.sns-drop-zone.dragover {
+  border-color: var(--accent);
+  background: #fffdf0;
+}
+#field-ig-ratio,
+#field-ogp {
+  margin-bottom: 0.5rem;
+}
+.sns-action-btns {
+  margin-top: 1.5rem;
+}
+.sns-action-btns .btn {
+  width: 100%;
+  text-align: center;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+.sns-action-btns .btn:hover {
+  background: var(--white);
 }
 
-/* Mockup Base */
+/* ---- プレビューエリア ---- */
+.tool-result {
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
 .preview-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 15px;
-    font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
 }
-
+.safe-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gray-500);
+  letter-spacing: 0.06em;
+}
+.safe-toggle input { cursor: pointer; }
 #capture-area-wrapper {
-    background: #f0f0f0;
-    padding: 40px 20px;
-    border-radius: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background: var(--gray-200);
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: var(--border);
 }
-
 #capture-box {
-    width: 100%;
-    max-width: 450px;
-    position: relative;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
 }
 
+/* ---- モックアップ共通 ---- */
 .mock-container {
-    background: #fff;
-    border: 1px solid #ddd;
-    overflow: hidden;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  font-family: -apple-system, 'Segoe UI', sans-serif;
+}
+.mock-body {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #1a1a1a;
+  margin-top: 0.5rem;
+  word-break: break-word;
 }
 
-/* X (Twitter) Theme */
+/* X (Twitter) */
 .x-theme {
-    padding: 12px 16px;
-    border-radius: 0;
-    border: 1px solid #eff3f4;
+  padding: 12px 16px;
+  border: 1px solid #eff3f4;
+  border-radius: 0;
 }
-.x-theme .mock-header { display: flex; gap: 12px; margin-bottom: 4px; }
-.mock-avatar { width: 40px; height: 40px; background: #eee; border-radius: 50%; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.x-theme .mock-header { display: flex; gap: 12px; margin-bottom: 6px; }
+.mock-avatar {
+  width: 40px; height: 40px;
+  background: #e7e9ea;
+  border-radius: 50%;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
 .mock-avatar svg { width: 80%; height: 80%; }
 .mock-user-meta { flex: 1; }
-.name-row { display: flex; align-items: center; gap: 4px; font-size: 0.9rem; font-weight: bold; }
+.name-row { display: flex; align-items: center; gap: 4px; font-size: 0.88rem; font-weight: 700; flex-wrap: wrap; }
 .name-bar { color: #0f1419; }
 .verified-badge { width: 18px; height: 18px; flex-shrink: 0; }
-.handle, .time, .dot { color: #536471; font-size: 0.9rem; font-weight: normal; }
-
-.x-theme .mock-body { font-size: 0.95rem; margin-top: 4px; margin-bottom: 12px; line-height: 1.35; color: #0f1419; }
-
+.handle, .time, .dot { color: #536471; font-size: 0.82rem; font-weight: 400; }
 .mock-media-single {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #cfd9de;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    cursor: move;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #cfd9de;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  cursor: move;
+  margin-top: 10px;
 }
 
-/* IG Theme */
-.ig-theme { border-radius: 8px; }
-.mock-media-ig { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; background: #fafafa; cursor: move; }
-.mock-icons-row { display: flex; gap: 14px; align-items: center; color: #262626; margin-bottom: 8px; }
+/* Instagram */
+.ig-theme { border-radius: 4px; }
+.mock-media-ig {
+  width: 100%;
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
+  background: #fafafa;
+  cursor: move;
+}
+.mock-icons-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  color: #262626;
+  margin-bottom: 8px;
+  margin-top: 2px;
+}
 
-/* OGP Theme */
+/* IG header circle */
+.mock-icon.circle.gradient {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+/* OGP */
 .ogp-card-outer {
-    border: 1px solid #ddd;
-    background: #f2f3f5;
-    overflow: hidden;
-    border-radius: 8px;
+  border: 1px solid #dadde1;
+  background: #f2f3f5;
+  overflow: hidden;
+  border-radius: 4px;
 }
-.mock-ogp-img { width: 100%; aspect-ratio: 1.91/1; position: relative; overflow: hidden; background: #ddd; cursor: move; }
-.mock-ogp-info { padding: 12px 14px; background: #fff; }
-.ogp-domain-text { font-size: 0.75rem; color: #65676b; text-transform: uppercase; margin-bottom: 4px; }
-.ogp-title-text { font-size: 1rem; font-weight: 600; color: #1c1e21; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.mock-ogp-img {
+  width: 100%;
+  aspect-ratio: 1.91/1;
+  position: relative;
+  overflow: hidden;
+  background: #d0d0d0;
+  cursor: move;
+}
+.mock-ogp-info { padding: 10px 14px 12px; background: #fff; border-top: 1px solid #dadde1; }
+.ogp-domain-text { font-size: 0.7rem; color: #65676b; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+.ogp-title-text {
+  font-size: 0.9rem; font-weight: 600; color: #1c1e21; line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
 
-/* Common Draggable */
+/* 共通: ドラッグ可能画像 */
 .draggable-img {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-    user-select: none;
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
 }
 
-/* Safe Area */
+/* セーフエリア */
 .safe-area-guide {
-    position: absolute;
-    top: 10%; left: 10%; right: 10%; bottom: 10%;
-    border: 2px dashed #ffde00;
-    display: none;
-    align-items: center; justify-content: center;
-    color: #ffde00; font-size: 0.65rem; font-weight: 800;
-    background: rgba(255, 222, 0, 0.1);
-    z-index: 50; pointer-events: none;
+  position: absolute;
+  top: 10%; left: 10%; right: 10%; bottom: 10%;
+  border: 2px dashed var(--accent);
+  display: none;
+  align-items: center; justify-content: center;
+  color: var(--accent);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  background: rgba(255, 222, 0, 0.08);
+  z-index: 50; pointer-events: none;
 }
 .show-safe .safe-area-guide { display: flex; }
 
-.sns-check-log { font-size: 0.75rem; color: #777; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee; }
-
-@media (max-width: 768px) {
-    .sns-tool-layout { grid-template-columns: 1fr; }
+/* チェックログ */
+.sns-check-log {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1.5px dashed rgba(0,0,0,0.1);
+  line-height: 1.8;
 }
 
-  .related-tools {
-    margin-top: 24px;
-  }
+/* 関連記事リンク */
+.related-tool-item + .related-tool-item { margin-top: 1.5rem; }
+.related-tool-link,
+.related-tool-link:visited {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--black);
+}
+.related-tool-link:hover { opacity: 0.6; }
+.related-tool-item p {
+  margin: 0.4rem 0 0;
+  font-size: 0.83rem;
+  color: var(--gray-500);
+  line-height: 1.7;
+}
 
-  .related-tool-item + .related-tool-item {
-    margin-top: 32px;
-  }
-
-  .related-tool-link,
-  .related-tool-link:visited {
-    display: inline-block;
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.12em;
-    color: #111;
-  }
-
-  .related-tool-link:hover {
-    opacity: 0.75;
-  }
-
-  .related-tool-item p {
-    margin: 10px 0 0;
-    line-height: 1.8;
-  }
-    </style>
+/* ---- モバイル対応 ---- */
+@media (max-width: 768px) {
+  .sns-tool-layout { grid-template-columns: 1fr; }
+  .sns-tab-group { gap: 4px; }
+}
+</style>
 </head>
 <body>
+<div class="container">
 
-    <header class="site-header">
-        <div class="header-inner">
-            <a href="../index.html" class="site-logo">
-                <span class="logo-main">クリエイターのお道具箱</span>
-                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
-            </a>
-        </div>
-    </header>
+  <!-- SITE HEADER -->
+  <header class="site-header">
+    <a href="../index.html" class="site-logo">
+      クリエイターのお道具箱
+      <span class="site-logo-sub">Creator Tools Box</span>
+    </a>
+    <nav id="site-nav" class="header-nav" aria-label="サイトメニュー">
+      <a href="../index.html" class="header-nav-link">ツール</a>
+      <a href="../articles/index.html" class="header-nav-link">記事</a>
+      <a href="../about.html" class="header-nav-link">About</a>
+      <a href="../contact.html" class="header-nav-link">Contact</a>
+    </nav>
+  </header>
 
-    <main class="main-container">
-        
-        <article class="tool-card">
-            <!-- ===== TOOL META START ===== -->
-            <header class="tool-header">
-    <h1>SNSプレビューツール</h1>
-    <p class="tool-lead">
-        「投稿してみたら切れてた…」を防ぐ。画像・テキスト・OGPの見え方を、投稿前にその場で確認できる実務向けツールです。
-    </p>
-</header>
-            <!-- ===== TOOL META END ===== -->
+  <!-- ============================================================
+  【ここを編集②】パンくずリスト — 末尾をツール名に
+  ============================================================ -->
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="../index.html">ホーム</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>SNSプレビューツール</span>
+  </nav>
 
-<!-- ===== TOOL UI START ===== -->
-<div class="sns-tool-layout">
-    <!-- 設定エリア -->
-    <div class="tool-ui">
-        <div class="sns-tab-group">
-            <button type="button" class="sns-tab-btn active" data-platform="x">X (Twitter)</button>
-            <button type="button" class="sns-tab-btn" data-platform="ig">Instagram</button>
-            <button type="button" class="sns-tab-btn" data-platform="ogp">OGP Card</button>
-        </div>
+  <!-- ============================================================
+  【ここを編集③】ツールヘッダー
+  - tool-cat-label : カテゴリ（印刷ツール / デザインツール / 制作ツール / SNSツール / スキルアップ・診断）
+  - tool-title     : ツール名（h1）
+  - tool-lead      : 一言説明（40〜60文字）
+  - tool-header-badge : そのまま使う
+  ============================================================ -->
+  <div class="tool-header">
+    <div class="tool-header-inner">
+      <div>
+        <span class="tool-cat-label">SNSツール</span>
+        <h1 class="tool-title">SNSプレビューツール</h1>
+        <p class="tool-lead">
+          「投稿してみたら切れてた…」を防ぐ。画像・テキスト・OGPの見え方を、投稿前にその場で確認できる実務向けツールです。
+        </p>
+      </div>
+      <span class="tool-header-badge">Free / No install</span>
+    </div>
+  </div>
 
-        <div class="sns-input-section">
-            <label class="sns-label">投稿テキスト</label>
-            <textarea id="sns-text" rows="4" placeholder="ここに投稿内容を入力してください..."></textarea>
-            <div class="sns-info-row"><span id="char-count">0 文字</span></div>
+  <!-- ============================================================
+  【ここを編集④】ツール本体
+  .tool-body の中に、そのツール固有のUIを自由に書く。
+  共通パーツ: .tool-label / .tool-input / .tool-select / .tool-textarea
+              .btn / .btn-ghost / .tool-result / .tool-divider / .tool-note
+  ============================================================ -->
+  <section class="tool-body" aria-label="ツール">
 
-            <div id="field-image">
-                <label class="sns-label">画像アップロード <br><small id="image-hint">※画像は1枚のみ対応。プレビュー内でドラッグしてトリミング位置を調整できます。</small></label>
-                <div class="sns-drop-zone" id="drop-zone">
-                    ファイルをドロップ または クリック
-                    <input type="file" id="sns-file" accept="image/*" style="display:none;">
-                </div>
-                <div id="upload-status" style="font-size:0.7rem; color:#888; margin-top:-10px; margin-bottom:15px;"></div>
-            </div>
-
-            <!-- Instagram用オプション -->
-            <div id="field-ig-ratio" style="display:none;">
-                <label class="sns-label">表示比率</label>
-                <select id="ig-ratio">
-                    <option value="1/1">正方形 (1:1)</option>
-                    <option value="4/5">縦長 (4:5)</option>
-                    <option value="1.91/1">横長 (1.91:1)</option>
-                    <option value="9/16">ストーリーズ (9:16)</option>
-                </select>
-            </div>
-
-            <!-- OGP用オプション -->
-            <div id="field-ogp" style="display:none;">
-                <label class="sns-label">サイトタイトル</label>
-                <input type="text" id="ogp-title" placeholder="ページのタイトルを入力">
-                <label class="sns-label">ドメイン名</label>
-                <input type="text" id="ogp-domain" placeholder="example.com">
-            </div>
-            
-            <div class="sns-action-btns">
-                <button type="button" id="btn-reset" class="btn" style="width:100%; background:#eee; color:#333;">すべてリセット</button>
-            </div>
-        </div>
+    <!-- タブ：2カラム全幅に渡す -->
+    <div class="sns-tab-group">
+      <button type="button" class="sns-tab-btn active" data-platform="x">X (Twitter)</button>
+      <button type="button" class="sns-tab-btn" data-platform="ig">Instagram</button>
+      <button type="button" class="sns-tab-btn" data-platform="ogp">OGP Card</button>
     </div>
 
-    <!-- 表示エリア -->
-    <div class="tool-result">
+    <!-- 2カラムレイアウト：左＝入力、右＝プレビュー -->
+    <div class="sns-tool-layout">
+
+      <!-- 左：入力エリア -->
+      <div class="sns-input-section">
+        <label class="sns-label">投稿テキスト</label>
+        <textarea id="sns-text" rows="4" placeholder="ここに投稿内容を入力してください..."></textarea>
+        <div class="sns-info-row"><span id="char-count">0 文字</span></div>
+
+        <div id="field-image">
+          <label class="sns-label">
+            画像アップロード
+            <span style="display:block; font-size:0.7rem; font-weight:400; text-transform:none; letter-spacing:0; color:var(--gray-500); margin-top:2px;" id="image-hint">※1枚のみ対応。プレビュー内でドラッグしてトリミング位置を調整できます。</span>
+          </label>
+          <div class="sns-drop-zone" id="drop-zone">
+            ファイルをドロップ または クリック
+            <input type="file" id="sns-file" accept="image/*" style="display:none;">
+          </div>
+          <div id="upload-status" style="font-size:0.7rem; color:var(--gray-500); margin-top:-0.75rem; margin-bottom:1rem;"></div>
+        </div>
+
+        <!-- Instagram用オプション -->
+        <div id="field-ig-ratio" style="display:none;">
+          <label class="sns-label">表示比率</label>
+          <select id="ig-ratio">
+            <option value="1/1">正方形 (1:1)</option>
+            <option value="4/5">縦長 (4:5)</option>
+            <option value="1.91/1">横長 (1.91:1)</option>
+            <option value="9/16">ストーリーズ (9:16)</option>
+          </select>
+        </div>
+
+        <!-- OGP用オプション -->
+        <div id="field-ogp" style="display:none;">
+          <label class="sns-label">サイトタイトル</label>
+          <input type="text" id="ogp-title" placeholder="ページのタイトルを入力">
+          <label class="sns-label" style="margin-top:0.5rem;">ドメイン名</label>
+          <input type="text" id="ogp-domain" placeholder="example.com">
+        </div>
+
+        <div class="sns-action-btns">
+          <button type="button" id="btn-reset" class="btn">すべてリセット</button>
+        </div>
+      </div>
+
+      <!-- 右：プレビューエリア -->
+      <div class="tool-result">
         <div class="preview-header">
-            <span id="preview-label">X プレビュー</span>
-            <label class="safe-toggle"><input type="checkbox" id="toggle-safe"> セーフエリア表示</label>
+          <span id="preview-label">X (Twitter) プレビュー</span>
+          <label class="safe-toggle">
+            <input type="checkbox" id="toggle-safe"> セーフエリア表示
+          </label>
         </div>
 
         <div id="capture-area-wrapper">
-            <div id="capture-box">
-                <!-- X Mock -->
-                <div id="mock-x" class="mock-container x-theme">
-                    <div class="mock-header">
-                        <div class="mock-avatar">
-                            <svg viewBox="0 0 24 24" fill="#cfd9de"><path d="M17.863 13.44c1.477 1.58 2.366 3.72 2.366 6.06V20h-16.46v-.5c0-2.34.89-4.48 2.366-6.06C7.61 12.02 9.72 11.22 12 11.22s4.39.8 5.863 2.22zM12 2.22C14.65 2.22 16.8 4.37 16.8 7.02s-2.15 4.8-4.8 4.8-4.8-2.15-4.8-4.8 2.15-4.8 4.8-4.8z"></path></svg>
-                        </div>
-                        <div class="mock-user-meta">
-                            <div class="name-row">
-                                <span class="name-bar">ユーザー名</span>
-                                <svg viewBox="0 0 22 22" class="verified-badge"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.89-.131-.627-.437-1.202-.882-1.655-.444-.444-1.01-.762-1.63-.907-.619-.145-1.268-.117-1.87.08-.283-.584-.71-1.096-1.238-1.478-.528-.382-1.15-.592-1.787-.604-.63-.013-1.25.184-1.785.567-.534.383-.948.914-1.19 1.523-.615-.213-1.282-.262-1.924-.143-.642.12-1.236.425-1.716.883-.48.458-.813 1.037-.963 1.673-.15.636-.123 1.3.08 1.916-.605.267-1.127.705-1.503 1.258-.376.553-.58 1.204-.587 1.872.007.675.215 1.332.597 1.89.382.558.912 1.003 1.53 1.284-.207.625-.233 1.3-.075 1.944.158.644.498 1.225.98 1.696.481.47.1.06 1.134.787 1.77.92.636.133 1.286.096 1.897-.037.61-.264 1.156-.69 1.572-1.222.417-.533.684-1.166.772-1.84.646.046 1.294-.035 1.898-.24.604-.203 1.144-.57 1.564-1.062.42-.49.704-1.085.823-1.724.12-.639.06-1.3-.173-1.917.584-.27 1.08-.7 1.432-1.237.352-.536.55-1.156.57-1.796z" fill="#1d9bf0"></path><path d="M9.707 14.293l-3.414-3.414 1.414-1.414 2 2 4.585-4.585 1.415 1.414z" fill="#fff"></path></svg>
-                                <span class="handle">@sample_user</span>
-                                <span class="dot">·</span>
-                                <span class="time">12分</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mock-body" id="view-x-text">投稿内容がここに表示されます。</div>
-                    <div class="mock-media-single" id="view-x-media">
-                        <img src="" id="view-x-img" class="draggable-img">
-                        <div class="safe-area-guide">SAFE AREA</div>
-                    </div>
-                </div>
+          <div id="capture-box">
 
-                <!-- IG Mock -->
-                <div id="mock-ig" class="mock-container ig-theme" style="display:none; padding:0;">
-                    <div class="mock-header" style="padding:12px;">
-                        <div class="mock-icon circle gradient"></div>
-                        <div class="mock-user">
-                            <div style="font-size: 0.8rem; font-weight: bold; line-height: 1.2;">sample_user</div>
-                            <div style="font-size: 0.7rem; color: #666;">Tokyo, Japan</div>
-                        </div>
-                        <div style="margin-left: auto; font-weight: bold; color: #333;">...</div>
-                    </div>
-                    <div class="mock-media-ig" id="view-ig-media">
-                        <img src="" id="view-ig-img" class="draggable-img">
-                        <div class="safe-area-guide">SAFE AREA</div>
-                    </div>
-                    <div class="mock-footer-ig" style="padding:12px;">
-                        <div class="mock-icons-row">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                            <svg style="margin-left: auto;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                        </div>
-                        <div style="font-size: 0.85rem; font-weight: bold; margin-bottom: 4px; color:#262626;">「いいね！」124件</div>
-                        <div class="mock-body" id="view-ig-text">キャプションがここに表示されます。</div>
-                    </div>
+            <!-- X モックアップ -->
+            <div id="mock-x" class="mock-container x-theme">
+              <div class="mock-header">
+                <div class="mock-avatar">
+                  <svg viewBox="0 0 24 24" fill="#cfd9de"><path d="M17.863 13.44c1.477 1.58 2.366 3.72 2.366 6.06V20h-16.46v-.5c0-2.34.89-4.48 2.366-6.06C7.61 12.02 9.72 11.22 12 11.22s4.39.8 5.863 2.22zM12 2.22C14.65 2.22 16.8 4.37 16.8 7.02s-2.15 4.8-4.8 4.8-4.8-2.15-4.8-4.8 2.15-4.8 4.8-4.8z"></path></svg>
                 </div>
-
-                <!-- OGP Mock -->
-                <div id="mock-ogp" class="mock-container ogp-theme" style="display:none; padding:0; border-radius:0; border:none; background:transparent;">
-                    <div class="ogp-card-outer">
-                        <div class="mock-ogp-img" id="view-ogp-media">
-                            <img src="" id="view-ogp-img" class="draggable-img">
-                            <div class="safe-area-guide">SAFE AREA</div>
-                        </div>
-                        <div class="mock-ogp-info">
-                            <div id="view-ogp-domain" class="ogp-domain-text">DOMAIN.COM</div>
-                            <div id="view-ogp-title" class="ogp-title-text">リンクのタイトルがここに入ります</div>
-                        </div>
-                    </div>
+                <div class="mock-user-meta">
+                  <div class="name-row">
+                    <span class="name-bar">ユーザー名</span>
+                    <svg viewBox="0 0 22 22" class="verified-badge"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.89-.131-.627-.437-1.202-.882-1.655-.444-.444-1.01-.762-1.63-.907-.619-.145-1.268-.117-1.87.08-.283-.584-.71-1.096-1.238-1.478-.528-.382-1.15-.592-1.787-.604-.63-.013-1.25.184-1.785.567-.534.383-.948.914-1.19 1.523-.615-.213-1.282-.262-1.924-.143-.642.12-1.236.425-1.716.883-.48.458-.813 1.037-.963 1.673-.15.636-.123 1.3.08 1.916-.605.267-1.127.705-1.503 1.258-.376.553-.58 1.204-.587 1.872.007.675.215 1.332.597 1.89.382.558.912 1.003 1.53 1.284-.207.625-.233 1.3-.075 1.944.158.644.498 1.225.98 1.696.481.47.1.06 1.134.787 1.77.92.636.133 1.286.096 1.897-.037.61-.264 1.156-.69 1.572-1.222.417-.533.684-1.166.772-1.84.646.046 1.294-.035 1.898-.24.604-.203 1.144-.57 1.564-1.062.42-.49.704-1.085.823-1.724.12-.639.06-1.3-.173-1.917.584-.27 1.08-.7 1.432-1.237.352-.536.55-1.156.57-1.796z" fill="#1d9bf0"></path><path d="M9.707 14.293l-3.414-3.414 1.414-1.414 2 2 4.585-4.585 1.415 1.414z" fill="#fff"></path></svg>
+                    <span class="handle">@sample_user</span>
+                    <span class="dot">·</span>
+                    <span class="time">12分</span>
+                  </div>
                 </div>
+              </div>
+              <div class="mock-body" id="view-x-text">投稿内容がここに表示されます。</div>
+              <div class="mock-media-single" id="view-x-media">
+                <img src="" id="view-x-img" class="draggable-img">
+                <div class="safe-area-guide">SAFE AREA</div>
+              </div>
             </div>
-        </div>
+
+            <!-- Instagram モックアップ -->
+            <div id="mock-ig" class="mock-container ig-theme" style="display:none; padding:0;">
+              <div class="mock-header" style="padding:10px 12px; display:flex; align-items:center; gap:8px;">
+                <div class="mock-icon circle gradient"></div>
+                <div class="mock-user">
+                  <div style="font-size:0.8rem; font-weight:700; line-height:1.2; color:#262626;">sample_user</div>
+                  <div style="font-size:0.7rem; color:#8e8e8e;">Tokyo, Japan</div>
+                </div>
+                <div style="margin-left:auto; font-weight:700; color:#262626; font-size:1.1rem; letter-spacing:1px;">···</div>
+              </div>
+              <div class="mock-media-ig" id="view-ig-media">
+                <img src="" id="view-ig-img" class="draggable-img">
+                <div class="safe-area-guide">SAFE AREA</div>
+              </div>
+              <div style="padding:10px 12px 12px;">
+                <div class="mock-icons-row">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                  <svg style="margin-left:auto;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                </div>
+                <div style="font-size:0.82rem; font-weight:700; margin-bottom:4px; color:#262626;">いいね！ 124件</div>
+                <div class="mock-body" id="view-ig-text">キャプションがここに表示されます。</div>
+              </div>
+            </div>
+
+            <!-- OGP モックアップ -->
+            <div id="mock-ogp" class="mock-container ogp-theme" style="display:none; padding:0; border:none; background:transparent;">
+              <div class="ogp-card-outer">
+                <div class="mock-ogp-img" id="view-ogp-media">
+                  <img src="" id="view-ogp-img" class="draggable-img">
+                  <div class="safe-area-guide">SAFE AREA</div>
+                </div>
+                <div class="mock-ogp-info">
+                  <div id="view-ogp-domain" class="ogp-domain-text">DOMAIN.COM</div>
+                  <div id="view-ogp-title" class="ogp-title-text">リンクのタイトルがここに入ります</div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /#capture-box -->
+        </div><!-- /#capture-area-wrapper -->
 
         <div id="check-log" class="sns-check-log"></div>
+      </div><!-- /.tool-result -->
+
+    </div><!-- /.sns-tool-layout -->
+
+    <hr class="tool-divider">
+
+    <p class="tool-note"><strong>注意事項</strong><br>
+      本ツールは投稿前の参考確認用です。各SNSのアップデートにより実際の表示と異なる場合があります。</p>
+
+  </section>
+
+  <!-- ============================================================
+  【ここを編集⑤】ツール解説 / ガイド
+  - guide-section-heading : 「○○とは？」「使い方」など
+  - guide-body : ツールの使い方・背景知識をp/h3/ul/olで書く
+  ============================================================ -->
+  <section class="guide-section" aria-labelledby="guide-heading">
+    <div>
+      <span class="guide-section-label">Guide</span>
+      <h2 class="guide-section-heading" id="guide-heading">このツールでできること</h2>
     </div>
-</div>
-
-
-<!-- ===== TOOL UI END ===== -->
-            <div class="disclaimer">
-                <strong>免責事項</strong><br>
-                本ツールは制作の参考情報として提供しています。印刷物の入稿前には必ず、利用される印刷会社の最新ガイドラインや規定をご確認ください。
-            </div>
-        </article>
-
-        <!-- ===== TOOL GUIDE START ===== -->
-        <section class="tool-guide">
-    <h2>このツールでできること</h2>
-    <p>
+    <div class="guide-body">
+      <p>
         SNS投稿用の画像・テキスト・OGPカードが「実際にどう見えるか」を、投稿前に確認できるツールです。<br><br>
         X（旧Twitter）・Instagram・OGPカードの表示を再現し、画像のトリミングやテキストの折り返し、省略位置までチェックできます。<br><br>
         「いい感じに作ったのに、投稿したら見切れていた…」という事故を防ぎ、クライアント提出前の確認やSNS運用の精度を高めることができます。
     </p>
 
-    <h2>使い方</h2>
+    <h3>使い方</h3>
     <p>
         <strong>1. SNSを選択</strong><br>
         X・Instagram・OGPの中から、確認したいSNSを選びます。<br><br>
@@ -654,7 +1203,7 @@
         トリミング・比率・テキストの折り返しを確認しながら、最適な投稿デザインに調整します。
     </p>
 
-    <h2>こんな人におすすめ</h2>
+    <h3>こんな人におすすめ</h3>
     <p>
         ・SNS運用をしている方（X / Instagram）<br>
         ・投稿画像を作るデザイナー<br>
@@ -662,23 +1211,7 @@
         ・「投稿してから修正」が多いと感じている方
     </p>
 
-    <h2>あわせて使いたいツール</h2>
-    <div class="related-tools">
-        <div class="related-tool-item">
-            <a href="sns-image-size-maker.html" class="related-tool-link">SNS画像サイズメーカー →</a>
-            <p>投稿サイズを最適な比率で作りたいときにおすすめです。</p>
-        </div>
-        <div class="related-tool-item">
-            <a href="px-mm-converter.html" class="related-tool-link">px ↔ mm 変換ツール →</a>
-            <p>印刷や他媒体とのサイズ調整をしたいときに便利です。</p>
-        </div>
-        <div class="related-tool-item">
-            <a href="layout-margin-calculator.html" class="related-tool-link">余白計算ツール →</a>
-            <p>トリミングを意識したレイアウト設計に役立ちます。</p>
-        </div>
-    </div>
-
-            <h2>あわせて読みたい記事</h2>
+    <h3>あわせて読みたい記事</h3>
             <div class="related-tools">
                 <div class="related-tool-item">
                     <a href="../articles/how-to-choose-color-palette.html" class="related-tool-link">配色のルールを読む →</a>
@@ -689,48 +1222,149 @@
                     <p>SNS用と印刷用で考え方がどう違うかを知っておくと、流用時の事故を減らせます。</p>
                 </div>
             </div>
-</section>
-        <!-- ===== TOOL GUIDE END ===== -->
+    </div>
+  </section>
 
-    </main>
+  <!-- ============================================================
+  【ここを編集⑥】関連ツール（2〜4件）
+  ============================================================ -->
+  <section class="related-tools-section" aria-label="関連ツール">
+    <p class="related-tools-label">Related Tools</p>
+    <div class="related-tools-grid">
+      <a href="sns-image-size-maker.html" class="related-tool-card">
+        <span class="related-tool-cat">SNSツール</span>
+        <div class="related-tool-name">SNS画像サイズメーカー</div>
+        <div class="related-tool-desc">投稿サイズを最適な比率で作りたいときにおすすめです。</div>
+      </a>
+      <a href="px-mm-converter.html" class="related-tool-card">
+        <span class="related-tool-cat">印刷ツール</span>
+        <div class="related-tool-name">ピクセル ↔ mm 変換ツール</div>
+        <div class="related-tool-desc">印刷や他媒体とのサイズ調整をしたいときに便利です。</div>
+      </a>
+      <a href="layout-margin-calculator.html" class="related-tool-card">
+        <span class="related-tool-cat">制作ツール</span>
+        <div class="related-tool-name">余白計算ツール</div>
+        <div class="related-tool-desc">トリミングを意識したレイアウト設計に役立ちます。</div>
+      </a>
+    </div>
+  </section>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-tools">
-                <h3>ツールを探す</h3>
-                <div id="footer-tools-list" class="footer-tools-grid">
-                    <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
-<a href="paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
-<a href="px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
-<a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
-<a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
-<a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
-<a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
-<a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
-<a href="schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
-<a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
-<a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
-<a href="sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
-<a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
-<a href="cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
-                </div>
-            </div>
-            <div class="footer-links">
-                <h3>サイトメニュー</h3>
-                <a href="../about.html" class="footer-link-item">About</a>
-                                <a href="../articles/index.html" class="footer-link-item">Blog</a>
-<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
-                <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
-                <a href="../contact.html" class="footer-link-item">Contact</a>
-            </div>
+  <!-- CONTACT -->
+  <div class="contact-section">
+    <div>
+      <h2>お問い合わせ</h2>
+      <p>ツールの不具合報告やご要望があれば、お気軽にご連絡ください。</p>
+    </div>
+    <a href="../contact.html" class="btn">お問い合わせ</a>
+  </div>
+
+  <!-- FOOTER（変更不要） -->
+  <footer>
+    <div class="footer-brand">
+      <div>
+        <p class="footer-brand-name">クリエイターのお道具箱</p>
+        <p class="footer-brand-desc">デザイナー・イラストレーター・ライターのための無料ブラウザツール集。インストール不要、登録不要でいますぐ使えます。</p>
+      </div>
+      <span class="footer-brand-badge">Free / No install</span>
+    </div>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-heading">ツールを探す</p>
+        <div id="footer-tools-list" class="footer-categories"></div>
+      </div>
+      <div>
+        <p class="footer-heading">サイトメニュー</p>
+        <div class="footer-nav-links">
+          <a href="../index.html" class="footer-link">Home</a>
+          <a href="../about.html" class="footer-link">About</a>
+          <a href="../articles/index.html" class="footer-link">Blog</a>
+          <a href="../privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="../disclaimer.html" class="footer-link">Disclaimer</a>
+          <a href="../contact.html" class="footer-link">Contact</a>
         </div>
-        
-        <div class="footer-bottom">
-            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
-        </div>
-    </footer>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="copyright">&copy; <span id="year"></span> Creator Tools Box</span>
+    </div>
+  </footer>
 
-    <script>
+</div><!-- /.container -->
+
+<script>
+/* ============================================================
+   共通ツール定義（全ページ共通 — ここだけ更新すれば全ページに反映）
+   ※ ツールページは tools/ 直下のため prefix なし
+============================================================ */
+const TOOLS = [
+  { title:"台割作成ツール",                cat:"印刷ツール",         link:"page-plan-editor.html" },
+  { title:"面付けシミュレーター",           cat:"印刷ツール",         link:"imposition-simulator.html" },
+  { title:"RGB / CMYK 変換ツール",         cat:"印刷ツール",         link:"rgb-cmyk-converter.html" },
+  { title:"ピクセル ↔ mm 変換ツール",      cat:"印刷ツール",         link:"px-mm-converter.html" },
+  { title:"黄金比率計算ツール",             cat:"デザインツール",     link:"golden-ratio-calculator.html" },
+  { title:"カラーパレット生成ツール",       cat:"デザインツール",     link:"color-palette-generator.html" },
+  { title:"余白計算ツール",                 cat:"制作ツール",         link:"layout-margin-calculator.html" },
+  { title:"サイズ早見表ツール",             cat:"制作ツール",         link:"paper-size-reference.html" },
+  { title:"文字数カウントツール",           cat:"制作ツール",         link:"character-count.html" },
+  { title:"納期・スケジュール計算メーカー", cat:"制作ツール",         link:"schedule-deadline-calculator.html" },
+  { title:"SNS画像サイズメーカー",          cat:"SNSツール",          link:"sns-image-size-maker.html" },
+  { title:"SNSプレビューツール",             cat:"SNSツール",          link:"sns-preview-tool-complete.html" },
+  { title:"Illustratorショートカットクイズ",cat:"スキルアップ・診断", link:"illustrator-shortcut-quiz.html" },
+  { title:"CMYK/RGB 色当てクイズ",          cat:"スキルアップ・診断", link:"cmyk-color-quiz.html" },
+];
+
+/* ---- ① ナビ active 自動付与 ---- */
+document.querySelectorAll('#site-nav .header-nav-link').forEach(a => {
+  const href = a.getAttribute('href');
+  const path = location.pathname;
+  if (
+    (href === '../index.html'          && (path.endsWith('/') || path.endsWith('index.html'))) ||
+    (href === '../about.html'          && path.endsWith('about.html')) ||
+    (href === '../articles/index.html' && path.includes('/articles')) ||
+    (href === '../contact.html'        && path.endsWith('contact.html'))
+  ) {
+    a.classList.add('active');
+  }
+  // ツールページは index 以外でも "ツール" をアクティブに
+  if (href === '../index.html' && path.includes('/tools/')) {
+    a.classList.add('active');
+  }
+});
+
+/* ---- ② フッター：ツールリスト動的生成 ---- */
+(function renderFooterTools() {
+  const container = document.getElementById('footer-tools-list');
+  if (!container) return;
+  const categories = [...new Set(TOOLS.map(t => t.cat))];
+  container.innerHTML = categories.map(cat => {
+    const items = TOOLS.filter(t => t.cat === cat);
+    const label = cat.replace('ツール','').replace('・診断','');
+    return `<div>
+      <p class="footer-category-label">${label}</p>
+      ${items.map(t => `<a href="${t.link}" class="footer-link">${t.title}</a>`).join('')}
+    </div>`;
+  }).join('');
+})();
+
+/* ---- ③ その他 ---- */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============================================================
+   【ここを編集⑦】ツール固有のJS
+   共通ユーティリティ: copyToClipboard(text)
+============================================================ */
+
+function copyToClipboard(text) {
+  return navigator.clipboard.writeText(text).catch(() => {
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     let currentPlatform = 'x';
     let images = []; // { src, w, h, x: 50, y: 50 }
@@ -934,7 +1568,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePreview();
     });
 });
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+</script>
 </body>
 </html>

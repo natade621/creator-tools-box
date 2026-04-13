@@ -1,718 +1,1294 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-268FL8JVBG"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-268FL8JVBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-268FL8JVBG');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
 
-      gtag('config', 'G-268FL8JVBG');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    
-    <!-- 
-    AI NOTE:
-    このファイルはツールページ共通テンプレートです。
-    編集してよい場所は次の3つのみです。
-    1. TOOL META (タイトルと概要)
-    2. TOOL UI (ツールの本体・ロジック)
-    3. TOOL GUIDE (解説文章)
-    それ以外のレイアウト、CSS、構造は変更しないでください。
-    -->
+<!--
+AI NOTE:
+このファイルはツールページ共通テンプレートです。
+編集してよい場所は以下のコメントで「【ここを編集】」と書かれた箇所のみです。
+それ以外のレイアウト、CSS、構造は変更しないでください。
+-->
 
-    <!-- ===== TOOL META START ===== -->
-    <title>比率計算ツール｜クリエイターのお道具箱</title>
-    <meta name="description" content="黄金比・白銀比・アスペクト比を簡単に計算できるクリエイター向け比率計算ツール。 デザインやレイアウト設計に必要な比率を直感的に算出できます。">
-    <!-- ===== TOOL META END ===== -->
-    
-    <!-- LINE Seed JP を読み込み -->
-    <link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
-    
-    <style>
-        :root {
-            --bg-color: #fcfcfc;    
-            --accent-color: #ffde00; 
-            --black: #333;          
-            --white: #fff;
-            --border: 2px solid #333;
-            --shadow: 4px 4px 0px 0px #333;
-            --radius: 20px;
-            --font-main: "Line Seed JP", sans-serif;
-        }
+<!-- ===== TOOL META START ===== -->
+<title>黄金比・白銀比 計算ツール【無料】比率から寸法を自動算出｜クリエイターのお道具箱</title>
+<meta name="description" content="数値を入力するだけで黄金比（1:1.618）・白銀比（1:1.414）の寸法を即計算。バナー・名刺・ポスターなどデザインの余白設計にすぐ使えます。インストール不要・完全無料。">
+<!-- ===== TOOL META END ===== -->
+<link rel="canonical" href="https://creator-tools-box.com/tools/golden-ratio-calculator.html">
+<meta property="og:title" content="黄金比・白銀比 計算ツール【無料】比率から寸法を自動算出｜クリエイターのお道具箱">
+<meta property="og:description" content="数値を入力するだけで黄金比（1:1.618）・白銀比（1:1.414）の寸法を即計算。バナー・名刺・ポスターなどデザインの余白設計にすぐ使えます。インストール不要・完全無料。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://creator-tools-box.com/tools/golden-ratio-calculator.html">
+<meta property="og:site_name" content="クリエイターのお道具箱">
+<meta name="twitter:card" content="summary">
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--black);
-            font-family: var(--font-main);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            box-sizing: border-box;
-            letter-spacing: 0.02em;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "黄金比・白銀比 計算ツール【無料】比率から寸法を自動算出",
+  "url": "https://creator-tools-box.com/tools/golden-ratio-calculator.html",
+  "description": "数値を入力するだけで黄金比（1:1.618）・白銀比（1:1.414）の寸法を即計算。バナー・名刺・ポスターなどデザインの余白設計にすぐ使えます。インストール不要・完全無料。",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" }
+}
+</script>
 
-        /* ヘッダー：追従しない設定 */
-        .site-header {
-            background: var(--white);
-            border-bottom: var(--border);
-            padding: 1.2rem 2rem;
-            position: relative;
-            z-index: 100;
-        }
-        .header-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-        }
-        .site-logo {
-            text-decoration: none;
-            color: var(--black);
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-        }
-        .logo-main {
-            font-size: 1.3rem;
-            font-weight: 800;
-        }
-        .logo-sub {
-            font-size: 0.75rem;
-            font-weight: 400;
-            color: #777;
-            margin-top: 4px;
-        }
+<link rel="stylesheet" href="https://unpkg.com/@fontsource/line-seed-jp@5.0.1/index.css">
+<style>
+/* ============================================================
+   ⚠️ CSS はここから footer まで変更不要
+   ツール固有のスタイルが必要な場合は末尾（指定箇所）に追記する
+============================================================ */
+:root {
+  --bg: #f5f5f0;
+  --white: #ffffff;
+  --black: #1a1a1a;
+  --accent: #ffde00;
+  --gray-200: #ddddd6;
+  --gray-500: #888882;
+  --border: 1.5px solid #1a1a1a;
+  --shadow: 4px 4px 0px #1a1a1a;
+  --shadow-hover: 6px 6px 0px #1a1a1a;
+  --radius: 4px;
+  --font: "Line Seed JP", sans-serif;
+}
 
-        /* コンテナ */
-        .main-container {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1.5rem;
-        }
+*, *::before, *::after { box-sizing: border-box; }
 
-        /* ツールエリア（背景・枠線なし） */
-        .tool-card {
-            background: transparent; 
-            padding: 0;
-            margin-bottom: 5rem;
-        }
+body {
+  background: var(--bg);
+  color: var(--black);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: clamp(1rem, 4vw, 2.5rem);
+}
 
-        /* ツールメタ情報 */
-        .tool-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        .tool-header h1 {
-            font-size: 2.6rem;
-            font-weight: 800;
-            margin: 0 0 1.2rem 0;
-            display: inline-block;
-            position: relative;
-        }
-        .tool-header h1::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: var(--accent-color);
-            z-index: -1;
-            opacity: 0.6;
-        }
-        .tool-lead {
-            font-size: 1.1rem;
-            color: #555;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  background: var(--white);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
 
-        /* ツールUIエリア */
-        .tool-ui-wrapper {
-            margin-bottom: 3rem;
-            min-height: 200px;
-        }
+/* ---- SITE HEADER ---- */
+.site-header {
+  padding: 1.1rem clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--white);
+}
 
-        /* ツール内共通パーツのスタイル */
-        .tool-ui input, .tool-ui textarea, .tool-ui select {
-            width: 100%;
-            padding: 1rem;
-            border: var(--border);
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 1rem;
-            box-sizing: border-box;
-            margin-bottom: 1.2rem;
-            background: var(--white);
-        }
-        .tool-ui .btn {
-            background: var(--accent-color);
-            border: var(--border);
-            padding: 1rem 3rem;
-            border-radius: 50px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            text-align: center;
-            text-decoration: none;
-            color: var(--black);
-            font-size: 1.1rem;
-        }
-        .tool-ui .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-        .tool-result {
-            background: var(--white);
-            border: var(--border);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            margin-top: 2rem;
-            box-shadow: var(--shadow);
-        }
+.site-logo {
+  text-decoration: none;
+  color: var(--black);
+  font-weight: 800;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  letter-spacing: -0.01em;
+}
 
-        /* 注意書き - 横幅を制限して中央配置 */
-        .disclaimer {
-            font-size: 0.85rem;
-            color: #777;
-            padding: 1.5rem;
-            border-left: 4px solid var(--accent-color);
-            background: #f0f0f0;
-            margin-top: 5rem;
-            border-radius: 4px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+.site-logo-sub {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--gray-500);
+  display: block;
+  margin-top: 0.1rem;
+  letter-spacing: 0;
+}
 
-        /* ガイドセクション */
-        .tool-guide {
-            margin-top: 6rem;
-            padding: 3.5rem;
-            background: var(--white);
-            border: var(--border);
-            box-shadow: var(--shadow);
-            border-radius: var(--radius);
-        }
-        .tool-guide h2 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .tool-guide h2::before {
-            content: "💡";
-            font-size: 1.4rem;
-        }
-        .tool-guide p {
-            margin-bottom: 2rem;
-            color: #444;
-            line-height: 1.9;
-        }
+.header-nav {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
 
-        /* フッター */
-        footer {
-            margin-top: 8rem;
-            padding: 5rem 2rem 3rem;
-            background: var(--white);
-            border-top: var(--border);
-        }
-        .footer-content {
-            max-width: 1000px;
-            margin: 0 auto 4rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-        }
-        .footer-tools h3, .footer-links h3 {
-            font-size: 1rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            color: var(--black);
-        }
-        .footer-tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1rem;
-        }
-        .footer-link-item {
-            display: block;
-            text-decoration: none;
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            transition: all 0.2s;
-            padding: 0.2rem 0;
-        }
-        .footer-link-item:hover {
-            color: var(--black);
-            padding-left: 5px;
-            text-decoration: underline;
-        }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 3rem;
-            border-top: 1px solid #eee;
-        }
-        .copyright {
-            font-size: 0.85rem;
-            color: #aaa;
-            letter-spacing: 0.05em;
-        }
+.header-nav-link {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--gray-500);
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  border: 1.5px solid transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  letter-spacing: 0.04em;
+}
 
-        @media (max-width: 768px) {
-            .main-container { margin: 2rem auto; }
-            .tool-header h1 { font-size: 2rem; }
-            .tool-guide { padding: 2rem; }
-            .footer-content { grid-template-columns: 1fr; gap: 3rem; }
-            .footer-tools-grid { grid-template-columns: 1fr 1fr; }
-            .disclaimer { max-width: 100%; }
-        }
-        @media (max-width: 480px) {
-            .footer-tools-grid { grid-template-columns: 1fr; }
-        }
-/* ツール内独自スタイル */
+.header-nav-link:hover,
+.header-nav-link.active {
+  color: var(--black);
+  border-color: var(--black);
+  background: var(--accent);
+}
 
-.toolbar-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* ---- BREADCRUMB ---- */
+.breadcrumb {
+  padding: 0.85rem clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  background: var(--bg);
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.breadcrumb a {
+  color: var(--gray-500);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.breadcrumb a:hover {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumb-sep { color: var(--gray-200); }
+
+/* ---- TOOL HEADER ---- */
+.tool-header {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+}
+
+.tool-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tool-header-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.tool-cat-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.tool-title {
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.85rem;
+}
+
+.tool-lead {
+  font-size: clamp(0.85rem, 1.8vw, 0.92rem);
+  color: var(--gray-500);
+  line-height: 1.8;
+  margin: 0;
+  max-width: 520px;
+}
+
+.tool-header-badge {
+  flex-shrink: 0;
+  background: var(--accent);
+  border: var(--border);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---- TOOL BODY ---- */
+.tool-body {
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+}
+
+/* ---- ツールUI共通パーツ ---- */
+/* ラベル */
+.tool-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* インプット */
+.tool-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  transition: box-shadow 0.15s;
+  margin-bottom: 0.5rem;
+}
+
+.tool-input:focus {
+  box-shadow: 3px 3px 0px var(--black);
+}
+
+/* セレクト */
+.tool-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+/* テキストエリア */
+.tool-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  transition: box-shadow 0.15s;
+  margin-bottom: 0.5rem;
+}
+
+.tool-textarea:focus {
+  box-shadow: 3px 3px 0px var(--black);
+}
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--black);
+  background: var(--accent);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 0.7rem 1.8rem;
+  border-radius: var(--radius);
+  transition: transform 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-ghost {
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+/* 結果エリア */
+.tool-result {
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  margin-top: 1.5rem;
+}
+
+/* セパレーター */
+.tool-divider {
+  border: none;
+  border-top: 1.5px dashed rgba(0,0,0,0.15);
+  margin: 2rem 0;
+}
+
+/* 注意書き */
+.tool-note {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  border-left: 3px solid var(--gray-200);
+  padding-left: 0.9rem;
+  margin-top: 1.5rem;
+  line-height: 1.7;
+}
+
+/* ---- GUIDE SECTION ---- */
+.guide-section {
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.guide-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.guide-section-heading {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.guide-body h3 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.guide-body h3:first-child { margin-top: 0; }
+
+.guide-body p {
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.9;
+  margin-bottom: 1rem;
+}
+
+.guide-body p:last-child { margin-bottom: 0; }
+
+.guide-body ul,
+.guide-body ol {
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.8;
+  padding-left: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.guide-body li { margin-bottom: 0.3rem; }
+
+/* 関連ツール */
+.related-tools-section {
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--border);
+  background: var(--bg);
+}
+
+.related-tools-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 1.25rem;
+}
+
+.related-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px;
+  border: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.related-tool-card {
+  display: block;
+  text-decoration: none;
+  color: var(--black);
+  background: var(--white);
+  padding: 1.25rem;
+  border-right: var(--border);
+  border-bottom: var(--border);
+  transition: background 0.15s;
+}
+
+.related-tool-card:hover { background: var(--accent); }
+
+.related-tool-cat {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.related-tool-card:hover .related-tool-cat { color: rgba(0,0,0,0.5); }
+
+.related-tool-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 0.3rem;
+}
+
+.related-tool-desc {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+
+.related-tool-card:hover .related-tool-desc { color: rgba(0,0,0,0.55); }
+
+/* ---- CONTACT ---- */
+.contact-section {
+  padding: clamp(3rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  background: var(--bg);
+  border-bottom: var(--border);
+}
+
+.contact-section h2 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.contact-section p {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ---- FOOTER ---- */
+footer {
+  border-top: 3px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+
+.footer-brand {
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-brand-name {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  margin: 0 0 0.4rem;
+}
+
+.footer-brand-desc {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+  line-height: 1.7;
+  max-width: 36em;
+}
+
+.footer-brand-badge {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.footer-inner {
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 3rem;
+  align-items: start;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.footer-heading {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 1.25rem;
+}
+
+.footer-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.75rem 2rem;
+}
+
+.footer-category-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.footer-link {
+  display: block;
+  text-decoration: none;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.8rem;
+  padding: 0.2rem 0;
+  transition: color 0.15s;
+}
+
+.footer-link:hover { color: var(--accent); }
+
+.footer-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.footer-bottom {
+  padding: 1.1rem clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.08em;
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 768px) {
+  .header-nav { display: none; }
+  .tool-header-inner { grid-template-columns: 1fr; }
+  .tool-header-badge { align-self: auto; display: inline-block; width: fit-content; }
+  .guide-section {
+    grid-template-columns: 1fr;
     gap: 1.5rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
+  }
+  .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-brand { flex-direction: column; align-items: flex-start; }
 }
 
-.mode-selector {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+@media (max-width: 480px) {
+  .related-tools-grid { grid-template-columns: 1fr; }
+  .footer-categories { grid-template-columns: 1fr 1fr; }
 }
 
-.mode-btn {
-    padding: 0.6rem 1.2rem;
-    border: 2px solid #333;
-    border-radius: 50px;
-    background: #fff;
-    cursor: pointer;
-    font-weight: bold;
-    font-family: inherit;
-    transition: 0.2s;
+/* ============================================================
+   ↑ ここまでCSS変更不要
+   ツール固有のスタイルが必要なら以下に追記する
+============================================================ */
+
+/* ===== ステップ型UI ===== */
+
+/* ステップ全体ラッパー */
+.steps-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.mode-btn.active {
-    background: var(--accent-color);
-    box-shadow: 3px 3px 0px #333;
+/* 各ステップブロック */
+.step-block {
+  border: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  transition: box-shadow 0.15s;
 }
 
-.reset-btn {
-    padding: 0.6rem 1.2rem;
-    border: 1px solid #ccc;
-    background: #fff;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    color: #666;
-    transition: 0.2s;
+.step-block:focus-within {
+  box-shadow: var(--shadow);
 }
 
-.reset-btn:hover {
-    background: #f5f5f5;
-    color: #333;
-    border-color: #999;
+/* ステップヘッダー（番号＋タイトル） */
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background: var(--black);
+  color: var(--white);
+  user-select: none;
 }
 
-.input-grid {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr 100px;
-    gap: 1rem;
-    align-items: end;
-    margin-bottom: 2rem;
+.step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  color: var(--black);
+  font-size: 0.75rem;
+  font-weight: 800;
+  border-radius: 50%;
+  flex-shrink: 0;
+  letter-spacing: 0;
 }
 
-.input-connector {
-    padding-bottom: 2rem;
-    font-size: 1.5rem;
-    font-weight: 800;
+.step-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.input-group label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
+.step-subtitle {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  margin-left: auto;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
-.preset-area {
-    margin-top: 1.5rem;
-    border-top: 1px dashed #eee;
-    padding-top: 1.5rem;
+/* ステップ本体 */
+.step-body {
+  padding: 1.5rem 1.25rem;
+  background: var(--white);
 }
 
-.small-label {
-    font-size: 0.75rem;
-    color: #666;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
+/* ===== STEP 1：モード選択 ===== */
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.mode-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  cursor: pointer;
+  font-family: var(--font);
+  text-align: left;
+  transition: background 0.12s, box-shadow 0.12s, transform 0.12s;
+  position: relative;
+}
+
+.mode-card:hover {
+  background: var(--bg);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--black);
+}
+
+.mode-card.active {
+  background: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.mode-card-name {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--black);
+  letter-spacing: 0.02em;
+}
+
+.mode-card-desc {
+  font-size: 0.7rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+
+.mode-card.active .mode-card-desc {
+  color: rgba(0,0,0,0.6);
+}
+
+/* ===== STEP 2：数値入力 ===== */
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 36px 1fr;
+  gap: 0.75rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+.input-sep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 0.55rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--gray-500);
+}
+
+.unit-reset-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.unit-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.unit-select-wrap .tool-label {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.unit-select-wrap .tool-select {
+  margin: 0;
+  width: auto;
+  flex: 1;
+}
+
+.reset-link {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gray-500);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gray-200);
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0.1rem 0;
+  font-family: var(--font);
+  white-space: nowrap;
+  transition: color 0.12s, border-color 0.12s;
+}
+
+.reset-link:hover {
+  color: var(--black);
+  border-color: var(--black);
+}
+
+/* プリセット */
+.preset-section {
+  padding-top: 1rem;
+  border-top: 1.5px dashed rgba(0,0,0,0.1);
+}
+
+.preset-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.6rem;
+  display: block;
 }
 
 .preset-buttons {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .preset-btn {
-    padding: 0.4rem 1rem;
-    background: #fff;
-    border: 2px solid #eee;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
+  padding: 0.35rem 0.85rem;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: background 0.12s, box-shadow 0.12s;
+  color: var(--black);
 }
 
 .preset-btn:hover {
-    border-color: #ccc;
-    background: #f9f9f9;
+  background: var(--bg);
+  box-shadow: 2px 2px 0 var(--black);
 }
 
 .preset-btn.active {
-    background: #333;
-    color: #fff;
-    border-color: #333;
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+  box-shadow: none;
 }
 
-/* 結果表示 */
-.result-layout {
-    display: grid;
-    grid-template-columns: 1fr 200px;
-    gap: 2rem;
-    margin-bottom: 2rem;
+/* ===== STEP 3：結果 ===== */
+#result-container {
+  margin-top: 0;
 }
 
-.result-item {
-    margin-bottom: 1.5rem;
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
-.result-item .label {
-    display: block;
-    font-size: 0.8rem;
-    color: #777;
-    margin-bottom: 0.2rem;
+/* 比率カード */
+.ratio-display {
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.value-row {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+.ratio-label-sm {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
+  display: block;
 }
 
-.value-row strong {
-    font-size: 2.2rem;
-    color: var(--black);
+.ratio-value {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--black);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
 }
 
-.similarity-badge {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    border: 2px solid transparent;
+.ratio-decimal {
+  font-size: 0.82rem;
+  color: var(--gray-500);
 }
 
-.similarity-badge.match-golden {
-    background: #fff9e6;
-    border-color: #d4a017;
-    color: #8a6d3b;
+/* 判定バッジ */
+.match-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 800;
+  border: 1.5px solid transparent;
 }
 
-.similarity-badge.match-silver {
-    background: #e6f7ff;
-    border-color: #1890ff;
-    color: #0050b3;
+.match-badge.match-golden {
+  background: #fff9e6;
+  border-color: #d4a017;
+  color: #7a5c00;
+}
+
+.match-badge.match-silver {
+  background: #e8f4ff;
+  border-color: #3399ff;
+  color: #003d80;
 }
 
 /* プレビュー */
-.preview-container {
-    text-align: center;
+.preview-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.preview-box-wrapper {
-    height: 150px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f9f9f9;
-    border: 1px dashed #ccc;
-    border-radius: 12px;
-    margin-bottom: 0.5rem;
-    overflow: hidden;
+.preview-stage {
+  width: 100%;
+  height: 220px;
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .preview-rect {
-    background: var(--accent-color);
-    border: 2px solid #333;
-    transition: width 0.3s, height 0.3s;
+  background: var(--accent);
+  border: var(--border);
+  transition: width 0.25s ease, height 0.25s ease;
 }
 
 .preview-dims {
-    font-size: 0.75rem;
-    color: #999;
+  font-size: 0.7rem;
+  color: var(--gray-500);
+  font-weight: 700;
 }
 
-/* 提案エリア */
-.suggestion-box {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid #eee;
-}
-
-.suggestion-box h4 {
-    margin: 0 0 1rem 0;
-}
-
-.suggestion-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+/* 提案カード */
+.suggestion-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
 }
 
 .suggestion-card {
-    background: #fcfcfc;
-    border: 1px solid #eee;
-    padding: 1rem;
-    border-radius: 12px;
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
-.suggestion-card .type {
-    font-size: 0.75rem;
-    color: #777;
-    display: block;
-    margin-bottom: 0.5rem;
+.suggestion-card-type {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-500);
 }
 
-.suggestion-card .suggest-val {
-    font-weight: 800;
-    font-size: 1.1rem;
-    margin-bottom: 0.8rem;
+.suggestion-card-val {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--black);
 }
 
 .apply-btn {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.8rem;
-    background: #fff;
-    border: 1px solid #333;
-    border-radius: 4px;
-    cursor: pointer;
+  margin-top: 0.3rem;
+  padding: 0.35rem 0.9rem;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius);
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-family: var(--font);
+  cursor: pointer;
+  width: fit-content;
+  transition: background 0.12s, box-shadow 0.12s;
 }
 
 .apply-btn:hover {
-    background: var(--accent-color);
+  background: var(--accent);
+  box-shadow: 2px 2px 0 var(--black);
 }
 
-.result-copy-area {
-    margin-top: 2.5rem;
-    text-align: center;
+/* コピーボタン行 */
+.copy-row {
+  text-align: center;
+  padding-top: 0.25rem;
 }
 
-/* スマホ対応 */
-@media (max-width: 600px) {
-    .toolbar-row {
-        gap: 0.8rem;
-    }
-    .input-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-    .input-connector { display: none; }
-    .unit-group { grid-column: span 2; }
-    .result-layout {
-        grid-template-columns: 1fr;
-    }
-    .suggestion-grid {
-        grid-template-columns: 1fr;
-    }
+/* 関連記事リンク */
+.related-tool-item + .related-tool-item { margin-top: 1.5rem; }
+.related-tool-link, .related-tool-link:visited {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  color: var(--black);
 }
-  .related-tools {
-    margin-top: 24px;
-  }
+.related-tool-link:hover { opacity: 0.65; }
+.related-tool-item p { margin: 0.5rem 0 0; font-size: 0.88rem; line-height: 1.8; color: #444; }
 
-  .related-tool-item + .related-tool-item {
-    margin-top: 32px;
-  }
+/* ===== レスポンシブ ===== */
+@media (max-width: 640px) {
+  .mode-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 
-  .related-tool-link,
-  .related-tool-link:visited {
-    display: inline-block;
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.12em;
-    color: #111;
-  }
+  .input-row { grid-template-columns: 1fr 28px 1fr; }
+  .unit-reset-row { flex-wrap: wrap; }
 
-  .related-tool-link:hover {
-    opacity: 0.75;
-  }
-
-  .related-tool-item p {
-    margin: 10px 0 0;
-    line-height: 1.8;
-  }
-    </style>
+  .result-grid { grid-template-columns: 1fr; }
+  .preview-stage { height: 160px; }
+  .suggestion-row { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
+<div class="container">
 
-    <header class="site-header">
-        <div class="header-inner">
-            <a href="../index.html" class="site-logo">
-                <span class="logo-main">クリエイターのお道具箱</span>
-                <span class="logo-sub">つくる人のための、ちょっと便利な道具箱。</span>
-            </a>
-        </div>
-    </header>
+  <!-- SITE HEADER -->
+  <header class="site-header">
+    <a href="../index.html" class="site-logo">
+      クリエイターのお道具箱
+      <span class="site-logo-sub">Creator Tools Box</span>
+    </a>
+    <nav id="site-nav" class="header-nav" aria-label="サイトメニュー">
+      <a href="../index.html" class="header-nav-link">ツール</a>
+      <a href="../articles/index.html" class="header-nav-link">記事</a>
+      <a href="../about.html" class="header-nav-link">About</a>
+      <a href="../contact.html" class="header-nav-link">Contact</a>
+    </nav>
+  </header>
 
-    <main class="main-container">
-        
-        <article class="tool-card">
-            <!-- ===== TOOL META START ===== -->
-            <header class="tool-header">
-                <h1>比率計算ツール</h1>
-                <p class="tool-lead">
-                    黄金比・白銀比・アスペクト比を簡単に計算できるクリエイター向け比率計算ツール。
+  <!-- ============================================================
+  【ここを編集②】パンくずリスト — 末尾をツール名に
+  ============================================================ -->
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="../index.html">ホーム</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>比率計算ツール</span>
+  </nav>
+
+  <!-- ============================================================
+  【ここを編集③】ツールヘッダー
+  - tool-cat-label : カテゴリ（印刷ツール / デザインツール / 制作ツール / SNSツール / スキルアップ・診断）
+  - tool-title     : ツール名（h1）
+  - tool-lead      : 一言説明（40〜60文字）
+  - tool-header-badge : そのまま使う
+  ============================================================ -->
+  <div class="tool-header">
+    <div class="tool-header-inner">
+      <div>
+        <span class="tool-cat-label">デザインツール</span>
+        <h1 class="tool-title">比率計算ツール</h1>
+        <p class="tool-lead">
+          黄金比・白銀比・アスペクト比を簡単に計算できるクリエイター向け比率計算ツール。
                     デザインやレイアウト設計に必要な比率を直感的に算出できます。
-                </p>
-            </header>
-            <!-- ===== TOOL META END ===== -->
-
-<!-- ===== TOOL UI START ===== -->
-
-<div class="tool-ui-wrapper">
-    <div class="tool-ui">
-        <!-- モード切替 & リセット -->
-        <div class="toolbar-row">
-            <div class="mode-selector">
-                <button class="mode-btn active" data-mode="manual">自由計算</button>
-                <button class="mode-btn" data-mode="golden">黄金比 (1:1.618)</button>
-                <button class="mode-btn" data-mode="silver">白銀比 (1:1.414)</button>
-            </div>
-            <button class="reset-btn" id="reset-btn" title="入力をすべてクリア">リセット</button>
-        </div>
-
-        <div class="input-grid">
-            <div class="input-group">
-                <label for="input-width">幅 (Width)</label>
-                <input type="number" id="input-width" placeholder="例: 1920" step="any">
-            </div>
-            <div class="input-connector">
-                <span id="ratio-label">：</span>
-            </div>
-            <div class="input-group">
-                <label for="input-height">高さ (Height)</label>
-                <input type="number" id="input-height" placeholder="例: 1080" step="any">
-            </div>
-            <div class="input-group unit-group">
-                <label for="input-unit">単位</label>
-                <select id="input-unit">
-                    <option value="px">px</option>
-                    <option value="mm">mm</option>
-                    <option value="cm">cm</option>
-                    <option value="in">inch</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- プリセット -->
-        <div class="preset-area">
-            <p class="small-label" style="text-align: center;">プリセット:</p>
-            <div class="preset-buttons">
-                <button class="preset-btn" data-w="16" data-h="9">16:9</button>
-                <button class="preset-btn" data-w="4" data-h="3">4:3</button>
-                <button class="preset-btn" data-w="3" data-h="2">3:2</button>
-                <button class="preset-btn" data-w="1" data-h="1">1:1</button>
-                <button class="preset-btn" data-w="210" data-h="297">A4</button>
-                <button class="preset-btn" data-w="148" data-h="210">A5</button>
-                <button class="preset-btn" data-w="182" data-h="257">B5</button>
-            </div>
-        </div>
-
-        <!-- 計算結果表示エリア -->
-        <div id="result-container" class="tool-result" style="display: none; margin-top: 2.5rem;">
-            <div class="result-layout">
-                <div class="result-data">
-                    <div class="result-item">
-                        <span class="label">計算された比率</span>
-                        <div class="value-row">
-                            <strong id="res-ratio">16 : 9</strong>
-                        </div>
-                    </div>
-                    <div class="result-item">
-                        <span class="label">小数表記</span>
-                        <div class="value-row">
-                            <span id="res-decimal">1.778</span>
-                        </div>
-                    </div>
-                    <div id="similarity-box" class="similarity-badge">
-                        <!-- 判定結果 -->
-                    </div>
-                </div>
-                
-                <!-- 視覚プレビュー -->
-                <div class="preview-container">
-                    <p class="small-label">プレビュー形状</p>
-                    <div class="preview-box-wrapper">
-                        <div id="preview-box" class="preview-rect"></div>
-                    </div>
-                    <div class="preview-dims" id="preview-label">0 x 0</div>
-                </div>
-            </div>
-
-            <!-- 補正提案エリア -->
-            <div id="suggestion-area" class="suggestion-box">
-                <h4>調整のヒント</h4>
-                <div class="suggestion-grid">
-                    <div class="suggestion-card" id="suggest-golden">
-                        <span class="type">黄金比にするなら</span>
-                        <div class="suggest-val" id="val-golden">---</div>
-                        <button class="apply-btn" id="btn-apply-golden">適用</button>
-                    </div>
-                    <div class="suggestion-card" id="suggest-silver">
-                        <span class="type">白銀比にするなら</span>
-                        <div class="suggest-val" id="val-silver">---</div>
-                        <button class="apply-btn" id="btn-apply-silver">適用</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="result-copy-area">
-                <button class="btn" id="copy-all-btn">結果をテキストでコピー</button>
-            </div>
-        </div>
+        </p>
+      </div>
+      <span class="tool-header-badge">Free / No install</span>
     </div>
-</div>
-<!-- ===== TOOL UI END ===== -->
-            <div class="disclaimer">
-                <strong>免責事項</strong><br>
-                本ツールは設計や制作の参考情報として提供しています。実際の制作や印刷、設計に使用する場合は、使用環境や制作条件に応じて最終確認を行ってください。
-            </div>
-        </article>
+  </div>
 
-        <!-- ===== TOOL GUIDE START ===== -->
-        <section class="tool-guide">
-            <h2>このツールでできること</h2>
-            <p>
+  <!-- ============================================================
+  【ここを編集④】ツール本体
+  .tool-body の中に、そのツール固有のUIを自由に書く。
+  共通パーツ: .tool-label / .tool-input / .tool-select / .tool-textarea
+              .btn / .btn-ghost / .tool-result / .tool-divider / .tool-note
+  ============================================================ -->
+  <section class="tool-body" aria-label="ツール">
+    <div class="steps-wrapper">
+
+      <!-- ===== STEP 1：モード選択 ===== -->
+      <div class="step-block">
+        <div class="step-header">
+          <span class="step-num">1</span>
+          <span class="step-title">計算モードを選ぶ</span>
+          <span class="step-subtitle">何を計算したいですか？</span>
+        </div>
+        <div class="step-body">
+          <div class="mode-grid">
+            <button class="mode-card active" data-mode="manual">
+              <span class="mode-card-name">自由計算</span>
+              <span class="mode-card-desc">幅と高さを両方入力して、現在の比率を確認する</span>
+            </button>
+            <button class="mode-card" data-mode="golden">
+              <span class="mode-card-name">黄金比（1 : 1.618）</span>
+              <span class="mode-card-desc">片方の数値から、黄金比のサイズをもう片方に求める</span>
+            </button>
+            <button class="mode-card" data-mode="silver">
+              <span class="mode-card-name">白銀比（1 : 1.414）</span>
+              <span class="mode-card-desc">A4など日本の紙サイズに使われる比率でサイズを求める</span>
+            </button>
+            <button class="mode-card" data-mode="aspect">
+              <span class="mode-card-name">アスペクト比から計算</span>
+              <span class="mode-card-desc">16:9・4:3などの比率を選び、片方のサイズから求める</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== STEP 2：数値入力 ===== -->
+      <div class="step-block">
+        <div class="step-header">
+          <span class="step-num">2</span>
+          <span class="step-title">サイズを入力する</span>
+          <span class="step-subtitle" id="step2-subtitle">黄金比・白銀比モードは片方だけでOK</span>
+        </div>
+        <div class="step-body">
+
+          <!-- アスペクト比選択（aspectモード時のみ表示） -->
+          <div id="aspect-select-area" style="display:none; margin-bottom:1.25rem;">
+            <label class="tool-label">比率を選ぶ</label>
+            <div class="preset-buttons">
+              <button class="preset-btn aspect-ratio-btn active" data-aw="16" data-ah="9">16:9</button>
+              <button class="preset-btn aspect-ratio-btn" data-aw="4" data-ah="3">4:3</button>
+              <button class="preset-btn aspect-ratio-btn" data-aw="3" data-ah="2">3:2</button>
+              <button class="preset-btn aspect-ratio-btn" data-aw="1" data-ah="1">1:1</button>
+              <button class="preset-btn aspect-ratio-btn" data-aw="9" data-ah="16">9:16（縦）</button>
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div>
+              <label class="tool-label" for="input-width">幅 (Width)</label>
+              <input class="tool-input" type="number" id="input-width" placeholder="例: 1920" step="any">
+            </div>
+            <div class="input-sep">×</div>
+            <div>
+              <label class="tool-label" for="input-height">高さ (Height)</label>
+              <input class="tool-input" type="number" id="input-height" placeholder="例: 1080" step="any">
+            </div>
+          </div>
+          <div class="unit-reset-row">
+            <div class="unit-select-wrap">
+              <label class="tool-label" for="input-unit">単位</label>
+              <select class="tool-select" id="input-unit">
+                <option value="px">px</option>
+                <option value="mm">mm</option>
+                <option value="cm">cm</option>
+                <option value="in">inch</option>
+              </select>
+            </div>
+            <button class="reset-link" id="reset-btn">リセット</button>
+          </div>
+
+          <!-- 用紙サイズプリセット（manual モード時のみ表示） -->
+          <div class="preset-section" id="paper-preset-area">
+            <span class="preset-label">用紙サイズから選ぶ</span>
+            <div class="preset-buttons">
+              <button class="preset-btn" data-w="210" data-h="297">A4</button>
+              <button class="preset-btn" data-w="148" data-h="210">A5</button>
+              <button class="preset-btn" data-w="182" data-h="257">B5</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== STEP 3：結果 ===== -->
+      <div class="step-block">
+        <div class="step-header">
+          <span class="step-num">3</span>
+          <span class="step-title">結果を確認する</span>
+          <span class="step-subtitle">サイズを入力すると自動で表示されます</span>
+        </div>
+        <div class="step-body">
+          <div id="result-container" style="display:none;">
+            <div class="result-grid">
+              <!-- 比率表示 -->
+              <div class="ratio-display">
+                <span class="ratio-label-sm">計算された比率</span>
+                <div class="ratio-value" id="res-ratio">16 : 9</div>
+                <div class="ratio-decimal">小数表記：<strong id="res-decimal">1.778</strong></div>
+                <div id="similarity-box" class="match-badge" style="display:none;"></div>
+              </div>
+              <!-- プレビュー -->
+              <div class="preview-wrap">
+                <div class="preview-stage">
+                  <div id="preview-box" class="preview-rect"></div>
+                </div>
+                <div class="preview-dims" id="preview-label">プレビュー</div>
+              </div>
+            </div>
+
+            <!-- 補正提案（自由計算モード時のみ） -->
+            <div id="suggestion-area" class="suggestion-row">
+              <div class="suggestion-card">
+                <span class="suggestion-card-type">黄金比にするなら</span>
+                <div class="suggestion-card-val" id="val-golden">---</div>
+                <button class="apply-btn" id="btn-apply-golden">この高さを適用する</button>
+              </div>
+              <div class="suggestion-card">
+                <span class="suggestion-card-type">白銀比にするなら</span>
+                <div class="suggestion-card-val" id="val-silver">---</div>
+                <button class="apply-btn" id="btn-apply-silver">この高さを適用する</button>
+              </div>
+            </div>
+
+            <div class="copy-row">
+              <button class="btn" id="copy-all-btn">結果をテキストでコピー</button>
+            </div>
+          </div>
+
+          <!-- 未入力状態のプレースホルダー -->
+          <div id="result-placeholder" style="text-align:center; padding:2rem 0; color:var(--gray-500); font-size:0.85rem;">
+            ↑ STEP 2 でサイズを入力してください
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.steps-wrapper -->
+
+    <hr class="tool-divider">
+    <p class="tool-note"><strong>免責事項</strong><br>
+      本ツールは設計や制作の参考情報として提供しています。実際の制作や印刷、設計に使用する場合は、使用環境や制作条件に応じて最終確認を行ってください。</p>
+  </section>
+
+  <!-- ============================================================
+  【ここを編集⑤】ツール解説 / ガイド
+  - guide-section-heading : 「○○とは？」「使い方」など
+  - guide-body : ツールの使い方・背景知識をp/h3/ul/olで書く
+  ============================================================ -->
+  <section class="guide-section" aria-labelledby="guide-heading">
+    <div>
+      <span class="guide-section-label">Guide</span>
+      <h2 class="guide-section-heading" id="guide-heading">このツールでできること</h2>
+    </div>
+    <div class="guide-body">
+      <p>
                デザインやレイアウトを考えるとき、「このサイズバランスで合っているのか迷う」と感じたことはありませんか？<br><br>
 
 比率計算ツールは、デザイン制作やレイアウト設計でよく使われる比率を簡単に計算できる無料ブラウザツールです。幅と高さを入力するだけで現在の比率を自動で算出し、黄金比や白銀比との関係も確認できます。<br><br>
@@ -726,7 +1302,7 @@
 比率調整の迷いを減らし、気持ちよくデザインを進められるようサポートします。
             </p>
 
-            <h2>使い方</h2>
+            <h3>使い方</h3>
             <p>
                 <strong>1. 計算モードの選択</strong><br>自由計算・黄金比・白銀比の中から目的に合った計算モードを選択します。<br><br>
                 <strong>2. サイズの入力</strong><br>幅または高さを入力すると、比率やもう一方のサイズが自動計算されます。<br><br>
@@ -735,7 +1311,7 @@
                 <strong>5. プレビュー確認</strong><br>入力したサイズが長方形で表示され、視覚的に比率バランスを確認できます。
             </p>
 
-            <h2>こんな人におすすめ</h2>
+            <h3>こんな人におすすめ</h3>
             <p>
                 ・ロゴやレイアウト設計を行うグラフィックデザイナー<br>
                 ・WebデザインやUI設計を行うデザイナー<br>
@@ -743,83 +1319,183 @@
                 ・黄金比や白銀比をデザインに活用したいクリエイター
             </p>
 
-            <h2>あわせて使いたいツール</h2>
-            <div class="related-tools">
-                <div class="related-tool-item">
-                    <a href="layout-margin-calculator.html" class="related-tool-link">余白計算ツール →</a>
-                    <p>比率設計のあとに余白やグリッドまで整えて、レイアウト全体を組み立てやすくなります。</p>
-                </div>
-                <div class="related-tool-item">
-                    <a href="paper-size-reference.html" class="related-tool-link">サイズ早見表ツール →</a>
-                    <p>実際の用紙サイズを確認しながら、黄金比をどのサイズに当てはめるか検討できます。</p>
-                </div>
-            </div>
-        
-            <h2>あわせて読みたい記事</h2>
+            <h3>あわせて読みたい記事</h3>
             <div class="related-tools">
                 <div class="related-tool-item">
                     <a href="../articles/what-is-golden-ratio.html" class="related-tool-link">黄金比の記事を読む →</a>
                     <p>なぜ 1:1.618 が心地よく見えるのかを理解してから使うと、レイアウトへの落とし込みがしやすくなります。</p>
                 </div>
             </div>
-</section>
-        <!-- ===== TOOL GUIDE END ===== -->
+    </div>
+  </section>
 
-    </main>
+  <!-- ============================================================
+  【ここを編集⑥】関連ツール（2〜4件）
+  ============================================================ -->
+  <section class="related-tools-section" aria-label="関連ツール">
+    <p class="related-tools-label">Related Tools</p>
+    <div class="related-tools-grid">
+      <a href="layout-margin-calculator.html" class="related-tool-card">
+        <span class="related-tool-cat">制作ツール</span>
+        <div class="related-tool-name">余白計算ツール</div>
+        <div class="related-tool-desc">比率設計のあとに余白やグリッドまで整えて、レイアウト全体を組み立てやすくなります。</div>
+      </a>
+      <a href="paper-size-reference.html" class="related-tool-card">
+        <span class="related-tool-cat">制作ツール</span>
+        <div class="related-tool-name">サイズ早見表ツール</div>
+        <div class="related-tool-desc">実際の用紙サイズを確認しながら、黄金比をどのサイズに当てはめるか検討できます。</div>
+      </a>
+    </div>
+  </section>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-tools">
-                <h3>ツールを探す</h3>
-                <div id="footer-tools-list" class="footer-tools-grid">
-                    <a href="page-plan-editor.html" class="footer-link-item">台割作成ツール</a>
-<a href="paper-size-reference.html" class="footer-link-item">サイズ早見表ツール</a>
-<a href="px-mm-converter.html" class="footer-link-item">ピクセル ↔ mm 変換ツール</a>
-<a href="imposition-simulator.html" class="footer-link-item">面付けシミュレーター</a>
-<a href="color-palette-generator.html" class="footer-link-item">カラーパレット生成ツール</a>
-<a href="character-count.html" class="footer-link-item">文字数カウントツール</a>
-<a href="golden-ratio-calculator.html" class="footer-link-item">黄金比率計算ツール</a>
-<a href="rgb-cmyk-converter.html" class="footer-link-item">RGB / CMYK変換ツール</a>
-<a href="schedule-deadline-calculator.html" class="footer-link-item">納期・スケジュール計算メーカー</a>
-<a href="layout-margin-calculator.html" class="footer-link-item">余白計算ツール</a>
-<a href="sns-image-size-maker.html" class="footer-link-item">SNS画像サイズメーカー</a>
-<a href="sns-preview-tool-complete.html" class="footer-link-item">SNSプレビューツール</a>
-<a href="illustrator-shortcut-quiz.html" class="footer-link-item">Illustratorショートカットクイズ</a>
-<a href="cmyk-color-quiz.html" class="footer-link-item">CMYK/RGB色当てクイズ</a>
-                </div>
-            <div class="footer-links">
-                <h3>サイトメニュー</h3>
-    <a href="../about.html" class="footer-link-item">About</a>
-                    <a href="../articles/index.html" class="footer-link-item">Blog</a>
-<a href="../privacy.html" class="footer-link-item">Privacy Policy</a>
-    <a href="../disclaimer.html" class="footer-link-item">Disclaimer</a>
- <a href="../contact.html" class="footer-link-item">Contact</a>
-</div>
-        <div class="footer-bottom">
-            <p class="copyright">&copy; <span id="year"></span> Creator Tools Box</p>
+  <!-- CONTACT -->
+  <div class="contact-section">
+    <div>
+      <h2>お問い合わせ</h2>
+      <p>ツールの不具合報告やご要望があれば、お気軽にご連絡ください。</p>
+    </div>
+    <a href="../contact.html" class="btn">お問い合わせ</a>
+  </div>
+
+  <!-- FOOTER（変更不要） -->
+  <footer>
+    <div class="footer-brand">
+      <div>
+        <p class="footer-brand-name">クリエイターのお道具箱</p>
+        <p class="footer-brand-desc">デザイナー・イラストレーター・ライターのための無料ブラウザツール集。インストール不要、登録不要でいますぐ使えます。</p>
+      </div>
+      <span class="footer-brand-badge">Free / No install</span>
+    </div>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-heading">ツールを探す</p>
+        <div id="footer-tools-list" class="footer-categories"></div>
+      </div>
+      <div>
+        <p class="footer-heading">サイトメニュー</p>
+        <div class="footer-nav-links">
+          <a href="../index.html" class="footer-link">Home</a>
+          <a href="../about.html" class="footer-link">About</a>
+          <a href="../articles/index.html" class="footer-link">Blog</a>
+          <a href="../privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="../disclaimer.html" class="footer-link">Disclaimer</a>
+          <a href="../contact.html" class="footer-link">Contact</a>
         </div>
-    </footer>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="copyright">&copy; <span id="year"></span> Creator Tools Box</span>
+    </div>
+  </footer>
 
-    <script>
+</div><!-- /.container -->
+
+<script>
+/* ============================================================
+   共通ツール定義（全ページ共通 — ここだけ更新すれば全ページに反映）
+   ※ ツールページは tools/ 直下のため prefix なし
+============================================================ */
+const TOOLS = [
+  { title:"台割作成ツール",                cat:"印刷ツール",         link:"page-plan-editor.html" },
+  { title:"面付けシミュレーター",           cat:"印刷ツール",         link:"imposition-simulator.html" },
+  { title:"RGB / CMYK 変換ツール",         cat:"印刷ツール",         link:"rgb-cmyk-converter.html" },
+  { title:"ピクセル ↔ mm 変換ツール",      cat:"印刷ツール",         link:"px-mm-converter.html" },
+  { title:"黄金比率計算ツール",             cat:"デザインツール",     link:"golden-ratio-calculator.html" },
+  { title:"カラーパレット生成ツール",       cat:"デザインツール",     link:"color-palette-generator.html" },
+  { title:"余白計算ツール",                 cat:"制作ツール",         link:"layout-margin-calculator.html" },
+  { title:"サイズ早見表ツール",             cat:"制作ツール",         link:"paper-size-reference.html" },
+  { title:"文字数カウントツール",           cat:"制作ツール",         link:"character-count.html" },
+  { title:"納期・スケジュール計算メーカー", cat:"制作ツール",         link:"schedule-deadline-calculator.html" },
+  { title:"SNS画像サイズメーカー",          cat:"SNSツール",          link:"sns-image-size-maker.html" },
+  { title:"SNSプレビューツール",             cat:"SNSツール",          link:"sns-preview-tool-complete.html" },
+  { title:"Illustratorショートカットクイズ",cat:"スキルアップ・診断", link:"illustrator-shortcut-quiz.html" },
+  { title:"CMYK/RGB 色当てクイズ",          cat:"スキルアップ・診断", link:"cmyk-color-quiz.html" },
+];
+
+/* ---- ① ナビ active 自動付与 ---- */
+document.querySelectorAll('#site-nav .header-nav-link').forEach(a => {
+  const href = a.getAttribute('href');
+  const path = location.pathname;
+  if (
+    (href === '../index.html'          && (path.endsWith('/') || path.endsWith('index.html'))) ||
+    (href === '../about.html'          && path.endsWith('about.html')) ||
+    (href === '../articles/index.html' && path.includes('/articles')) ||
+    (href === '../contact.html'        && path.endsWith('contact.html'))
+  ) {
+    a.classList.add('active');
+  }
+  // ツールページは index 以外でも "ツール" をアクティブに
+  if (href === '../index.html' && path.includes('/tools/')) {
+    a.classList.add('active');
+  }
+});
+
+/* ---- ② フッター：ツールリスト動的生成 ---- */
+(function renderFooterTools() {
+  const container = document.getElementById('footer-tools-list');
+  if (!container) return;
+  const categories = [...new Set(TOOLS.map(t => t.cat))];
+  container.innerHTML = categories.map(cat => {
+    const items = TOOLS.filter(t => t.cat === cat);
+    const label = cat.replace('ツール','').replace('・診断','');
+    return `<div>
+      <p class="footer-category-label">${label}</p>
+      ${items.map(t => `<a href="${t.link}" class="footer-link">${t.title}</a>`).join('')}
+    </div>`;
+  }).join('');
+})();
+
+/* ---- ③ その他 ---- */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============================================================
+   【ここを編集⑦】ツール固有のJS
+   共通ユーティリティ: copyToClipboard(text)
+============================================================ */
+
+function copyToClipboard(text) {
+  return navigator.clipboard.writeText(text).catch(() => {
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  });
+}
+
 (function() {
     const inputW = document.getElementById('input-width');
     const inputH = document.getElementById('input-height');
     const inputUnit = document.getElementById('input-unit');
     const resContainer = document.getElementById('result-container');
-    const modeBtns = document.querySelectorAll('.mode-btn');
-    const presetBtns = document.querySelectorAll('.preset-btn');
+    const placeholder = document.getElementById('result-placeholder');
+    const modeCards = document.querySelectorAll('.mode-card');
+    const presetBtns = document.querySelectorAll('.preset-btn:not(.aspect-ratio-btn)');
+    const aspectBtns = document.querySelectorAll('.aspect-ratio-btn');
     const resetBtn = document.getElementById('reset-btn');
+    const step2subtitle = document.getElementById('step2-subtitle');
+    const aspectSelectArea = document.getElementById('aspect-select-area');
+    const paperPresetArea = document.getElementById('paper-preset-area');
 
-    let currentMode = 'manual'; // manual, golden, silver
+    let currentMode = 'manual';
     let lastActiveInput = 'width';
+    let currentAspectW = 16;
+    let currentAspectH = 9;
 
     const RATIO_GOLDEN = 1.6180339887;
     const RATIO_SILVER = 1.4142135623;
 
+    const SUBTITLES = {
+        manual: '幅と高さを両方入力してください',
+        golden: '片方だけ入力すれば、もう片方が自動で計算されます',
+        silver: '片方だけ入力すれば、もう片方が自動で計算されます',
+        aspect: '比率を選んで、どちらかのサイズを入力してください'
+    };
+
     init();
 
     function init() {
-        // 数値入力イベント
         inputW.addEventListener('input', () => {
             lastActiveInput = 'width';
             clearPresetSelection();
@@ -832,26 +1508,50 @@
         });
         inputUnit.addEventListener('change', calculate);
 
-        // モード切替
-        modeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                modeBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentMode = btn.dataset.mode;
-                
-                if (currentMode !== 'manual') {
-                    applyRatioToInputs();
-                }
-                calculate();
+        // モード切替（カード式）
+        modeCards.forEach(card => {
+            card.addEventListener('click', () => {
+                modeCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                currentMode = card.dataset.mode;
+
+                // STEP2 サブタイトル更新
+                step2subtitle.textContent = SUBTITLES[currentMode];
+
+                // アスペクト比選択エリアの表示切替
+                aspectSelectArea.style.display = currentMode === 'aspect' ? 'block' : 'none';
+
+                // 用紙サイズプリセットは manual のみ表示
+                paperPresetArea.style.display = currentMode === 'manual' ? 'block' : 'none';
+
+                // 入力クリア
+                inputW.value = '';
+                inputH.value = '';
+                clearPresetSelection();
+                resContainer.style.display = 'none';
+                placeholder.style.display = 'block';
             });
         });
 
-        // プリセット切替
+        // アスペクト比ボタン
+        aspectBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                aspectBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentAspectW = parseInt(btn.dataset.aw);
+                currentAspectH = parseInt(btn.dataset.ah);
+                // 入力済みなら再計算
+                if (parseFloat(inputW.value) || parseFloat(inputH.value)) {
+                    calculate();
+                }
+            });
+        });
+
+        // 用紙サイズプリセット
         presetBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 clearPresetSelection();
                 btn.classList.add('active');
-                
                 inputW.value = btn.dataset.w;
                 inputH.value = btn.dataset.h;
                 lastActiveInput = 'width';
@@ -865,9 +1565,10 @@
             inputH.value = '';
             clearPresetSelection();
             resContainer.style.display = 'none';
+            placeholder.style.display = 'block';
         });
 
-        // 一括コピー機能
+        // コピー
         document.getElementById('copy-all-btn').addEventListener('click', () => {
             const w = inputW.value;
             const h = inputH.value;
@@ -904,6 +1605,13 @@
             } else if (h) {
                 inputW.value = Math.round(h * RATIO_SILVER * 100) / 100;
             }
+        } else if (currentMode === 'aspect') {
+            const ratio = currentAspectW / currentAspectH;
+            if (lastActiveInput === 'width' && w) {
+                inputH.value = Math.round(w / ratio * 100) / 100;
+            } else if (h) {
+                inputW.value = Math.round(h * ratio * 100) / 100;
+            }
         }
     }
 
@@ -911,8 +1619,9 @@
         const w = parseFloat(inputW.value);
         const h = parseFloat(inputH.value);
 
-        if (!w || !h || w <= 0 || h <= 0) {
+        if (!w && !h) {
             resContainer.style.display = 'none';
+            placeholder.style.display = 'block';
             return;
         }
 
@@ -923,9 +1632,16 @@
         const currentW = parseFloat(inputW.value);
         const currentH = parseFloat(inputH.value);
 
-        resContainer.style.display = 'block';
+        if (!currentW || !currentH || currentW <= 0 || currentH <= 0) {
+            resContainer.style.display = 'none';
+            placeholder.style.display = 'block';
+            return;
+        }
 
-        // 簡約比の計算
+        resContainer.style.display = 'block';
+        placeholder.style.display = 'none';
+
+        // 簡約比
         const common = gcd(currentW, currentH);
         const simpW = Math.round((currentW / common) * 100) / 100;
         const simpH = Math.round((currentH / common) * 100) / 100;
@@ -962,30 +1678,34 @@
     function updateAnalysis(w, h, decimal) {
         const simBox = document.getElementById('similarity-box');
         const suggArea = document.getElementById('suggestion-area');
-        
+
         let matchText = "";
         let matchClass = "";
         const diffGolden = Math.abs(decimal - RATIO_GOLDEN);
         const diffSilver = Math.abs(decimal - RATIO_SILVER);
 
         if (diffGolden < 0.02) {
-            matchText = "✨ 黄金比 (1:1.618) に近いです";
+            matchText = "黄金比に近い比率です";
             matchClass = "match-golden";
         } else if (diffSilver < 0.02) {
-            matchText = "🥈 白銀比 (1:1.414) に近いです";
+            matchText = "白銀比に近い比率です";
             matchClass = "match-silver";
         }
 
-        simBox.innerText = matchText;
-        simBox.className = "similarity-badge " + matchClass;
-        simBox.style.display = matchText ? "inline-block" : "none";
+        if (matchText) {
+            simBox.innerText = matchText;
+            simBox.className = "match-badge " + matchClass;
+            simBox.style.display = "inline-flex";
+        } else {
+            simBox.style.display = "none";
+        }
 
         if (currentMode === 'manual') {
-            suggArea.style.display = "block";
+            suggArea.style.display = "grid";
             const gVal = Math.round(w / RATIO_GOLDEN * 10) / 10;
             const sVal = Math.round(w / RATIO_SILVER * 10) / 10;
-            document.getElementById('val-golden').innerText = `高さ ${gVal} (幅固定時)`;
-            document.getElementById('val-silver').innerText = `高さ ${sVal} (幅固定時)`;
+            document.getElementById('val-golden').innerText = `高さ ${gVal}（幅 ${w} 固定時）`;
+            document.getElementById('val-silver').innerText = `高さ ${sVal}（幅 ${w} 固定時）`;
         } else {
             suggArea.style.display = "none";
         }
@@ -1026,7 +1746,6 @@
     function showToast(msg) {
         const existing = document.querySelector('.toast-msg');
         if (existing) existing.remove();
-        
         const toast = document.createElement('div');
         toast.className = 'toast-msg';
         toast.innerText = msg;
@@ -1039,7 +1758,6 @@
         }, 2000);
     }
 })();
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+</script>
 </body>
 </html>
