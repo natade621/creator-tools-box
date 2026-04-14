@@ -951,7 +951,7 @@ footer {
     <div class="tool-header-inner">
       <div>
         <span class="tool-cat-label">印刷ツール</span>
-        <h1 class="tool-title">ピクセル ↔ mm 変換ツール</h1>
+        <h1 class="tool-title">ピクセル / mm 変換ツール</h1>
         <p class="tool-lead">
           「その画像、印刷したらどうなる？」と「何pxで作ればいい？」を一発で解決。Webと印刷のサイズ確認をスムーズにする計算ツールです。
         </p>
@@ -970,8 +970,8 @@ footer {
 
     <!-- タブ切り替え -->
     <div class="tool-tabs" role="tablist">
-      <button type="button" class="tab-btn active" data-tab="px-to-mm" role="tab" aria-selected="true">印刷するとどうなる？ px → mm</button>
-      <button type="button" class="tab-btn" data-tab="mm-to-px" role="tab" aria-selected="false">何pxで作ればいい？ mm → px</button>
+      <button type="button" class="tab-btn active" data-tab="px-to-mm" role="tab" aria-selected="true">[px→mm モード] 印刷するとどうなる？</button>
+      <button type="button" class="tab-btn" data-tab="mm-to-px" role="tab" aria-selected="false">[mm→px モード] 何pxで作ればいい？</button>
     </div>
 
     <!-- タブ①：px → mm -->
@@ -1295,13 +1295,13 @@ function copyToClipboard(text) {
     function updateComment(dpi) {
         const commentEl = document.getElementById('p2m-comment');
         if (dpi <= 72) {
-            commentEl.innerHTML = '⚠️ かなり大きく印刷されます。<br>画質が粗くなる可能性があります。';
+            commentEl.innerHTML = 'かなり大きく印刷されます。<br>画質が粗くなる可能性があります。';
         } else if (dpi < 150) {
-            commentEl.innerHTML = '⚠️ やや粗くなる可能性があります。';
+            commentEl.innerHTML = 'やや粗くなる可能性があります。';
         } else if (dpi < 300) {
-            commentEl.innerHTML = '💡 用途によっては十分ですが、高品質な印刷には300dpi以上を推奨します。';
+            commentEl.innerHTML = '用途によっては十分ですが、高品質な印刷には300dpi以上を推奨します。';
         } else {
-            commentEl.innerHTML = '✅ 印刷に適した解像度です。';
+            commentEl.innerHTML = '印刷に適した解像度です。';
         }
     }
 

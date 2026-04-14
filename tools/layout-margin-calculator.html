@@ -655,8 +655,8 @@ footer {
     align-self: flex-start;
     display: inline-block;
     width: auto;
-    max-width: 100%;
-    white-space: normal;
+    max-width: fit-content;
+    white-space: nowrap;
   }
   .tool-title { font-size: clamp(1.4rem, 7vw, 1.9rem); }
   .tool-lead { max-width: none; }
@@ -691,8 +691,8 @@ footer {
   .tool-input,
   .tool-select,
   .tool-textarea,
-  .btn,
   .btn-ghost { width: 100%; }
+  .action-btns .btn { width: auto; flex: 1; }
 }
 
 /* ============================================================
@@ -701,279 +701,315 @@ footer {
 ============================================================ */
 
 
-/* 旧ツール固有スタイル */
-/* ツールUIエリア */
-        .tool-ui-wrapper {
-            margin-bottom: 3rem;
-            min-height: 200px;
-        }
-/* ツール内共通パーツのスタイル */
-        .tool-ui input, .tool-ui textarea, .tool-ui select {
-            width: 100%;
-            padding: 1rem;
-            border: var(--border);
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 1rem;
-            box-sizing: border-box;
-            margin-bottom: 1.2rem;
-            background: var(--white);
-        }
-.tool-ui .btn {
-            background: var(--accent-color);
-            border: var(--border);
-            padding: 1rem 3rem;
-            border-radius: 50px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            text-align: center;
-            text-decoration: none;
-            color: var(--black);
-            font-size: 1.1rem;
-        }
-.tool-ui .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-.tool-result {
-            background: var(--white);
-            border: var(--border);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            margin-top: 2rem;
-            box-shadow: var(--shadow);
-        }
-@media (max-width: 768px) {
-            .main-container { margin: 2rem auto; }
+/* ===== ステップ型UI ===== */
+.steps-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
-@media (max-width: 480px) {
-            .footer-tools-grid { grid-template-columns: 1fr; }
+
+.step-block {
+  border: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  transition: box-shadow 0.15s;
 }
-/* ツール専用レイアウト修正：フラットスタイル */
-.tool-ui.custom-layout-mode {
-    --border-bold: 2px solid #333;
-    --panel-bg: #fff;
-    --accent-btn: #ffde00;
-    --dark-btn: #333;
-    --light-btn: #fff;
-    --reset-btn: #e0e0e0;
+
+.step-block:focus-within {
+  box-shadow: var(--shadow);
 }
-/* ヘッダー */
-.panel-header-title {
-    font-size: 0.95rem;
-    font-weight: 900;
-    margin: -15px -15px 15px -15px;
-    padding: 10px 15px;
-    background: var(--accent-color);
-    border-bottom: var(--border-bold);
-    border-radius: 10px 10px 0 0;
-    display: block;
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background: var(--black);
+  color: var(--white);
+  user-select: none;
 }
-.settings-grid-panel {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
+
+.step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  color: var(--black);
+  font-size: 0.75rem;
+  font-weight: 800;
+  border-radius: 50%;
+  flex-shrink: 0;
+  letter-spacing: 0;
 }
-.panel-column {
-    background: var(--panel-bg);
-    border: var(--border-bold);
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: none;
+
+.step-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
+
+.step-body {
+  padding: 1.5rem 1.25rem;
+  background: var(--white);
+}
+
+/* フィールド行 */
 .field-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  gap: 0.75rem;
 }
+
+.field-row:last-child { margin-bottom: 0; }
+
 .field-row label {
-    flex: 0 0 50px;
-    font-size: 0.8rem;
-    font-weight: 800;
+  flex: 0 0 60px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--gray-500);
+  text-transform: uppercase;
 }
+
+.field-row .tool-select,
+.field-row .tool-input {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+/* 幅/高さの並列入力 */
 .dual-inputs-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
 }
+
+.dual-inputs-wrapper .tool-input { margin-bottom: 0; }
+
 .swap-icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    color: #666;
-    transition: transform 0.2s, color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--gray-500);
+  transition: transform 0.2s, color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
+
 .swap-icon-btn:hover {
-    color: #000;
-    transform: rotate(180deg);
+  color: var(--black);
+  transform: rotate(180deg);
 }
+
 .dual-inputs {
-    display: flex;
-    gap: 5px;
-    flex: 1;
+  display: flex;
+  gap: 0.4rem;
+  flex: 1;
 }
-.tool-ui.custom-layout-mode input,
-.tool-ui.custom-layout-mode select {
-    height: 36px !important;
-    padding: 0 8px !important;
-    font-size: 0.9rem !important;
-    border: 2px solid #333 !important;
-    border-radius: 8px !important;
-    margin: 0 !important;
-}
+
+.dual-inputs .tool-input { margin-bottom: 0; }
+
+/* 上下/左右固定チェックボックス */
 .sync-field {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
-    padding-left: 60px;
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding-left: 60px;
 }
+
 .compact-check {
-    font-size: 0.75rem;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  color: var(--gray-500);
 }
+
 .compact-check input {
-    width: 16px !important;
-    height: 16px !important;
-    cursor: pointer;
+  width: 14px !important;
+  height: 14px !important;
+  cursor: pointer;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  flex-shrink: 0;
 }
-/* プレビュー */
+
+/* プレビューブロック */
+.preview-block {
+  border: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.preview-block-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background: var(--black);
+  color: var(--white);
+}
+
+.preview-block-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.preview-legend {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.02em;
+}
+
 .preview-wrapper-box {
-    background: #efefef;
-    border: var(--border-bold);
-    border-radius: 15px;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    padding: 30px;
+  background: var(--bg);
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  padding: 30px;
 }
+
 .artboard-preview {
-    background: #fff;
-    position: relative;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  background: var(--white);
+  position: relative;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
 }
-/* 配色変更：外側余白を緑色に */
+
 .preview-margin-box {
-    position: absolute;
-    background: rgba(76, 175, 80, 0.2); /* 緑色 */
-    border: 1px dashed #2e7d32;
-    box-sizing: border-box;
+  position: absolute;
+  background: rgba(76, 175, 80, 0.15);
+  border: 1px dashed #2e7d32;
+  box-sizing: border-box;
 }
+
 .preview-grid-container {
-    position: absolute;
-    display: grid;
-    box-sizing: border-box;
+  position: absolute;
+  display: grid;
+  box-sizing: border-box;
 }
-/* 配色変更：カラムを黄色に */
+
 .preview-grid-cell {
-    background: rgba(255, 222, 0, 0.25); /* 黄色 */
-    border: 0.5px solid rgba(255, 222, 0, 0.4);
+  background: rgba(255, 222, 0, 0.3);
+  border: 0.5px solid rgba(200, 170, 0, 0.35);
 }
-.preview-info {
-    text-align: center;
-    font-size: 0.75rem;
-    margin-top: 8px;
-    font-weight: 800;
-    color: #666;
+
+/* 結果ブロック */
+.result-block {
+  border: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
 }
+
+.result-block-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background: var(--black);
+  color: var(--white);
+}
+
+.result-block-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.result-block-body {
+  padding: 1.5rem 1.25rem;
+  background: var(--bg);
+}
+
 .res-summary {
-    display: flex;
-    gap: 50px; /* 行間（列間）を少し広く */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
+
 .res-chip {
-    display: flex;
-    flex-direction: column;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
 }
+
 .chip-label {
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: #666;
-    margin-bottom: 4px; /* 行間を調整 */
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 0.4rem;
 }
+
 .res-chip strong {
-    font-size: 1.6rem;
-    font-weight: 900;
-    line-height: 1.2;
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
-/* ボタンバリエーション */
+
+/* アクションボタン */
 .action-btns {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.6rem;
+  width: 100%;
 }
-.btn {
-    padding: 8px 18px; /* サイズを少しだけ小さく */
-    font-size: 0.85rem;
-    font-weight: 900;
-    border: 2px solid #333;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.2s;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.action-btns .btn {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .btn-copy {
-    background: var(--accent-btn);
-    color: #333;
+  background: var(--accent);
+  color: var(--black);
 }
+
 .btn-save {
-    background: var(--dark-btn);
-    color: #fff;
+  background: var(--black);
+  color: var(--white);
 }
+
 .btn-reset {
-    background: var(--reset-btn);
-    color: #333;
-    border-color: #999;
+  background: var(--white);
+  color: var(--black);
 }
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+
+@media (max-width: 640px) {
+  .res-summary { grid-template-columns: 1fr; }
+  .action-btns { flex-wrap: wrap; }
+  .action-btns .btn { flex: 1 1 calc(50% - 0.3rem); }
 }
-.btn-reset:hover {
-    background: #d4d4d4;
-}
-@media (max-width: 900px) {
-    .settings-grid-panel { grid-template-columns: 1fr; }
-.res-summary { flex-direction: column; gap: 20px; }
-.action-btns { width: 100%; justify-content: center; }
-.btn { flex: 1; min-width: 100px; }
-}
-.related-tool-item + .related-tool-item {
-    margin-top: 32px;
-  }
-.related-tool-link,
-  .related-tool-link:visited {
-    display: inline-block;
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.12em;
-    color: #111;
-  }
-.related-tool-link:hover {
-    opacity: 0.75;
-  }
-.related-tool-item p {
-    margin: 10px 0 0;
-    line-height: 1.8;
-  }
 </style>
 </head>
 <body>
@@ -1031,123 +1067,145 @@ footer {
   ============================================================ -->
   <section class="tool-body" aria-label="ツール">
 
-    <div class="tool-ui custom-layout-mode">
-        
-        <!-- 3カラムの設定エリア -->
-        <div class="settings-grid-panel">
-            <!-- カラム1: 基本設定 -->
-            <div class="panel-column">
-                <h3 class="panel-header-title">基本設定</h3>
-                <div class="field-row">
-                    <label>サイズ</label>
-                    <select id="preset-select">
-                        <option value="a4" selected>A4 (210x297mm)</option>
-                        <option value="web-pc">Web PC (1200x800px)</option>
-                        <option value="web-fhd">Web Full HD (1920x1080px)</option>
-                        <optgroup label="Print A系">
-                            <option value="a3">A3 (297x420mm)</option>
-                            <option value="a5">A5 (148x210mm)</option>
-                            <option value="a6">A6 (105x148mm)</option>
-                        </optgroup>
-                        <optgroup label="Print B系">
-                            <option value="b3">B3 (353x500mm)</option>
-                            <option value="b4">B4 (257x364mm)</option>
-                            <option value="b5">B5 (182x257mm)</option>
-                            <option value="b6">B6 (128x182mm)</option>
-                        </optgroup>
-                        <optgroup label="その他">
-                            <option value="card">名刺 (91x55mm)</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="field-row">
-                    <label>単位</label>
-                    <select id="unit">
-                        <option value="mm" selected>mm</option>
-                        <option value="px">px</option>
-                    </select>
-                </div>
-                <div class="field-row">
-                    <label>幅 / 高</label>
-                    <div class="dual-inputs-wrapper">
-                        <input type="number" id="canvas-width" value="210" class="step-input">
-                        <button id="swap-size-btn" class="swap-icon-btn" title="幅と高さを入れ替え">
-                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
-                        </button>
-                        <input type="number" id="canvas-height" value="297" class="step-input">
-                    </div>
-                </div>
-            </div>
+    <div class="steps-wrapper">
 
-            <!-- カラム2: 外側余白 -->
-            <div class="panel-column">
-                <h3 class="panel-header-title">外側余白</h3>
-                <div class="field-row">
-                    <label>上 / 下</label>
-                    <div class="dual-inputs">
-                        <input type="number" id="margin-top" value="10" class="step-input">
-                        <input type="number" id="margin-bottom" value="10" class="step-input">
-                    </div>
-                </div>
-                <div class="field-row">
-                    <label>左 / 右</label>
-                    <div class="dual-inputs">
-                        <input type="number" id="margin-left" value="10" class="step-input">
-                        <input type="number" id="margin-right" value="10" class="step-input">
-                    </div>
-                </div>
-                <div class="sync-field">
-                    <label class="compact-check"><input type="checkbox" id="sync-v" checked>上下固定</label>
-                    <label class="compact-check"><input type="checkbox" id="sync-h" checked>左右固定</label>
-                </div>
-            </div>
-
-            <!-- カラム3: カラム設定 -->
-            <div class="panel-column">
-                <h3 class="panel-header-title">カラム設定</h3>
-                <div class="field-row">
-                    <label>列(縦)</label>
-                    <input type="number" id="cols" value="4" min="1" class="step-input">
-                </div>
-                <div class="field-row">
-                    <label>行(横)</label>
-                    <input type="number" id="rows" value="10" min="1" class="step-input">
-                </div>
-                <div class="field-row">
-                    <label>間隔</label>
-                    <input type="number" id="gutter" value="5" class="step-input">
-                </div>
-            </div>
+      <!-- STEP 1: 基本設定 -->
+      <div class="step-block">
+        <div class="step-header">
+          <span class="step-num">1</span>
+          <span class="step-title">基本設定</span>
         </div>
-
-        <!-- プレビュー -->
-        <div class="preview-stage">
-            <div class="preview-wrapper-box" id="capture-area">
-                <div id="artboard-preview" class="artboard-preview"></div>
+        <div class="step-body">
+          <div class="field-row">
+            <label>プリセット</label>
+            <select id="preset-select" class="tool-select">
+              <option value="a4" selected>A4 (210×297mm)</option>
+              <option value="web-pc">Web PC (1200×800px)</option>
+              <option value="web-fhd">Web Full HD (1920×1080px)</option>
+              <optgroup label="印刷 A系">
+                <option value="a3">A3 (297×420mm)</option>
+                <option value="a5">A5 (148×210mm)</option>
+                <option value="a6">A6 (105×148mm)</option>
+              </optgroup>
+              <optgroup label="印刷 B系">
+                <option value="b3">B3 (353×500mm)</option>
+                <option value="b4">B4 (257×364mm)</option>
+                <option value="b5">B5 (182×257mm)</option>
+                <option value="b6">B6 (128×182mm)</option>
+              </optgroup>
+              <optgroup label="その他">
+                <option value="card">名刺 (91×55mm)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field-row">
+            <label>単位</label>
+            <select id="unit" class="tool-select">
+              <option value="mm" selected>mm</option>
+              <option value="px">px</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <label>幅 / 高</label>
+            <div class="dual-inputs-wrapper">
+              <input type="number" id="canvas-width" value="210" class="tool-input step-input">
+              <button id="swap-size-btn" class="swap-icon-btn" title="幅と高さを入れ替え">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+              </button>
+              <input type="number" id="canvas-height" value="297" class="tool-input step-input">
             </div>
-            <div class="preview-info">カラム：青色 / コンテンツ幅：黄色 / 外側余白：白色</div>
+          </div>
         </div>
+      </div>
 
-        <!-- フッター: 結果表示とアクション -->
-        <div class="action-footer">
-            <div class="res-summary">
-                <div class="res-chip">
-                    <span class="chip-label">コンテンツ幅 × 高さ</span>
-                    <strong id="res-content-size">-</strong>
-                </div>
-                <div class="res-chip">
-                    <span class="chip-label">1区画のサイズ</span>
-                    <strong id="res-grid-size">-</strong>
-                </div>
-            </div>
-            <div class="action-btns">
-                <button class="btn btn-copy" id="copy-btn">数値をコピー</button>
-                <button class="btn btn-save" id="download-btn">画像を保存</button>
-                <button class="btn btn-reset" id="reset-btn">リセット</button>
-            </div>
+      <!-- STEP 2: 外側余白 -->
+      <div class="step-block">
+        <div class="step-header">
+          <span class="step-num">2</span>
+          <span class="step-title">外側余白</span>
         </div>
+        <div class="step-body">
+          <div class="field-row">
+            <label>上 / 下</label>
+            <div class="dual-inputs">
+              <input type="number" id="margin-top" value="10" class="tool-input step-input">
+              <input type="number" id="margin-bottom" value="10" class="tool-input step-input">
+            </div>
+          </div>
+          <div class="field-row">
+            <label>左 / 右</label>
+            <div class="dual-inputs">
+              <input type="number" id="margin-left" value="10" class="tool-input step-input">
+              <input type="number" id="margin-right" value="10" class="tool-input step-input">
+            </div>
+          </div>
+          <div class="sync-field">
+            <label class="compact-check"><input type="checkbox" id="sync-v" checked>上下固定</label>
+            <label class="compact-check"><input type="checkbox" id="sync-h" checked>左右固定</label>
+          </div>
+        </div>
+      </div>
 
-        <textarea id="copy-text" readonly style="position: absolute; left: -9999px;"></textarea>
+      <!-- STEP 3: カラム設定 -->
+      <div class="step-block">
+        <div class="step-header">
+          <span class="step-num">3</span>
+          <span class="step-title">カラム設定</span>
+        </div>
+        <div class="step-body">
+          <div class="field-row">
+            <label>列（縦）</label>
+            <input type="number" id="cols" value="4" min="1" class="tool-input step-input">
+          </div>
+          <div class="field-row">
+            <label>行（横）</label>
+            <input type="number" id="rows" value="10" min="1" class="tool-input step-input">
+          </div>
+          <div class="field-row">
+            <label>溝の幅</label>
+            <input type="number" id="gutter" value="5" class="tool-input step-input">
+          </div>
+        </div>
+      </div>
+
+      <!-- プレビュー -->
+      <div class="preview-block">
+        <div class="preview-block-header">
+          <span class="step-num">P</span>
+          <span class="preview-block-title">プレビュー</span>
+          <span class="preview-legend">余白：緑 / グリッド：黄</span>
+        </div>
+        <div class="preview-wrapper-box" id="capture-area">
+          <div id="artboard-preview" class="artboard-preview"></div>
+        </div>
+      </div>
+
+      <!-- 結果 -->
+      <div class="result-block">
+        <div class="result-block-header">
+          <span class="step-num">R</span>
+          <span class="result-block-title">計算結果</span>
+        </div>
+        <div class="result-block-body">
+          <div class="res-summary">
+            <div class="res-chip">
+              <span class="chip-label">コンテンツ幅 × 高さ</span>
+              <strong id="res-content-size">—</strong>
+            </div>
+            <div class="res-chip">
+              <span class="chip-label">1区画のサイズ</span>
+              <strong id="res-grid-size">—</strong>
+            </div>
+          </div>
+          <div class="action-btns">
+            <button class="btn btn-copy" id="copy-btn">数値をコピー</button>
+            <button class="btn btn-save" id="download-btn">画像を保存</button>
+            <button class="btn btn-reset" id="reset-btn">リセット</button>
+          </div>
+        </div>
+      </div>
+
+      <textarea id="copy-text" readonly style="position: absolute; left: -9999px;"></textarea>
     </div>
 
     <hr class="tool-divider">

@@ -811,7 +811,7 @@ footer {
 .btn-group {
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 .btn-full {
     width: 100%;
@@ -959,7 +959,7 @@ footer {
         grid-template-columns: 1fr;
     }
 .settings-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 .score-num {
         font-size: 3rem;
@@ -1091,6 +1091,8 @@ to { opacity: 1; transform: scale(1); }
 .settings-grid .btn {
     padding: 0.4rem 0.8rem;
     font-size: 0.75rem;
+    min-width: 0;
+    flex: 1;
 }
 /* ▼設定グループ中央寄せ */
 .setting-item {

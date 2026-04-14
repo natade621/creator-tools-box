@@ -941,8 +941,8 @@ footer {
 
 /* ── 行削除ボタン（×テキストのみ、丸なし） ── */
 .tbl-td-page {
-  width: 2rem;
-  min-width: 2rem;
+  width: 3rem;
+  min-width: 3rem;
   text-align: center;
   border-right: 1.5px solid var(--gray-200);
   position: relative;
@@ -1057,10 +1057,11 @@ footer {
   position: relative;
 }
 .tbl-th-grip { width: 1.75rem; padding: 0 0.25rem; white-space: nowrap; }
-.tbl-th-page { width: 2.25rem; text-align: center; border-right: 1.5px solid var(--gray-200); white-space: nowrap; }
+.tbl-th-page { width: 3rem; text-align: center; border-right: 1.5px solid var(--gray-200); white-space: nowrap; }
 .tbl-th-col { cursor: move; border-left: 1.5px solid var(--gray-200); overflow: hidden; }
 .tbl-th-col:hover { background: #ececea; }
 .tbl-th-narrow { width: 160px; }
+.tbl-th-text { min-width: 200px; }
 .tbl-th-add { display: none; }
 
 /* ヘッダー内レイアウト */
@@ -1168,6 +1169,7 @@ footer {
   font-size: 0.9rem;
   color: var(--gray-500);
   border-right: 1.5px solid var(--gray-200);
+  white-space: nowrap;
 }
 
 /* データセル */
@@ -1228,10 +1230,13 @@ footer {
 .tbl-select--empty { color: var(--gray-500); }
 
 /* ---- テーブル列幅 ---- */
-#flatplanTable { width: 100%; min-width: 100%; table-layout: fixed; }
+#flatplanTable { width: 100%; min-width: 600px; table-layout: fixed; }
 #flatplanTable th, #flatplanTable td { vertical-align: middle; }
 #flatplanTable textarea { white-space: pre-wrap; word-break: break-all; width: 100%; }
 #flatplanTable select { min-width: 0; width: 100%; }
+
+/* スマホ: テーブルラッパーを横スクロール可能に */
+.tui-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
 /* ============================================================
    モーダル共通デザイン（mdl-）
@@ -1751,6 +1756,11 @@ footer {
 .fp-page--left .fp-page-folio { left: 0.75rem; }
 .fp-page--right .fp-page-folio { right: 0.75rem; }
 
+/* モバイル用ナビボタン（デフォルト非表示） */
+.flip-nav-mobile {
+  display: none;
+}
+
 /* ---- スマホ対応 ---- */
 @media (max-width: 768px) {
   .tui-controls { gap: 1rem; padding: 1.5rem 0; }
@@ -1776,9 +1786,21 @@ footer {
   /* 見開き */
   .sp-page { width: 160px; }
   .spread-row--double { max-width: 380px; }
-  /* プレビュー */
-  .flip-stage { gap: 0.75rem; }
-  .flip-stage-inner { padding: 1.5rem 1rem; }
+  /* プレビュー: 縦積みレイアウトに変更 */
+  .flip-stage {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  /* サイドのナビボタンを非表示にし、モバイル用ナビを表示 */
+  .flip-nav-btn--side { display: none; }
+  .flip-nav-mobile {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .flip-stage-inner { padding: 1.5rem 1rem; width: 100%; box-sizing: border-box; }
   .flip-nav-btn { width: 2.5rem; height: 2.5rem; font-size: 0.85rem; }
 }
 
@@ -1787,8 +1809,9 @@ footer {
   #flatplanTable select { min-width: 100px; font-size: 0.8rem; }
   .sp-page { width: 130px; }
   .spread-row--double { max-width: 300px; }
-  .fp-page { width: clamp(100px, 38vw, 150px); }
+  .fp-page { width: clamp(120px, 40vw, 180px); }
   .flip-stage-inner { padding: 1.25rem 0.75rem; }
+  .flip-book-viewer { width: 100%; justify-content: center; }
 }
 </style>
 </head>
@@ -1925,144 +1948,24 @@ footer {
 
                     <div id="flipView" class="hidden flip-view no-print">
                         <div class="flip-stage">
-                            <button onclick="flipPrev()" class="flip-nav-btn" id="flipPrevBtn" aria-label="前の見開き">
+                            <button onclick="flipPrev()" class="flip-nav-btn flip-nav-btn--side" id="flipPrevBtn" aria-label="前の見開き">
                                 <i class="fa-solid fa-arrow-left"></i>
                             </button>
                             <div class="flip-stage-inner">
                                 <div id="bookViewer" class="flip-book-viewer"></div>
                                 <div class="flip-indicator" id="flipPageIndicator"></div>
+                                <div class="flip-nav-mobile">
+                                    <button onclick="flipPrev()" class="flip-nav-btn" id="flipPrevBtnMobile" aria-label="前の見開き">
+                                        <i class="fa-solid fa-arrow-left"></i>
+                                    </button>
+                                    <button onclick="flipNext()" class="flip-nav-btn" id="flipNextBtnMobile" aria-label="次の見開き">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button onclick="flipNext()" class="flip-nav-btn" id="flipNextBtn" aria-label="次の見開き">
+                            <button onclick="flipNext()" class="flip-nav-btn flip-nav-btn--side" id="flipNextBtn" aria-label="次の見開き">
                                 <i class="fa-solid fa-arrow-right"></i>
                             </button>
-                        </div>
-                    </div>
-
-                    <div id="dataManagementModal" class="modal-overlay hidden">
-                        <div class="mdl">
-                            <div class="mdl-header">
-                                <span class="mdl-label">Data</span>
-                                <h3 class="mdl-title">データ管理・書き出し</h3>
-                                <button onclick="closeDataManagementModal()" class="mdl-close" title="閉じる">✕</button>
-                            </div>
-                            <div class="mdl-body">
-                                <div class="mdl-list">
-                                    <button onclick="exportJSON(); closeDataManagementModal();" class="mdl-item">
-                                        <span class="mdl-item-icon"><i class="fa-solid fa-file-code"></i></span>
-                                        <span class="mdl-item-text">
-                                            <span class="mdl-item-name">JSONで書き出す</span>
-                                            <span class="mdl-item-desc">再編集・バックアップ用</span>
-                                        </span>
-                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
-                                    </button>
-                                    <label class="mdl-item" style="cursor:pointer">
-                                        <span class="mdl-item-icon"><i class="fa-solid fa-file-import"></i></span>
-                                        <span class="mdl-item-text">
-                                            <span class="mdl-item-name">JSONを読み込む</span>
-                                            <span class="mdl-item-desc">バックアップから復元</span>
-                                        </span>
-                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
-                                        <input type="file" class="hidden" accept=".json" onchange="importJSON(event); closeDataManagementModal();">
-                                    </label>
-                                    <button onclick="exportCSV(); closeDataManagementModal();" class="mdl-item">
-                                        <span class="mdl-item-icon"><i class="fa-solid fa-file-csv"></i></span>
-                                        <span class="mdl-item-text">
-                                            <span class="mdl-item-name">CSVで書き出す</span>
-                                            <span class="mdl-item-desc">Excel・スプレッドシート用</span>
-                                        </span>
-                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
-                                    </button>
-                                    <button onclick="printPDF(); closeDataManagementModal();" class="mdl-item">
-                                        <span class="mdl-item-icon"><i class="fa-solid fa-file-pdf"></i></span>
-                                        <span class="mdl-item-text">
-                                            <span class="mdl-item-name">PDFで保存する</span>
-                                            <span class="mdl-item-desc">印刷・共有・確認用</span>
-                                        </span>
-                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="mdl-footer">
-                                <button onclick="closeDataManagementModal()" class="mdl-cancel">キャンセル</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="addColModal" class="modal-overlay hidden">
-                        <div class="mdl">
-                            <div class="mdl-header">
-                                <span class="mdl-label">Column</span>
-                                <h3 class="mdl-title">項目を追加</h3>
-                                <button onclick="closeAddColModal()" class="mdl-close" title="閉じる">✕</button>
-                            </div>
-                            <div class="mdl-body">
-                                <p class="mdl-desc">追加する項目の種類を選んでください</p>
-                                <div class="mdl-list">
-                                    <button onclick="addColumn('text'); closeAddColModal();" class="mdl-item">
-                                        <span class="mdl-item-icon"><i class="fa-solid fa-pen-to-square"></i></span>
-                                        <span class="mdl-item-text">
-                                            <span class="mdl-item-name">テキスト入力</span>
-                                            <span class="mdl-item-desc">自由記述欄を追加</span>
-                                        </span>
-                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
-                                    </button>
-                                    <button onclick="addColumn('staff'); closeAddColModal();" class="mdl-item">
-                                        <span class="mdl-item-icon"><i class="fa-solid fa-user"></i></span>
-                                        <span class="mdl-item-text">
-                                            <span class="mdl-item-name">担当者</span>
-                                            <span class="mdl-item-desc">メンバーを選択する列を追加</span>
-                                        </span>
-                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
-                                    </button>
-                                    <button onclick="addColumn('status'); closeAddColModal();" class="mdl-item">
-                                        <span class="mdl-item-icon"><i class="fa-solid fa-list-check"></i></span>
-                                        <span class="mdl-item-text">
-                                            <span class="mdl-item-name">進行状況</span>
-                                            <span class="mdl-item-desc">ステータスを選択する列を追加</span>
-                                        </span>
-                                        <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="mdl-footer">
-                                <button onclick="closeAddColModal()" class="mdl-cancel">キャンセル</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="settingsModal" class="modal-overlay hidden">
-                        <div class="mdl mdl--wide">
-                            <div class="mdl-header">
-                                <span class="mdl-label">Settings</span>
-                                <h3 class="mdl-title">ツール設定</h3>
-                                <button onclick="closeSettingsModal()" class="mdl-close" title="閉じる">✕</button>
-                            </div>
-                            <div class="mdl-body mdl-body--scroll custom-scrollbar">
-                                <div class="mdl-section">
-                                    <div class="mdl-section-header">
-                                        <i class="fa-solid fa-list-check"></i>
-                                        <span>進行状況の選択肢</span>
-                                    </div>
-                                    <div id="statusSettingsList" class="mdl-tag-list"></div>
-                                    <button onclick="addStatusOption()" class="mdl-add-btn">
-                                        <i class="fa-solid fa-plus"></i> 選択肢を追加
-                                    </button>
-                                </div>
-                                <div class="mdl-section">
-                                    <div class="mdl-section-header">
-                                        <i class="fa-solid fa-users"></i>
-                                        <span>担当者リスト</span>
-                                    </div>
-                                    <div id="staffListContainer" class="mdl-tag-list"></div>
-                                    <div class="mdl-input-row">
-                                        <input type="text" id="newStaffName" placeholder="氏名を入力…" class="mdl-input">
-                                        <button onclick="addStaffMember()" class="mdl-input-btn">追加</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mdl-footer">
-                                <button onclick="closeSettingsModal()" class="btn">保存して閉じる</button>
-                            </div>
                         </div>
                     </div>
 
@@ -2492,8 +2395,12 @@ footer {
                             indicator.textContent = pNums.length === 2
                                 ? `P.${pNums[0]} – P.${pNums[1]}　${state.currentFlip + 1} / ${spreads.length} 見開き`
                                 : `P.${pNums[0]}　${state.currentFlip + 1} / ${spreads.length} 見開き`;
-                            document.getElementById('flipPrevBtn').disabled = state.currentFlip === 0;
-                            document.getElementById('flipNextBtn').disabled = state.currentFlip === spreads.length - 1;
+                            const isPrev = state.currentFlip === 0;
+                            const isNext = state.currentFlip === spreads.length - 1;
+                            document.getElementById('flipPrevBtn').disabled = isPrev;
+                            document.getElementById('flipNextBtn').disabled = isNext;
+                            document.getElementById('flipPrevBtnMobile').disabled = isPrev;
+                            document.getElementById('flipNextBtnMobile').disabled = isNext;
                         }
                         function flipPrev() { if (state.currentFlip > 0) { state.currentFlip--; renderFlip(); } }
                         function flipNext() { if (state.currentFlip < state.pages.length) { state.currentFlip++; renderFlip(); } }
@@ -2764,5 +2671,137 @@ function copyToClipboard(text) {
 
 
 </script>
+
+<!-- ============================================================
+  モーダル（container外に配置することでoverflow:hiddenの影響を回避）
+============================================================ -->
+<div id="dataManagementModal" class="modal-overlay hidden">
+    <div class="mdl">
+        <div class="mdl-header">
+            <span class="mdl-label">Data</span>
+            <h3 class="mdl-title">データ管理・書き出し</h3>
+            <button onclick="closeDataManagementModal()" class="mdl-close" title="閉じる">✕</button>
+        </div>
+        <div class="mdl-body">
+            <div class="mdl-list">
+                <button onclick="exportJSON(); closeDataManagementModal();" class="mdl-item">
+                    <span class="mdl-item-icon"><i class="fa-solid fa-file-code"></i></span>
+                    <span class="mdl-item-text">
+                        <span class="mdl-item-name">JSONで書き出す</span>
+                        <span class="mdl-item-desc">再編集・バックアップ用</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                </button>
+                <label class="mdl-item" style="cursor:pointer">
+                    <span class="mdl-item-icon"><i class="fa-solid fa-file-import"></i></span>
+                    <span class="mdl-item-text">
+                        <span class="mdl-item-name">JSONを読み込む</span>
+                        <span class="mdl-item-desc">バックアップから復元</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                    <input type="file" class="hidden" accept=".json" onchange="importJSON(event); closeDataManagementModal();">
+                </label>
+                <button onclick="exportCSV(); closeDataManagementModal();" class="mdl-item">
+                    <span class="mdl-item-icon"><i class="fa-solid fa-file-csv"></i></span>
+                    <span class="mdl-item-text">
+                        <span class="mdl-item-name">CSVで書き出す</span>
+                        <span class="mdl-item-desc">Excel・スプレッドシート用</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                </button>
+                <button onclick="printPDF(); closeDataManagementModal();" class="mdl-item">
+                    <span class="mdl-item-icon"><i class="fa-solid fa-file-pdf"></i></span>
+                    <span class="mdl-item-text">
+                        <span class="mdl-item-name">PDFで保存する</span>
+                        <span class="mdl-item-desc">印刷・共有・確認用</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mdl-footer">
+            <button onclick="closeDataManagementModal()" class="mdl-cancel">キャンセル</button>
+        </div>
+    </div>
+</div>
+
+<div id="addColModal" class="modal-overlay hidden">
+    <div class="mdl">
+        <div class="mdl-header">
+            <span class="mdl-label">Column</span>
+            <h3 class="mdl-title">項目を追加</h3>
+            <button onclick="closeAddColModal()" class="mdl-close" title="閉じる">✕</button>
+        </div>
+        <div class="mdl-body">
+            <p class="mdl-desc">追加する項目の種類を選んでください</p>
+            <div class="mdl-list">
+                <button onclick="addColumn('text'); closeAddColModal();" class="mdl-item">
+                    <span class="mdl-item-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                    <span class="mdl-item-text">
+                        <span class="mdl-item-name">テキスト入力</span>
+                        <span class="mdl-item-desc">自由記述欄を追加</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                </button>
+                <button onclick="addColumn('staff'); closeAddColModal();" class="mdl-item">
+                    <span class="mdl-item-icon"><i class="fa-solid fa-user"></i></span>
+                    <span class="mdl-item-text">
+                        <span class="mdl-item-name">担当者</span>
+                        <span class="mdl-item-desc">メンバーを選択する列を追加</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                </button>
+                <button onclick="addColumn('status'); closeAddColModal();" class="mdl-item">
+                    <span class="mdl-item-icon"><i class="fa-solid fa-list-check"></i></span>
+                    <span class="mdl-item-text">
+                        <span class="mdl-item-name">進行状況</span>
+                        <span class="mdl-item-desc">ステータスを選択する列を追加</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right mdl-item-arrow"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mdl-footer">
+            <button onclick="closeAddColModal()" class="mdl-cancel">キャンセル</button>
+        </div>
+    </div>
+</div>
+
+<div id="settingsModal" class="modal-overlay hidden">
+    <div class="mdl mdl--wide">
+        <div class="mdl-header">
+            <span class="mdl-label">Settings</span>
+            <h3 class="mdl-title">ツール設定</h3>
+            <button onclick="closeSettingsModal()" class="mdl-close" title="閉じる">✕</button>
+        </div>
+        <div class="mdl-body mdl-body--scroll custom-scrollbar">
+            <div class="mdl-section">
+                <div class="mdl-section-header">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>進行状況の選択肢</span>
+                </div>
+                <div id="statusSettingsList" class="mdl-tag-list"></div>
+                <button onclick="addStatusOption()" class="mdl-add-btn">
+                    <i class="fa-solid fa-plus"></i> 選択肢を追加
+                </button>
+            </div>
+            <div class="mdl-section">
+                <div class="mdl-section-header">
+                    <i class="fa-solid fa-users"></i>
+                    <span>担当者リスト</span>
+                </div>
+                <div id="staffListContainer" class="mdl-tag-list"></div>
+                <div class="mdl-input-row">
+                    <input type="text" id="newStaffName" placeholder="氏名を入力…" class="mdl-input">
+                    <button onclick="addStaffMember()" class="mdl-input-btn">追加</button>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-footer">
+            <button onclick="closeSettingsModal()" class="btn">保存して閉じる</button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

@@ -19,13 +19,16 @@ AI NOTE:
 それ以外のレイアウト、CSS、構造は変更しないでください。
 -->
 
-<!-- ===== TOOL META START ===== -->
-<title>カラーパレット 作成ツール【無料】配色を自動生成｜クリエイターのお道具箱</title>
-<meta name="description" content="ベースカラーを選ぶだけで補色・類似色・トライアドなど配色パターンを自動生成。デザインの配色ルール選びに。HEX・RGB・CMYKで書き出せます。登録不要・無料。">
-<!-- ===== TOOL META END ===== -->
+<!-- ============================================================
+【ここを編集①】SEO META
+- title      : カラーパレット生成ツール｜クリエイターのお道具箱
+- description: ツールの説明（80〜120文字目安）
+============================================================ -->
+<title>カラーパレット生成ツール｜クリエイターのお道具箱</title>
+<meta name="description" content="デザインに使える美しい配色を自動生成できるカラーパレット作成ツール。トーンやテーマを選ぶだけで、プロ品質の配色を簡単に作成できます。">
 <link rel="canonical" href="https://creator-tools-box.com/tools/color-palette-generator.html">
-<meta property="og:title" content="カラーパレット 作成ツール【無料】配色を自動生成｜クリエイターのお道具箱">
-<meta property="og:description" content="ベースカラーを選ぶだけで補色・類似色・トライアドなど配色パターンを自動生成。デザインの配色ルール選びに。HEX・RGB・CMYKで書き出せます。登録不要・無料。">
+<meta property="og:title" content="カラーパレット生成ツール｜クリエイターのお道具箱">
+<meta property="og:description" content="デザインに使える美しい配色を自動生成できるカラーパレット作成ツール。トーンやテーマを選ぶだけで、プロ品質の配色を簡単に作成できます。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://creator-tools-box.com/tools/color-palette-generator.html">
 <meta property="og:site_name" content="クリエイターのお道具箱">
@@ -35,9 +38,9 @@ AI NOTE:
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "カラーパレット 作成ツール【無料】配色を自動生成",
+  "name": "カラーパレット生成ツール",
   "url": "https://creator-tools-box.com/tools/color-palette-generator.html",
-  "description": "ベースカラーを選ぶだけで補色・類似色・トライアドなど配色パターンを自動生成。デザインの配色ルール選びに。HEX・RGB・CMYKで書き出せます。登録不要・無料。",
+  "description": "デザインに使える美しい配色を自動生成できるカラーパレット作成ツール。トーンやテーマを選ぶだけで、プロ品質の配色を簡単に作成できます。",
   "applicationCategory": "DesignApplication",
   "operatingSystem": "Any",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" }
@@ -634,32 +637,9 @@ footer {
 
 /* ---- MOBILE ---- */
 @media (max-width: 768px) {
-  body { padding: 0.75rem; }
-  .container { box-shadow: 3px 3px 0px var(--black); }
-  .site-header,
-  .breadcrumb,
-  .tool-header,
-  .tool-body,
-  .guide-section,
-  .related-tools-section,
-  .contact-section,
-  .footer-brand,
-  .footer-inner,
-  .footer-bottom {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
   .header-nav { display: none; }
   .tool-header-inner { grid-template-columns: 1fr; }
-  .tool-header-badge {
-    align-self: flex-start;
-    display: inline-block;
-    width: auto;
-    max-width: 100%;
-    white-space: normal;
-  }
-  .tool-title { font-size: clamp(1.4rem, 7vw, 1.9rem); }
-  .tool-lead { max-width: none; }
+  .tool-header-badge { align-self: auto; display: inline-block; width: fit-content; }
   .guide-section {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -669,30 +649,8 @@ footer {
 }
 
 @media (max-width: 480px) {
-  body { padding: 0.5rem; }
-  .site-header,
-  .breadcrumb,
-  .tool-header,
-  .tool-body,
-  .guide-section,
-  .related-tools-section,
-  .contact-section,
-  .footer-brand,
-  .footer-inner,
-  .footer-bottom {
-    padding-left: 0.875rem;
-    padding-right: 0.875rem;
-  }
-  .site-logo { font-size: 0.86rem; }
-  .site-logo-sub { font-size: 0.62rem; }
-  .breadcrumb { font-size: 0.68rem; }
   .related-tools-grid { grid-template-columns: 1fr; }
-  .footer-categories { grid-template-columns: 1fr; gap: 1.25rem; }
-  .tool-input,
-  .tool-select,
-  .tool-textarea,
-  .btn,
-  .btn-ghost { width: 100%; }
+  .footer-categories { grid-template-columns: 1fr 1fr; }
 }
 
 /* ============================================================
@@ -941,14 +899,12 @@ footer {
 
     /* ボタン：横並び・等幅・大きめタップエリア */
     .main-actions {
-        flex-direction: column;
-        gap: 0.75rem;
+        gap: 10px;
         margin-bottom: 1.5rem;
     }
     .main-actions .btn,
     .btn-png-save {
-        flex: none;
-        width: 100%;
+        flex: 1;
         max-width: none;
         padding: 1rem;
         font-size: 0.95rem;
@@ -1007,15 +963,6 @@ footer {
     .mock-footer-area { padding: 1rem; }
     .mock-card { max-width: 100%; }
     .mock-card-img { height: 80px; }
-}
-
-@media (max-width: 480px) {
-    .tool-result {
-        padding: 1rem;
-    }
-    .preview-info h3 {
-        font-size: 0.92rem;
-    }
 }
 .related-tool-item + .related-tool-item {
     margin-top: 32px;

@@ -751,23 +751,16 @@ footer {
 @media (max-width: 480px) {
             .footer-tools-grid { grid-template-columns: 1fr; }
 }
-/* ボタンエリアのセンタリングと余白 */
+/* ボタンエリア（入力欄の下） */
 .main-action-area {
     display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 3rem; /* 入力欄との距離を確保 */
+    gap: 0.75rem;
+    margin-top: 0.75rem;
 }
-.btn-reset {
-    background: #f0f0f0;
-    border: 2px solid #333;
-    padding: 12px 30px;
-    border-radius: 50px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s;
+.main-action-area .btn {
+    flex: 1;
+    border-radius: 999px;
 }
-.btn-reset:hover { background: #e0e0e0; transform: translateY(-2px); }
 /* 入力とカウンターの2カラムレイアウト */
 .workspace-layout {
     display: grid;
@@ -783,10 +776,17 @@ footer {
     line-height: 1.8;
     padding: 1.5rem;
     background: #fff;
-    border: 3px solid #333;
-    border-radius: 15px;
+    border: var(--border);
+    border-radius: var(--radius);
     font-size: 1.1rem;
     box-sizing: border-box;
+    font-family: var(--font);
+    outline: none;
+    resize: vertical;
+    transition: box-shadow 0.15s;
+}
+#main-input:focus {
+    box-shadow: 3px 3px 0px var(--black);
 }
 .selection-badge {
     position: absolute;
@@ -808,10 +808,10 @@ footer {
 }
 .counter-card-mini {
     background: #fff;
-    border: 2px solid #333;
+    border: var(--border);
     padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 4px 4px 0px #333;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 .mini-label { display: block; font-size: 0.7rem; color: #888; font-weight: 800; margin-bottom: 0.3rem; }
 .mini-value { font-size: 1.6rem; font-weight: 900; }
@@ -875,13 +875,13 @@ footer {
 /* レスポンシブ */
 @media (max-width: 1024px) {
     .workspace-layout { grid-template-columns: 1fr; }
-.side-counters { display: grid; grid-template-columns: repeat(2, 1fr); }
-.sns-horizontal-grid { grid-template-columns: repeat(2, 1fr); }
+    .side-counters { display: grid; grid-template-columns: repeat(2, 1fr); }
+    .sns-horizontal-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
-    .main-action-area { flex-direction: column; gap: 0.8rem; }
-.side-counters { grid-template-columns: 1fr; }
-.sns-horizontal-grid { grid-template-columns: 1fr; }
+    .main-action-area { flex-direction: row; gap: 0.6rem; }
+    .side-counters { grid-template-columns: repeat(2, 1fr); }
+    .sns-horizontal-grid { grid-template-columns: repeat(2, 1fr); }
 }
 .related-tool-item + .related-tool-item {
     margin-top: 32px;
@@ -959,15 +959,14 @@ footer {
   ============================================================ -->
   <section class="tool-body" aria-label="ツール">
 
-    <div class="main-action-area">
-        <button type="button" class="btn" id="copy-btn">テキストをコピー</button>
-        <button type="button" class="btn-reset" id="reset-btn">リセット</button>
-    </div>
-
     <div class="workspace-layout">
         <div class="input-container">
             <div id="selection-info" class="selection-badge" style="display: none;">選択範囲: 0文字</div>
             <textarea id="main-input" placeholder="ここにテキストを入力またはペーストしてください..." spellcheck="false"></textarea>
+            <div class="main-action-area">
+                <button type="button" class="btn" id="copy-btn">テキストをコピー</button>
+                <button type="button" class="btn-ghost btn" id="reset-btn">リセット</button>
+            </div>
         </div>
 
         <div class="side-counters">
